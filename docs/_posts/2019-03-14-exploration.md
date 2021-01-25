@@ -114,7 +114,15 @@ As a last note, the authors of the paper propose using a VAE structure to furthe
 
 The resulting algorithm works as follows
 
-![]({{ '/images/exploration/ex2.png' | absolute_url }})
+<figure>
+  <img src="{{ '/images/exploration/ex2.png' | absolute_url }}" alt="" width="1000">
+  <figcaption></figcaption>
+  <style>
+    figure figcaption {
+    text-align: center;
+    }
+  </style>
+</figure>
 
 I personally think it may be better for on-policy RL methods to trains the discrimiantor several steps first after sampling and then compute rewards without further training the discriminator.
 

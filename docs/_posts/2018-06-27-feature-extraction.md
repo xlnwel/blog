@@ -83,7 +83,15 @@ Canny edge detection is a technique widely used in image processing to extract *
 
 ### Algorithm
 
-![canny]({{ '/images/cv/Canny.png' | absolute_url }})
+<figure>
+  <img src="{{ '/images/cv/Canny.png' | absolute_url }}" alt="" width="1000">
+  <figcaption></figcaption>
+  <style>
+    figure figcaption {
+    text-align: center;
+    }
+  </style>
+</figure>
 
 Now we'll go through the process of Canny edge detection algorithm
 
@@ -211,7 +219,15 @@ Suppress those regions with $$ R $$ smaller than a threshold and mark those with
 
 ### Algorithm
 
-![HOG]({{ '/images/cv/HOG.png' | absolute_url }})
+<figure>
+  <img src="{{ '/images/cv/HOG.png' | absolute_url }}" alt="" width="1000">
+  <figcaption></figcaption>
+  <style>
+    figure figcaption {
+    text-align: center;
+    }
+  </style>
+</figure>
 
 #### i. Compute Gradient
 

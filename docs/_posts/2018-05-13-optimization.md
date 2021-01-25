@@ -22,7 +22,15 @@ I find [this blog post](https://ruder.io/optimizing-gradient-descent/) gives a b
 
 ## <a name="sgd"></a>Stochastic Gradient Descent
 
-![]({{ '/images/deep learning/gradient-descent.png' | absolute_url }})
+<figure>
+  <img src="{{ '/images/deep learning/gradient-descent.png' | absolute_url }}" alt="" width="1000">
+  <figcaption></figcaption>
+  <style>
+    figure figcaption {
+    text-align: center;
+    }
+  </style>
+</figure>
 
 SGD is the most basic optimization algorithm for finding the minimum of a function. It simply divides the input data into several minibatch, and then do gradient descent on each of them. Specifically, it computes the gradient for each parameter $$ d W $$, then updates the parameter using
 
@@ -40,7 +48,15 @@ Where $$ \alpha $$ is the learning rate.
 
 ## <a name="mom"></a>SGD with Momentum
 
-![]({{ '/images/deep learning/gd-momentum.png' | absolute_url }})
+<figure>
+  <img src="{{ '/images/deep learning/gd-momentum.png' | absolute_url }}" alt="" width="1000">
+  <figcaption></figcaption>
+  <style>
+    figure figcaption {
+    text-align: center;
+    }
+  </style>
+</figure>
 
 Momentum is a method that helps accelerates SGD in the relevant direction and dampen oscillations, whereby speeding up global convergence. It resorts to the physical concept of velocity to smooth out the gradient descent as follows
 

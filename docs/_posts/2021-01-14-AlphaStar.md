@@ -31,6 +31,7 @@ The training process of AlphaStar is divided into two phases: AlphaStar is first
 </figure>
 
 
+
 ### Supervised Learning
 
 In the supervised learning stage, AlphaStar is trained with replays from the top $$22\%$$ of players with MMR scores(match making rating, a Blizzard's metric similar to Elo) greater than 3,500. For each replay, we extract a statistic $$z$$ that encodes each player's build order, defined as the first 20 constructed buildings and units, and cumulative statistics, defined as the units, buildings, effects, and updates that were present during a game. The policy is optionally conditioned on $$z$$ in both supervised and reinforcement learning; in supervised learning, we set $$z$$ to zero $$10\%$$ of the time. The policy is trained by computing the KL divergence between human and agent actions. Adam optimizer is selected for update and $$L_2$$ regularization is applied to ameliorate overfitting.
@@ -121,7 +122,7 @@ We concisely summarize each solution as follows --- notice that these are not on
 
 We will focus on 5 and 6 in the remaining of this section.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3UdH3lPF7nE?start=973" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="1024" height="576" src="https://www.youtube.com/embed/3UdH3lPF7nE?start=973" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### <a name='exp'></a>Hard Exploration
 

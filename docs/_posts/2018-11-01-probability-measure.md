@@ -73,4 +73,12 @@ $$
 
 Where $$U$$ and $$V$$ are random variables, $$z$$ is the cumulative probability. $$F^{-1}_U:z\rightarrow U$$ is the quantile function(inverse CDF). The following figure demonstrates the 1-Wasserstein distance between a random distribution and a uniform Dirachlet distribution. The 
 
-![]({{ '/images/distributional/wasserstein.png' | absolute_url }}) 
+<figure>
+  <img src="{{ '/images/distributional/wasserstein.png' | absolute_url }}" alt="" width="1000">
+  <figcaption></figcaption>
+  <style>
+    figure figcaption {
+    text-align: center;
+    }
+  </style>
+</figure> 
