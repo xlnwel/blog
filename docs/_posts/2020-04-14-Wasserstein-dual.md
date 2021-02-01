@@ -61,15 +61,15 @@ $$
 We can also define the function version of the above dual, usually so-called Kantorovich duality, as
 
 $$
-\sup_{f(x)+g(y)\le d(x,y)}\int f d\mu(x)+\int gd\nu(y)\tag{1}\label{eq:1}
+\sup_{f(x)+g(y)\le d(x,y)}\int f d\mu(x)+\int gd\nu(y)\tag {1}
 $$
 
 From now on, we stick to this function version as it's more general and more easy to analyze.
 
-Let's assume we have a function $$f$$. It is easy to conclude from the constraint that the supremum defined in $$\eqref{eq:1}$$ is achieved when $$g(y)=\inf_x d(x,y) - f(x)$$ since $$d\mu, d\nu\ge 0$$. This function is often called $$c$$-transform and denoted by $$f^c(y)=g(y)=\inf_x d(x,y) - f(x)$$. Replacing $$g$$ with $$f^c$$, we rewrite Equation $$\eqref{eq:1}$$ as
+Let's assume we have a function $$f$$. It is easy to conclude from the constraint that the supremum defined in $$(1)$$ is achieved when $$g(y)=\inf_x d(x,y) - f(x)$$ since $$d\mu, d\nu\ge 0$$. This function is often called $$c$$-transform and denoted by $$f^c(y)=g(y)=\inf_x d(x,y) - f(x)$$. Replacing $$g$$ with $$f^c$$, we rewrite Equation $$(1)$$ as
 
 $$
-\sup_f\int fd\mu(x)+\int f^cd\nu(y)\tag{2}\label{eq:2}
+\sup_f\int fd\mu(x)+\int f^cd\nu(y)\tag {2}
 $$
 
 An interesting property of $$f^c$$ is that when $$f$$ is 1-Lipschitz, $$f^c$$ is Lipschitz too as $$d(x, y)=\vert x-y\vert $$ is 1-Lipschitz. For all $$x$$ and $$y$$, when $$f$$ is 1-Lipchitz this gives us
@@ -82,7 +82,7 @@ $$
 \end{align}
 $$
 
-where the last inequality holds by choosing $$y=x$$ in the infimum. This gives us $$-f^c(x)=\inf_y\vert y-x\vert -f^c(y)$$. Also, noticing that $$f^c(y)=g(y)$$ and $$f(x)=\inf_y\vert y-x\vert -g(y)$$(obtained through the same $$c$$-transform), we get $$f(x)=-f^c(x)$$. Substituting $$f^c(x)=-f(x)$$ in Equation $$\eqref{eq:2}$$, we get
+where the last inequality holds by choosing $$y=x$$ in the infimum. This gives us $$-f^c(x)=\inf_y\vert y-x\vert -f^c(y)$$. Also, noticing that $$f^c(y)=g(y)$$ and $$f(x)=\inf_y\vert y-x\vert -g(y)$$(obtained through the same $$c$$-transform), we get $$f(x)=-f^c(x)$$. Substituting $$f^c(x)=-f(x)$$ in Equation $$(2)$$, we get
 
 $$
 \sup_{f\text{ is Lipschitz}}\int f(d\mu-d\nu)
@@ -188,7 +188,7 @@ $$
 W_1(\mu,\nu)=\sup_{f,g}\inf_\gamma\int_{M\times M}d(x,y)-(f(x)+g(y))d\gamma(x,y)+\int fd\mu(x)+\int gd\nu(y)
 $$
 
-Take a look at the infimum term. If $$d(x,y)-f(x)+g(y)$$ could be negative, then we can choose $$\gamma$$ such that an infinity mass is on that negative value and the infimum term becomes $$-\infty$$. On the other hand, if $$d(x,y)-f(x)+g(y)$$ is non-negative, then the infimum term is $$0$$. From the above observation, we can summarize the infimum term as a constraint and the 1st Wasserstein distance becomes Equation $$\eqref{eq:1}$$
+Take a look at the infimum term. If $$d(x,y)-f(x)+g(y)$$ could be negative, then we can choose $$\gamma$$ such that an infinity mass is on that negative value and the infimum term becomes $$-\infty$$. On the other hand, if $$d(x,y)-f(x)+g(y)$$ is non-negative, then the infimum term is $$0$$. From the above observation, we can summarize the infimum term as a constraint and the 1st Wasserstein distance becomes Equation $$(1)$$
 
 $$
 W_1(\mu,\nu)=\sup_{f(x)+g(y)<\gamma(x,y)}\int fd\mu(x)+\int gd\nu(y)

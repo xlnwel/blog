@@ -23,7 +23,7 @@ tags:
 For a binary variable, we define the Bernoulli distribution as
 
 $$
-\text{Ber}(x|\mu)=\mu^x(1-\mu)^{1-x}\tag{1}\label{eq:1}
+\text{Ber}(x|\mu)=\mu^x(1-\mu)^{1-x}\tag {1}
 $$
 
 where binary variable $$x\in\{0,1\}$$, and $$\mu\in[0,1]$$ is the probability of $$x=1$$.
@@ -40,7 +40,7 @@ $$
 Suppose we have a dataset $$\mathcal D=\{x_1,\dots,x_N\}$$ of i.i.d. observed values of $$x$$. The likelihood function can be expressed as
 
 $$
-p(\mathcal D|\mu)=\prod_{n=1}^Np(x_n|\mu)=\prod_{n=1}^N\mu^{x_n}(1-\mu)^{1-x_n}\tag{2}\label{eq:2}
+p(\mathcal D|\mu)=\prod_{n=1}^Np(x_n|\mu)=\prod_{n=1}^N\mu^{x_n}(1-\mu)^{1-x_n}\tag {2}
 $$
 
 We can estimate a value for $$\mu$$ by maximizing the logarithm of the likelihood function
@@ -52,7 +52,7 @@ $$
 If we set its derivative to zero, we obtain the maximum likelihood estimator for $$\mu$$
 
 $$
-\mu_{ML}={1\over N}\sum_{n=1}^Nx_n \tag{3}\label{eq:3}
+\mu_{ML}={1\over N}\sum_{n=1}^Nx_n \tag{3}
 $$
 
 
@@ -61,7 +61,7 @@ $$
 We can extend the Bernoulli distribution to the binomial distribution, in which we have $$N$$ variables of a Bernoulli distribution. The binomial distribution can be written as
 
 $$
-\text{Bin}(m|N,\mu)=\begin{pmatrix}N\\\m\end{pmatrix}\mu^m(1-\mu)^{N-m}\tag{4}\label{eq:4}
+\text{Bin}(m|N,\mu)=\begin{pmatrix}N\\\m\end{pmatrix}\mu^m(1-\mu)^{N-m}\tag {4}
 $$
 
 The mean and variance of the binomial distribution are given by
@@ -76,11 +76,11 @@ $$
 
 ### <a name='beta'></a>Beta Distribution
 
-The maximum likelihood estimation given by Equation $$\eqref{eq:3}$$ can easily overfit for small dataset, especially when we have all observations of $$1$$ or $$0$$. We can mitigate such overfitting by introducing a prior distribution on the parameters. For binary variables, we choose the beta distribution for $$\mu$$, which is defined as
+The maximum likelihood estimation given by Equation $$(3)$$ can easily overfit for small dataset, especially when we have all observations of $$1$$ or $$0$$. We can mitigate such overfitting by introducing a prior distribution on the parameters. For binary variables, we choose the beta distribution for $$\mu$$, which is defined as
 
 $$
 \begin{align}
-\text{Beta}(\mu|a,b)&={\Gamma(a+b)\over\Gamma(a)\Gamma(b)}\mu^{a-1}(1-\mu)^{b-1}\propto\mu^{a-1}(1-\mu)^{b-1}\tag{5}\label{eq:5}\\\
+\text{Beta}(\mu|a,b)&={\Gamma(a+b)\over\Gamma(a)\Gamma(b)}\mu^{a-1}(1-\mu)^{b-1}\propto\mu^{a-1}(1-\mu)^{b-1}\tag {5}\\\
 \Gamma(x)&=\int_0^\infty u^{x-1}e^{-u}du
 \end{align}
 $$
@@ -103,11 +103,11 @@ The posterior distribution of $$\mu$$ is obtained following the Bayes' theorem
 $$
 \begin{align}
 p(\mu|m,l,a,b)&\propto\mu^{m+a-1}(1-\mu)^{l+b-1}\\\
-p(\mu|m,l,a,b)&={\Gamma(a+l+b+m)\over\Gamma(a+m)\Gamma(b+l)}\mu^{m+a-1}(1-\mu)^{l+b-1}\tag{6}\label{eq:6}
+p(\mu|m,l,a,b)&={\Gamma(a+l+b+m)\over\Gamma(a+m)\Gamma(b+l)}\mu^{m+a-1}(1-\mu)^{l+b-1}\tag {6}
 \end{align}
 $$
 
-Equation $$\eqref{eq:6}$$ allows us incrementally update the distribution of $$\mu$$ as new data is observed. We can see that the beta distribution is a conjugate distribution of the binomial distribution. 
+Equation $$(6)$$ allows us incrementally update the distribution of $$\mu$$ as new data is observed. We can see that the beta distribution is a conjugate distribution of the binomial distribution. 
 
 If our goal is to predict, we can follow the sum and product rules of probability
 
@@ -123,7 +123,7 @@ We generally represent a variable that can take on one of $$K$$ values by a one-
 If we denote the probability of $$x_k=1$$ by the parameter $$\mu_k$$, then the distribution of $$\pmb x$$ is given
 
 $$
-p(\pmb x|\pmb \mu)=\prod_{k=1}^K\mu_k^{x_k}\tag{7}\label{eq:7}\\\
+p(\pmb x|\pmb \mu)=\prod_{k=1}^K\mu_k^{x_k}\tag {7}\\\
 s.t.\quad\sum_{k=1}^K\mu_k=1,\ \mu_k>0
 $$
 
@@ -138,7 +138,7 @@ $$
 Suppose we have a dataset $$\mathcal D=\{\pmb x_1,\dots,\pmb x_N\}$$ of i.i.d. observed values of $$\pmb x$$. The likelihood function can be expressed as
 
 $$
-p(\mathcal D|\pmb\mu)=\prod_{n=1}^N p(\pmb x_n|\mu)=\prod_{n=1}^N\prod_{k=1}^K\mu_k^{x_{nk}}=\prod_{k=1}^K\mu_k^{\sum_n x_{nk}}=\prod_{k=1}^K\mu_k^{m_k}\tag{8}\label{eq:8}\\\
+p(\mathcal D|\pmb\mu)=\prod_{n=1}^N p(\pmb x_n|\mu)=\prod_{n=1}^N\prod_{k=1}^K\mu_k^{x_{nk}}=\prod_{k=1}^K\mu_k^{\sum_n x_{nk}}=\prod_{k=1}^K\mu_k^{m_k}\tag {8}\\\
 where\quad m_k=\sum_nx_{nk}\\\
 s.t.\quad\sum_{k=1}^K\mu_k=1,\ \mu_k>0
 $$
@@ -152,10 +152,10 @@ $$
 If we set its derivative to zero, we obtain the maximum likelihood estimator for $$\mu_k$$
 
 $$
-\mu_k=-{m_k\over\lambda}\tag{9}\label{eq:9}
+\mu_k=-{m_k\over\lambda}\tag {9}
 $$
 
-We can obtain the Lagrangian multiplier by substituting Equation $$\eqref{eq:9}$$ into the constraint, which gives us $$\lambda=-N$$. Therefore, we have
+We can obtain the Lagrangian multiplier by substituting Equation $$(9)$$ into the constraint, which gives us $$\lambda=-N$$. Therefore, we have
 
 $$
 \mu_k^{ML}={m_k\over N}

@@ -19,7 +19,7 @@ Exploration plays an important role in reinforcement learning: it helps agents t
 In exploration bonus(aka. optimistic exploration), we keep track of average reward $$\hat \mu_a$$ for each action $$a$$, and we take into account our confidence of uncertainty when we choose an action:
 
 $$
-a=\arg\max_a\hat \mu_a+C\sigma_a\tag{1}\label{eq:1}
+a=\arg\max_a\hat \mu_a+C\sigma_a\tag {1}
 $$
 
 where $$C$$ is a hyperparameter and $$\sigma_a$$ is a variance estimate of uncertainty that becomes smaller as the action $$a$$ is taken more often. The intuition behind this is: if some action is taken rarely, we tend to optimistically think it might have a high reward. As the action is taken, we increase our confidence in the action and tend to regard the average reward as the expected reward of taking the action. An example is Upper Confidence Bound(UCB), which defines $$\sigma_a$$ as
@@ -31,7 +31,7 @@ $$
 where $$t$$ counts the total actions taken and $$N(a)$$ is the times action $$a$$ is taken. In practice, a simpler $$\sigma_a$$ could also work
 
 $$
-\sigma_a=\sqrt{1\over N(a)}\tag{2}\label{eq:2}
+\sigma_a=\sqrt{1\over N(a)}\tag {2}
 $$
 
 
@@ -39,7 +39,7 @@ $$
 
 Exploration bonus in multi-bandit optimistically gives a high exploration bonus $$C\sigma_a$$ to actions rarely tried. Applying this idea to an MDP, we could optimistically gives a high reward to new states(or new state-action pairs). In high-dimensional problems or continuous problems, this requires a way of estimating the novelty measure that tells us how novel a state is since states are rarely revisited in those problems. 
 
-In count-based methods, novelty is measured by a pseudo count $$\hat N(s)$$, analogous to $$N(a)$$ in Eq.$$\eqref{eq:2}$$(although $$\hat N(s,a)$$ is more sensible for action selection, for the sake of simplicity, we still consider $$\hat N(s)$$ in the following discussion). There are many choices explored in literature, here we only introduce several of them mentioned by Sergey Levine in his class:
+In count-based methods, novelty is measured by a pseudo count $$\hat N(s)$$, analogous to $$N(a)$$ in Eq.$$(2)$$(although $$\hat N(s,a)$$ is more sensible for action selection, for the sake of simplicity, we still consider $$\hat N(s)$$ in the following discussion). There are many choices explored in literature, here we only introduce several of them mentioned by Sergey Levine in his class:
 
 #### Unifying Count-Based Exploration and Intrinsic Motivation
 
@@ -100,7 +100,7 @@ $$
 p(s^*)={1-D(s^*)\over D(s^*)}
 $$
 
-Then we employ $$-\log p(s)$$ as the exploration bonus instead of Eq.$$\eqref{eq:2}$$ used before.
+Then we employ $$-\log p(s)$$ as the exploration bonus instead of Eq.$$(2)$$ used before.
 
 <figure style="width: 200px" class="align-right">
   <img src="{{ '/images/exploration/amortized exemplar model.png' | absolute_url }}" alt="">
@@ -160,7 +160,7 @@ One way to apply information gain to MDP, is to consider the reduction in uncert
 $$
 \begin{align}
 I(\Theta; S_{t+1}|h_t, a_t)&=D_{KL}[p(\theta,s_{t+1}|h_t,a_t)\Vert p(\theta|h_t)p(s_{t+1}|h_t,a_t)]\\\
-&=\mathbb E_{s_{t+1}\sim p(\cdot|h_t,a_t)}[D_{KL}[p(\theta|h_t,a_t,s_{t+1})\Vert p(\theta|h_t)]]\tag{3}\label{eq:3}
+&=\mathbb E_{s_{t+1}\sim p(\cdot|h_t,a_t)}[D_{KL}[p(\theta|h_t,a_t,s_{t+1})\Vert p(\theta|h_t)]]\tag {3}
 \end{align}
 $$
 
@@ -182,28 +182,28 @@ $$
 However, the above equation cannot be solved as we do with general neural network since it involves integral over the parameter space. Fortunately, our objective here is to learn the parameter distributions instead of dong inference. In order to learn the posterior distribution $$p(\theta\vert \mathcal D)$$, we could resort to variational inference, where we approximate $$p(\theta\vert \mathcal D)$$ using an alternative distribution $$q(\theta\vert \phi)$$, which is optimized through maximization of the evidence lower bound(ELBO):
 
 $$
-\mathbb E_{q(\theta|\phi)}[\log p(\mathcal D|\theta)]-D_{KL}[q(\theta|\phi)\Vert p(\theta)]\tag{4}\label{eq:4}
+\mathbb E_{q(\theta|\phi)}[\log p(\mathcal D|\theta)]-D_{KL}[q(\theta|\phi)\Vert p(\theta)]\tag {4}
 $$
 
 where $$\phi$$ could be the mean and variance of each parameter if we take the variational posterior as a diagonal Gaussian distribution. 
 
-Now that we have parameterized the dynamics model parameter $$\theta$$ by $$\phi$$, we express the information gain as the KL divergence between the variational models after and before observing the next state as Eq.$$\eqref{eq:3}$$ suggested
+Now that we have parameterized the dynamics model parameter $$\theta$$ by $$\phi$$, we express the information gain as the KL divergence between the variational models after and before observing the next state as Eq.$$(3)$$ suggested
 
 $$
 \begin{align}
-I(\theta|\phi; s_{t+1})&=D_{KL}[q(\theta|\phi_{t+1})\Vert q(\theta|\phi_t)]\tag{5}\label{eq:5}
+I(\theta|\phi; s_{t+1})&=D_{KL}[q(\theta|\phi_{t+1})\Vert q(\theta|\phi_t)]\tag {5}
 \end{align}
 $$
 
 where $$\phi_{t+1}$$ and $$\phi_t$$ are the updated and the old parameters, respectively. To compute the updated parameter $$\phi_{t+1}$$, we minimize
 
 $$
-D_{KL}[q(\theta|\phi)\Vert q(\theta|\phi_{t})]-\mathbb E_{q(\theta|\phi)}[\log p(s_{t+1}|h_t,a_t,\theta)]\tag{6}\label{eq:6}
+D_{KL}[q(\theta|\phi)\Vert q(\theta|\phi_{t})]-\mathbb E_{q(\theta|\phi)}[\log p(s_{t+1}|h_t,a_t,\theta)]\tag {6}
 $$
 
-which could be roughly regarded as the negative of the ELBO w.r.t. the single transition the agent just experienced. In practice, Houthooft et al. propose to efficiently optimize Eq.$$\eqref{eq:6}$$ through Newton's method. Because it's more like an implementation details, we refer to interested readers to Eq.$$\eqref{eq:13}$$-Eq.$$\eqref{eq:16}$$ in the paper.
+which could be roughly regarded as the negative of the ELBO w.r.t. the single transition the agent just experienced. In practice, Houthooft et al. propose to efficiently optimize Eq.$$(6)$$ through Newton's method. Because it's more like an implementation details, we refer to interested readers to Eq.$$(13)$$-Eq.$$(16)$$ in the paper.
 
-So far we have introduced two evidence lower bounds: Eq.$$\eqref{eq:4}$$ and Eq.$$\eqref{eq:6}$$. Although both optimize $$q(\theta\vert \phi)$$, they serve different purposes. Eq.$$(4) $$ globally updates the variational model $$q(\theta\vert \phi)$$ to approximate $$p(\theta\vert \mathcal D)$$, Eq.$$\eqref{eq:6}$$ temporarily computes $$q(\theta\vert \phi_{t+1})$$ to obtain the information gain from $$s_{t+1}$$, and is discarded afterwards.
+So far we have introduced two evidence lower bounds: Eq.$$(4)$$ and Eq.$$(6)$$. Although both optimize $$q(\theta\vert \phi)$$, they serve different purposes. Eq.$$(4) $$ globally updates the variational model $$q(\theta\vert \phi)$$ to approximate $$p(\theta\vert \mathcal D)$$, Eq.$$(6)$$ temporarily computes $$q(\theta\vert \phi_{t+1})$$ to obtain the information gain from $$s_{t+1}$$, and is discarded afterwards.
 
 #### Algorithm
 
@@ -225,7 +225,7 @@ $$
 $$
 
 
-Instead of using the KL divergence in Eq.$$\eqref{eq:5}$$ directly as an intrinsic reward, Houthooft et al. propose to normalize it by division through the average of the median KL divergences taken over a ﬁxed number of previous trajectories. Doing so, we emphasizes relative difference in KL divergence between samples, rather than focusing on its absolute value.
+Instead of using the KL divergence in Eq.$$(5)$$ directly as an intrinsic reward, Houthooft et al. propose to normalize it by division through the average of the median KL divergences taken over a ﬁxed number of previous trajectories. Doing so, we emphasizes relative difference in KL divergence between samples, rather than focusing on its absolute value.
 
 ## Recap
 

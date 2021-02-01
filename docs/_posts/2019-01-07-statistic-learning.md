@@ -19,13 +19,13 @@ In the previous post, we talk about probabilistic latent variable models that us
 Bayesian learning calculates the probability of each latent variables(or hypothesis), given the data, and make predictions on that basis. Mathematically, Bayesian learning first computes the probability distribution of the latent variable conditioned on the data
 
 $$
-p(z_i|\mathcal D)={p(\mathcal D|z_i)p(z_i)\over \sum_j p(\mathcal D|z_j)p(z_j)}=\alpha p(\mathcal D|z_i)p(z_i)\tag{1}\label{eq:1}
+p(z_i|\mathcal D)={p(\mathcal D|z_i)p(z_i)\over \sum_j p(\mathcal D|z_j)p(z_j)}=\alpha p(\mathcal D|z_i)p(z_i)\tag {1}
 $$
 
 where $$ z_i $$ is the latent variable and $$ \mathcal D $$ represents the observed data. Then it makes prediction about a new quantity $$ X $$ as follows
 
 $$
-p(X|\mathcal D)=\sum_ip(X|\mathcal D,z_i)p(z_i|\mathcal D)=\sum_ip(X|z_i)p(z_i|\mathcal D)\tag{2}\label{eq:2}
+p(X|\mathcal D)=\sum_ip(X|\mathcal D,z_i)p(z_i|\mathcal D)=\sum_ip(X|z_i)p(z_i|\mathcal D)\tag {2}
 $$
 
 
@@ -39,13 +39,13 @@ $$
 \begin{align}
 p(X|\mathcal D)&\approx p(X|z_{MAP})\\\
 where\quad z_{MAP}&=\arg\max_{z}p(\mathcal D|z)p(z)
-\end{align}\tag{3}\label{eq:3}
+\end{align}\tag{3}
 $$
 
 Generally, we assume data are independent of each other, and take the negative of the logarithm to avoid hard multiplication and turn the maximization into minimization. Then we have
 
 $$
-z_{MAP}=\arg\min_{z}-\log p(\mathcal D|z)-\log p(z)\tag{4}\label{eq:4}
+z_{MAP}=\arg\min_{z}-\log p(\mathcal D|z)-\log p(z)\tag {4}
 $$
 
 In fact, both Bayesian and MAP learning methods use the prior to *penalize complexity*. Typically, more complex latents have a lower prior probability — in part because there are usually many more complex latents than simple latents. This could also be seen in Eq.$$ (4) $$: the last term $$ -\log p(z) $$ actually measures the bits required to specify the latent $$ z $$. By minimizing $$ -\log p(z) $$, we reduce the bits required for $$ z_i $$, which means $$ z_i $$ become more simple, and therefore more uncertain.
@@ -55,7 +55,7 @@ In fact, both Bayesian and MAP learning methods use the prior to *penalize compl
 MLE takes one step further to simplify MAP by assuming that uniform prior over the space of latent variables. As a result, Eq.$$ (4) $$ in MLE becomes
 
 $$
-z_{MLE}=\arg\min_{z}-\log p(\mathcal D|z)\tag{5}\label{eq:5}
+z_{MLE}=\arg\min_{z}-\log p(\mathcal D|z)\tag {5}
 $$
 
 MLE provides a good approximation to Bayesian and MAP learning when the dataset is large, because the data swamps the prior distribution over the latents, but it can be problematic with small datasets, which could be further excerbated when the dataset is small enough that some events have not yet been observed — the ML hypothesis assign zero probability to those events. Various tricks are used to avoid this problem, such as initializing the counts for each event to $$ 1 $$ instead of $$ 0 $$, but these are mostly a hack. 

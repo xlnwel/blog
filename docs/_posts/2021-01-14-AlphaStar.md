@@ -42,7 +42,7 @@ Also noticeably, architecture components were chosen and tuned with respect to t
 
 ### Reinforcement Learning
 
-The reinforcement learning algorithm adopted by AlphaStar is based on an asynchronous policy-gradient algorithm, namely [IMPALA]({{ site.baseurl }}{% post_url 2019-11-14-IMPALA %}). Because the current and previous policies are highly unlikely to match over many steps in large action spaces, some policy correction mechanism must be employed to compensate the distribution mismatch and whereby enabling off-policy learning. Consequently, three objectives are employed by AlphaStar: the policy is updated with [V-trace]({{ site.baseurl }}{% post_url 2020-11-14-V-Trace%}) and upgoing policy update(UPGO), and the value function are updated using TD($$\lambda$$). We briefly address each objective in the following sub-sections.
+The reinforcement learning algorithm adopted by AlphaStar is based on an asynchronous policy-gradient algorithm, namely [IMPALA]({{ site.baseurl }}{% post_url 2019-11-14-IMPALA %}). Because the current and previous policies are highly unlikely to match over many steps in large action spaces, some policy correction mechanism must be employed to compensate the distribution mismatch and whereby enabling off-policy learning. Consequently, three objectives are employed by AlphaStar: the policy is updated with [V-trace]({{ site.baseurl }}{% post_url 2020-11-07-V-Trace%}) and upgoing policy update(UPGO), and the value function are updated using TD($$\lambda$$). We briefly address each objective in the following sub-sections.
 
 #### V-Trace
 
@@ -122,7 +122,7 @@ We concisely summarize each solution as follows --- notice that these are not on
 
 We will focus on 5 and 6 in the remaining of this section.
 
-<iframe width="1024" height="576" src="https://www.youtube.com/embed/3UdH3lPF7nE?start=973" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="784" height="441" src="https://www.youtube.com/embed/3UdH3lPF7nE?start=973" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope" allowfullscreen> </iframe>
 
 ### <a name='exp'></a>Hard Exploration
 
