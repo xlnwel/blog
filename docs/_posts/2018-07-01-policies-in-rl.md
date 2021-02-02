@@ -25,7 +25,9 @@ This post talks about several policies wildly used in reinforcement learning and
 Epsilon-greedy policy simply follows a greedy policy with probability $$ 1-\epsilon $$ and takes a random action with proabability $$ \epsilon $$. Formally, it's defined as
 
 $$
+\begin{align}
 \pi(a|s)=(1-\epsilon)_{|a=\arg\max_{a'}}Q(s,a')+{\epsilon\over |A|}
+\end{align}
 $$
 
 
@@ -38,7 +40,9 @@ $$
 Softmax with temperature refines simply softmax to encourage exploration at the beginning and enhance the convergence at the end. Mathematically, It's defined as
 
 $$
+\begin{align}
 \pi(a|s)=\mathrm{softmax}(Q(s,a)/\tau)={\exp(Q(s,a)/\tau)\over\sum_{a'}\exp(Q(s,a')/\tau)}
+\end{align}
 $$
 
 where the temporature $$ \tau $$, idea borrowed from *simulated annealing*, is annealed over time. A high temporature causes all actions equiprobable, while a low temporature skews the probability towards a greedy policy.  
@@ -50,7 +54,9 @@ where the temporature $$ \tau $$, idea borrowed from *simulated annealing*, is a
 Upper Confidence Bound (UBC) encourages actions rarely tried by introducing a concept of upper confidence bound. Mathematically, it's defined as
 
 $$
+\begin{align}
 \pi(a|s)=\arg\max_a\left(Q(s,a)+c\sqrt{\log t\over N(s,a)}\right)
+\end{align}
 $$
 
 where $$ t $$ counts the number of times $$ s $$ is visited and $$ N(s, a) $$ the number of times $$ a $$ is selected at the state $$ s $$. The second term above defines a measure of uncertainty or variance in the estimate of the state-action value. The quantity being max’ed over is thus a sort of upper confidence bound on the possible true value of action $$ a $$, with $$ c $$ determining the confidence level. Each time $$ a $$ is selected, both $$ t $$ and $$ N(s,a) $$ increase, the uncertainty is presumably reduced. On the other hand, each time an action other than $$ a $$ is selected, only $$ t $$ increase, the uncertainty estimate increases. The use of the natural logarithm ensures that the increases get smaller over time, but are unbounded; all actions will eventually be selected, but actions with lower value estimates, or that have already been selected frequently, will be selected with decreasing frequency over time.
@@ -66,7 +72,9 @@ $$
 It says that the probability that the true mean of $$ X $$, $$ E[\bar X] $$, is greater than or equal to the sample mean, $$ \bar X $$, plus some value $$ t $$, is less than $$ e^{-2nt^2} $$ where $$ n $$ is the number of samples used to compute $$ \bar X $$. Sticking in our notation, we have
 
 $$
+\begin{align}
 P\left(\hat Q(s,a)\ge Q(s,a)+U(s,a)\right)\le \exp\left(-2N(s,a) U(s,a)^2\right)
+\end{align}
 $$
 
 where $$ \hat Q(s,a) $$ is the underlying real action-value function.
@@ -89,13 +97,17 @@ By setting the maximum probability $$ p=t^{-2} $$ --- that is, we make the upper
 Gradient Bandit Algorithm is an algorithm specialized for bandit problems, in which no state is involved. It defines a numerical *preference* for each action $$ a $$, $$ H(a) $$ and a softmax policy based on that
 
 $$
+\begin{align}
 \pi(a)=P(A=a)=\mathrm{softmax}(H(a))
+\end{align}
 $$
 
 At each step, after selecting action $$ a $$ and receiving reward $$ R $$, all the action preference get updated by
 
 $$
+\begin{align}
 H(A)=H(A)+\alpha(R-\bar R)(\mathbf 1_{|A=a}-\pi(A))
+\end{align}
 $$
 
 where $$ \bar R $$, the average of all the rewards up to the current time, serves as a baseline with which the reward is compared. The eccentric term, $$ \mathbf 1_{\vert A=a}-\pi(A) $$, is computed from $$ \partial E[R]\over\partial H[A] $$ (details are given in Reinforcement learning: an introduction). An intuition behind it is given below.

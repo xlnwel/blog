@@ -50,7 +50,9 @@ The value network is trained to minimize the error between the predict value $$v
 AlphaZero trains networks through self-play, in which the agent always plays with the latest version of itself -- this is different from AlphaGo which play agaist the current best model). At the end of the game, the terminal position $$s_T$$ is scored by the game outcome $$z$$: $$-1$$ for a loss, $$0$$ for a draw, and $$+1$$ for a win. $$v$$ is trained to minimize the mean squared error between $$v$$ and $$z$$, $$p$$ is trained to minimize the KL divergence between $$p$$ and search tree policy $$\pi$$. Both $$v$$ and $$p$$ share the convolutionary layers, regularized by $$\ell_2$$ regularization. We summarize the loss function as
 
 $$
+\begin{align}
 \mathcal L=(z-v)^2-\pi\log\ p + c\Vert\theta\Vert^2
+\end{align}
 $$
 
 where $$c$$ is a hyperparameter controlling the level of regularization.

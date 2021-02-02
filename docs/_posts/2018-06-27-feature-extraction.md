@@ -27,34 +27,37 @@ Low-pass filters are used to preprocess image to reduce noise and unwanted trait
 
 
 $$
+\begin{align}
   \eta
   \begin{vmatrix}
   1 & 1 & 1\\\
   1 & 1 & 1\\\
   1 & 1 & 1
   \end{vmatrix} 
-  $$
-
+  \end{align}
+$$
 
 where $$ \eta $$ is the normalization factor defined as the sum of filter. A more wildly used low-pass filter is the Gaussian filter, which is defined according to the Gaussian distribution
 
-
 $$
+\begin{align}
+
   G(x,y)={1\over 2\pi\sigma^2}e^{-{(x-\mu_x)^2 + (y-\mu_y)^2 \over 2\sigma^2}}
-$$
 
+\end{align}
+$$
 
 An example of $$ 3\times3 $$ Gaussian filter with $$ \sigma=1 $$ is 
-
 $$
+
   \eta
   \begin{vmatrix}
   1 & e^{1\over 2} & 1\\\
   e^{1\over 2} & e & e^{1\over 2}\\\
   1 & e^{1\over 2} & 1
   \end{vmatrix} 
-  $$
-
+  
+$$
 
 Heads up:
   - It is important to understand that the selection of the *size of the Gaussian kernel* will affect the performance of the detector. The larger the size is, the lower the detector’s sensitive to noise. Additionally, the localization error to detect the edge will slightly increase with the increase of the Gaussian filter kernel size. A \$$ 5\times 5 \$$ is a good size for most cases, but this will also vary depending on specific situations. 
@@ -65,17 +68,20 @@ Heads up:
 High-pass filters detect big changes in intensity or color in an image and produce an output that shows these edges. Common choices include the Sobel operator and the Prewitt Operator.
 
 The Sobel operator uses following two kernels to calculate approximations of the horizontal and vertical gradient
-
 $$
+
  Sobel_x=\begin{vmatrix}-1 & 0 & 1\\\ -2 &0 &2 \\\ -1& 0&1\end{vmatrix}\ Sobel_y=\begin{vmatrix}-1 & -2 & -1\\\ 0 &0 &0\\\ 1& 2&1\end{vmatrix} 
-$$
 
+$$
+\begin{align}
 whereas the Prewitt Operator uses
-
+\end{align}
 $$
+
  Prewitt_x=\begin{vmatrix}-1 & 0 & 1\\\ -1 &0 &1\\\ -1& 0&1\end{vmatrix}\ Prewitt_y=\begin{vmatrix}-1 & -1 & -1\\\ 0 &0 &0\\\ 1& 1&1\end{vmatrix} 
-$$
 
+$$
+\begin{align}
 
 ## <a name='ced'></a>Canny Edge Detector 
 
@@ -101,17 +107,21 @@ Now we'll go through the process of Canny edge detection algorithm
 #### ii. Find the intensity gradients of the image
 
 The intensity gradients are calculated from the horizontal and vertical gradients $$ G_x $$ and $$ G_y $$, which could be approximated by high-pass filters introduced at the beginning. Given $$ G_x $$ and $$ G_y $$, the gradient magnitude is calculated by
-
+\end{align}
 $$
+
  G=\sqrt{G_x^2+G_y^2} 
-$$
 
+$$
+\begin{align}
 and the gradient's direction
-
+\end{align}
 $$
+
  \Theta=atan2(G_y, G_x) 
-$$
 
+$$
+\begin{align}
 What, you wanna know what $$ atan2 $$ is? Sorry, I'm gonna take a rain check :-)
 
 #### iii. Apply non-maximum suppression to get rid of spurious response to the edge detection
@@ -138,11 +148,12 @@ Finalize the detection of edges by suppressing all the other edges that are weak
 ### Theoretical basis
 
 Considering taking a window (i.e. filter), $$ W $$, and shifting it by $$ (\Delta x, \Delta y) $$, the *weighted sum of squared differences* between the original and shfited window is given by
-
+\end{align}
 $$
-S(x,y) = \sum_{x,y \in W}w(x,y)(I(x+\Delta x, y+\Delta y)-I(x,y))^2
- $$
 
+S(x,y) = \sum_{x,y \in W}w(x,y)(I(x+\Delta x, y+\Delta y)-I(x,y))^2
+ 
+$$
 where $$ w $$ is the windown function, which gives weights to pixels underneath and $$ I $$ is the intensity function. 
 
 The window function is either a rectangle window, which assigns value $$ 1 $$ to all pixels in the window, otherwise $$ 0 $$, or a Gaussian window. For simplicity, we only consider the window function is a rectangle window for time being.
@@ -150,29 +161,29 @@ The window function is either a rectangle window, which assigns value $$ 1 $$ to
 For a corner, shifting the window in any direction should yield a big variation in the direction and magnitude of the gradient. Therefore, we have to maximize $$ S(x,y) $$ to find a corner.
 
 Note that $$ I(x+\Delta x, y+\Delta y) $$ can be approximated by Tayler expansion
-
 $$
+
 I(x+\Delta x, y+\Delta y)\approx I(x,y)+\Delta xI_x(x,y)+\Delta yI_y(x,y)
- $$
-
+ 
+$$
 $$ S(x,y) $$ appriximates to
-
 $$
+
 S(x,y)\approx \sum_{x,y\in W}w(x,y)(\Delta xI_x+\Delta yI_y)^2
- $$
-
+ 
+$$
 It can be shown that the above equation can be expressed in a matrix form as
-
 $$
+
 S(x,y)\approx \begin{bmatrix}\Delta x&\Delta y\end{bmatrix}M\begin{bmatrix} \Delta x\\\ \Delta y\end{bmatrix}
- $$
-
-Where $$ M $$ is the *structure tensor*
-
+ 
 $$
-M=\sum_{x,y \in W}w(x,y)\begin{bmatrix}I_x^2 & I_xI_y\\\I_xI_y&I_y^2\end{bmatrix}
- $$
+Where $$ M $$ is the *structure tensor*
+$$
 
+M=\sum_{x,y \in W}w(x,y)\begin{bmatrix}I_x^2 & I_xI_y\\\I_xI_y&I_y^2\end{bmatrix}
+ 
+$$
 $$ M $$ has two eigenvalues: $$ \lambda_1, \lambda_2 $$. According to the magnitude of the eigenvalues, there are three cases
 
 1. The region is flat: both are small 
@@ -180,15 +191,14 @@ $$ M $$ has two eigenvalues: $$ \lambda_1, \lambda_2 $$. According to the magnit
 3. The region contains a corner: both are large
 
 Mathematically, we ususally define a matrics function, *Harris response* $$ R $$ to determine if the region contains a corner
-
 $$
+
 \begin{align}
 \det(M)&=\lambda_1 \lambda_2\\\
 \mathrm{trace}(M)&=\lambda_1+\lambda_2\\\
 R&=\det(M)-k(\mathrm {trace}(M))^2
 \end{align}
  $$
-
 where $$ k $$ is a tunable sensitivity parameter, usually in range of $$ [0.04, 0.06] $$. Now the cases become
 
 1. Flat: $$ \vert R\vert  $$ is small

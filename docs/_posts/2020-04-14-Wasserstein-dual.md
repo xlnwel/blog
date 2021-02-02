@@ -17,7 +17,9 @@ In the [previous post]({{ site.baseurl }}{% post_url 2020-04-07-dual %}), we dis
 Let $$(M, d)$$ be a metric space where $$M$$ is a set and $$d(x,y)=\vert x-y\vert $$ is a distance function/metric on $$M$$. The 1st Wasserstein distance between two probability measure $$\mu$$ and $$\nu$$ is defined as
 
 $$
+\begin{align}
 W_1(\mu,\nu)=\inf_{\gamma\in\Gamma(\mu,\nu)}\int_{M\times M}d(x,y)d\gamma(x,y)
+\end{align}
 $$
 
 where $$\Gamma(\mu,\nu)$$ denotes the set of all coupling of $$\mu$$ and $$\nu$$. If we regard 1st Wasserstein distance as the earth mover's distance, we can interpret $$\mu$$ and $$\nu$$ as two piles of dirt. Therefore, $$d(x, y)$$ becomes the cost of moving from $$x$$ to $$y$$, $$\gamma(x,y)$$ denotes a transport plan that moves the amount of dirt from $$x$$ to $$y$$, and $$W_1(\mu,\nu)$$ is the minimum cost of turning $$\mu$$ into $$\nu$$. 
@@ -61,15 +63,19 @@ $$
 We can also define the function version of the above dual, usually so-called Kantorovich duality, as
 
 $$
-\sup_{f(x)+g(y)\le d(x,y)}\int f d\mu(x)+\int gd\nu(y)\tag {1}
+\begin{align}
+\sup_{f(x)+g(y)\le d(x,y)}\int f d\mu(x)+\int gd\nu(y)\tag{1}\label{eq:1}
+\end{align}
 $$
 
 From now on, we stick to this function version as it's more general and more easy to analyze.
 
-Let's assume we have a function $$f$$. It is easy to conclude from the constraint that the supremum defined in $$(1)$$ is achieved when $$g(y)=\inf_x d(x,y) - f(x)$$ since $$d\mu, d\nu\ge 0$$. This function is often called $$c$$-transform and denoted by $$f^c(y)=g(y)=\inf_x d(x,y) - f(x)$$. Replacing $$g$$ with $$f^c$$, we rewrite Equation $$(1)$$ as
+Let's assume we have a function $$f$$. It is easy to conclude from the constraint that the supremum defined in $$\eqref{eq:1}$$ is achieved when $$g(y)=\inf_x d(x,y) - f(x)$$ since $$d\mu, d\nu\ge 0$$. This function is often called $$c$$-transform and denoted by $$f^c(y)=g(y)=\inf_x d(x,y) - f(x)$$. Replacing $$g$$ with $$f^c$$, we rewrite Equation $$\eqref{eq:1}$$ as
 
 $$
-\sup_f\int fd\mu(x)+\int f^cd\nu(y)\tag {2}
+\begin{align}
+\sup_f\int fd\mu(x)+\int f^cd\nu(y)\tag{2}\label{eq:2}
+\end{align}
 $$
 
 An interesting property of $$f^c$$ is that when $$f$$ is 1-Lipschitz, $$f^c$$ is Lipschitz too as $$d(x, y)=\vert x-y\vert $$ is 1-Lipschitz. For all $$x$$ and $$y$$, when $$f$$ is 1-Lipchitz this gives us
@@ -82,10 +88,12 @@ $$
 \end{align}
 $$
 
-where the last inequality holds by choosing $$y=x$$ in the infimum. This gives us $$-f^c(x)=\inf_y\vert y-x\vert -f^c(y)$$. Also, noticing that $$f^c(y)=g(y)$$ and $$f(x)=\inf_y\vert y-x\vert -g(y)$$(obtained through the same $$c$$-transform), we get $$f(x)=-f^c(x)$$. Substituting $$f^c(x)=-f(x)$$ in Equation $$(2)$$, we get
+where the last inequality holds by choosing $$y=x$$ in the infimum. This gives us $$-f^c(x)=\inf_y\vert y-x\vert -f^c(y)$$. Also, noticing that $$f^c(y)=g(y)$$ and $$f(x)=\inf_y\vert y-x\vert -g(y)$$(obtained through the same $$c$$-transform), we get $$f(x)=-f^c(x)$$. Substituting $$f^c(x)=-f(x)$$ in Equation $$\eqref{eq:2}$$, we get
 
 $$
+\begin{align}
 \sup_{f\text{ is Lipschitz}}\int f(d\mu-d\nu)
+\end{align}
 $$
 
 which is the dual form of 1-Wasserstein distance discussed in the WGAN paper.
@@ -136,26 +144,34 @@ https://www.youtube.com/watch?v=1ZiP_7kmIoc
 Following the similar process in the previous post, let 
 
 $$
+\begin{align}
 \pmb{\hat A}=\begin{bmatrix}\pmb A\\\-\pmb c^\top\end{bmatrix},\pmb{\hat b}=\begin{bmatrix}\pmb b\\\-(\tau-\epsilon)\end{bmatrix}
+\end{align}
 $$
 
 where $$\tau=\pmb c^\top\pmb x^*$$ is the optimal value of the primal, $$\epsilon\ge 0$$ is an arbitrary value. Because $$\tau$$ is the optimal value, there is no feasible $$\pmb x$$ such that $$\pmb c^\top\pmb x=\tau-\epsilon$$. Therefore, there is no $$\pmb x\in\mathbb R^n$$ such that
 
 $$
+\begin{align}
 \begin{bmatrix}\pmb A\\\-\pmb c^\top\end{bmatrix}\pmb x= \begin{bmatrix}\pmb b\\\-(\tau+\epsilon)\end{bmatrix}
+\end{align}
 $$
 
 By Farkas' Lemma, there exists $$\pmb{\hat y}=\begin{bmatrix}\pmb y\\\ \alpha\end{bmatrix} $$, such that
 
 $$
+\begin{align}
 \begin{bmatrix}\pmb A^\top&-\pmb c\end{bmatrix}\begin{bmatrix}\pmb y\\\\alpha\end{bmatrix}\le\pmb 0,
 \quad \begin{bmatrix}\pmb b^\top&-(\tau+\epsilon)\end{bmatrix}\begin{bmatrix}\pmb y\\\\alpha\end{bmatrix}>0\\\
+\end{align}
 $$
 
 Thus, we have
 
 $$
+\begin{align}
 \pmb A^\top\pmb y\le\alpha\pmb c,\quad \pmb b^\top\pmb y>\alpha(\tau+\epsilon)
+\end{align}
 $$
 
 If $$\alpha=0$$, then the primal is infeasible -- Because of $$\pmb A^\top\pmb y\le\pmb 0$$ and $$\pmb b^\top\pmb y>0$$, by Farkas' Lemma, there is no $$\pmb x$$ satisfying the primal constraints. Therefore, $$\alpha>0$$ and by scaling $$\pmb {\hat y}$$, we may assume that $$\alpha=1$$. So $$\pmb A^\top \pmb y\le \pmb c$$ and $$\pmb b^\top\pmb y\le \tau+\epsilon$$. By the Weak Dual Theorem, we have $$\tau= \pmb c^\top \pmb x\le\pmb b^\top\pmb y\le\tau+\epsilon$$. Since $$\epsilon$$ is arbitrary, we have $$\pmb c^\top \pmb x=\pmb b^\top\pmb y$$.
@@ -165,13 +181,17 @@ If $$\alpha=0$$, then the primal is infeasible -- Because of $$\pmb A^\top\pmb y
 Consider the 1st Wasserstein distance 
 
 $$
+\begin{align}
 W_1(\mu,\nu)=\inf_{\gamma\in\Gamma(\mu,\nu)}\int_{M\times M}d(x,y)d\gamma(x,y)
+\end{align}
 $$
 
 We can remove the constraint by adding an additional term
 
 $$
+\begin{align}
 W_1(\mu,\nu)=\inf_\gamma\int_{M\times M}d(x,y)d\gamma(x,y)+\underbrace{\sup_{f,g}\int fd\mu(x)+\int gd\nu-\int(f(x)+g(y))d\gamma(x,y)}_{=\begin{cases}0&\text{if }\gamma\in\Gamma(\mu,\nu)\\\\infty&\text{otherwise}\end{cases}}
+\end{align}
 $$
 
 The supremum term impose the constraint $$\gamma\in\Gamma(\mu,\nu)$$: it's $$0$$ when the constraint is satisfied, and otherwise we can choose suitable $$f$$ and $$g$$ to make it infinity. 
@@ -179,18 +199,24 @@ The supremum term impose the constraint $$\gamma\in\Gamma(\mu,\nu)$$: it's $$0$$
 Now we move the $$\sup_{f,g}$$ outside because the first term does not depend on $$f$$ and $$g$$
 
 $$
+\begin{align}
 W_1(\mu,\nu)=\inf_\gamma\sup_{f,g}\int_{M\times M}d(x,y)d\gamma(x,y)+\int fd\mu(x)+\int gd\nu(y)-\int(f(x)+g(y))d\gamma(x,y)
+\end{align}
 $$
 
 Assuming the minimax principle, we swap $$\inf$$ and $$\sup$$
 
 $$
+\begin{align}
 W_1(\mu,\nu)=\sup_{f,g}\inf_\gamma\int_{M\times M}d(x,y)-(f(x)+g(y))d\gamma(x,y)+\int fd\mu(x)+\int gd\nu(y)
+\end{align}
 $$
 
-Take a look at the infimum term. If $$d(x,y)-f(x)+g(y)$$ could be negative, then we can choose $$\gamma$$ such that an infinity mass is on that negative value and the infimum term becomes $$-\infty$$. On the other hand, if $$d(x,y)-f(x)+g(y)$$ is non-negative, then the infimum term is $$0$$. From the above observation, we can summarize the infimum term as a constraint and the 1st Wasserstein distance becomes Equation $$(1)$$
+Take a look at the infimum term. If $$d(x,y)-f(x)+g(y)$$ could be negative, then we can choose $$\gamma$$ such that an infinity mass is on that negative value and the infimum term becomes $$-\infty$$. On the other hand, if $$d(x,y)-f(x)+g(y)$$ is non-negative, then the infimum term is $$0$$. From the above observation, we can summarize the infimum term as a constraint and the 1st Wasserstein distance becomes Equation $$\eqref{eq:1}$$
 
 $$
+\begin{align}
 W_1(\mu,\nu)=\sup_{f(x)+g(y)<\gamma(x,y)}\int fd\mu(x)+\int gd\nu(y)
+\end{align}
 $$
 

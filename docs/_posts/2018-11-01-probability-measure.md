@@ -11,7 +11,9 @@ tags:
 
 
 $$
+\begin{align}
 D_{KL}(p\Vert q) = \int p(x) \log{p(x)\over q(x)}dx
+\end{align}
 $$
 
 
@@ -31,7 +33,9 @@ A noticeable attribute of KL divergence is that when $$p$$ closes to zero, and $
 
 
 $$
+\begin{align}
 JS(p, q)={1\over 2}D_{KL}\left(p\Vert {(p+q)\over 2}\right)+{1\over 2}D_{KL}\left(q\Vert {(p+q)\over 2}\right)
+\end{align}
 $$
 
 
@@ -40,7 +44,9 @@ $$
 One of the most common use of JS divergence in deep learning is GANs, in which we have the following loss
 
 $$
+\begin{align}
 L(G,D)=\int_x\Big(p_r(x)\log D(x)+p_g(x)\log(1-D(x))\Big)dx
+\end{align}
 $$
 
 when we have the optimal discriminator $$D^*={p_r(x)\over p_r(x)+p_g(x)}$$, $$L(G, D^*)$$ becomes
@@ -59,7 +65,9 @@ $$
 TV divergence is the maximum probability difference between two distribution
 
 $$
+\begin{align}
 \delta(p, q)=\sup_{A\in\Sigma}|p(A)-q(A)|
+\end{align}
 $$
 
 
@@ -68,7 +76,9 @@ $$
 Wasserstein distance is the $$L_k$$ between points on inverse cumulative distribution function(CDF)
 
 $$
+\begin{align}
 W_k(U,V):=\left(\int_0^1\left|F_U^{-1}(z)-F_V^{-1}(z)\right|^kdz\right)^{1/p}
+\end{align}
 $$
 
 Where $$U$$ and $$V$$ are random variables, $$z$$ is the cumulative probability. $$F^{-1}_U:z\rightarrow U$$ is the quantile function(inverse CDF). The following figure demonstrates the 1-Wasserstein distance between a random distribution and a uniform Dirachlet distribution. The 

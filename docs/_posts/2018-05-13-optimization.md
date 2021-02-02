@@ -35,7 +35,9 @@ I find [this blog post](https://ruder.io/optimizing-gradient-descent/) gives a b
 SGD is the most basic optimization algorithm for finding the minimum of a function. It simply divides the input data into several minibatch, and then do gradient descent on each of them. Specifically, it computes the gradient for each parameter $$ d W $$, then updates the parameter using
 
 $$
+\begin{align}
 W=W-\alpha d W
+\end{align}
 $$
 
 Where $$ \alpha $$ is the learning rate.
@@ -70,7 +72,9 @@ $$
 The velocity $$ v $$ defined above is actually the discounted accumulative gradients
 
 $$
+\begin{align}
 v_n = dW_n +\beta dW_{n-1} + \beta^2dW_{n-1}\dots
+\end{align}
 $$
 
 A recommended choice for $$ \beta $$ is $$ 0.9 $$
@@ -78,7 +82,9 @@ A recommended choice for $$ \beta $$ is $$ 0.9 $$
 However, Professor Andrew Ng in this [video](https://www.youtube.com/watch?v=k8fTYJPd3_I) personally recommends to define the velocity by
 
 $$
+\begin{align}
 v = \beta v +(1-\beta)dW
+\end{align}
 $$
 
 He explains that omitting $$ 1-\beta $$ indicates the velocity is rescaled when we tune $$ \beta $$, which in turn leads to further tuning $$ \alpha $$ if we want the step size to stay in the same scale.

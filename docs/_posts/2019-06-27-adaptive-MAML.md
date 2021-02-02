@@ -20,15 +20,15 @@ We only do a minimum review here for better comparison with the algorithm introd
 
 $$
 \begin{align}
-\min_\theta &\sum_{T_i\sim p(T)}\mathcal L_{T_i}(\theta)\tag{1}\\\
+\min_\theta &\sum_{T_i\sim p(T)}\mathcal L_{T_i}(\theta)\tag{1}\label{eq:1}\\\
 where\quad \mathcal L_{T_i}(\theta):=&\mathbb E_{\tau_\theta^{1:K}\sim p_T(\tau|\theta)}\big[\mathbb E_{\tau_{\phi}\sim p_T(\tau|\phi)}[L_T(\tau_\phi|\tau_{\theta}^{1:K},\theta)]\big]\\\
-\phi=&\theta-\alpha\nabla_\theta\mathcal L_{T_i}(\theta)\tag{2}
+\phi=&\theta-\alpha\nabla_\theta\mathcal L_{T_i}(\theta)\tag{2}\label{eq:2}
 \end{align}
 $$
 
-where $$L_T$$ is the negative of the reward collected along trajectory $$\tau_\phi$$, and inner update step Eq.$$(2)$$ can be repeated multiple times if desirable. 
+where $$L_T$$ is the negative of the reward collected along trajectory $$\tau_\phi$$, and inner update step Eq.$$\eqref{eq:2}$$ can be repeated multiple times if desirable. 
 
-Note that the above loss is in fact from E-MAML, proposed by Stadie et al. to directly account for the fact that $$\pi_\theta$$ will impact the final returns $$R(\tau_\phi)$$ by influencing the initial update Eq.$$(2)$$. We use this loss here only for better comparison with the algorithm we will introduce later. For more information, we refer the interested reader to [our next post]({{ site.baseurl }}{% post_url 2019-07-01-ProMP %}).
+Note that the above loss is in fact from E-MAML, proposed by Stadie et al. to directly account for the fact that $$\pi_\theta$$ will impact the final returns $$R(\tau_\phi)$$ by influencing the initial update Eq.$$\eqref{eq:2}$$. We use this loss here only for better comparison with the algorithm we will introduce later. For more information, we refer the interested reader to [our next post]({{ site.baseurl }}{% post_url 2019-07-01-ProMP %}).
 
 We now present the pseudocode of MAML-RL
 
@@ -94,13 +94,13 @@ To train a model that adapts fast to $$T_{i+1}$$ from $$\tau_{i}^{1:K}$$ within 
 
 $$
 \begin{align}
-\min_\theta &\mathbb E_{p(T_0),p(T_{i+1}|T_i)}\left[\mathcal \sum_{i=1}^L\mathcal L_{T_i,T_{i+1}}(\theta)\right]\tag{3}\\\
+\min_\theta &\mathbb E_{p(T_0),p(T_{i+1}|T_i)}\left[\mathcal \sum_{i=1}^L\mathcal L_{T_i,T_{i+1}}(\theta)\right]\tag{3}\label{eq:3}\\\
 where\quad \mathcal L_{T_i,T_{i+1}}(\theta):=&\mathbb E_{\tau_{i,\theta}^{1:K}\sim p_{T_i}(\tau|\theta)}\big[\mathbb E_{\tau_{i+1,\phi}\sim p_{T_{i+1}}(\tau|\phi)}[L_{T_{i+1}}(\tau_{i+1,\phi}|\tau_{i,\theta}^{1:K},\theta)]\big]\\\
-\phi=&\theta-\alpha\nabla_\theta\mathcal L_{T_i}(\theta)\tag{4}
+\phi=&\theta-\alpha\nabla_\theta\mathcal L_{T_i}(\theta)\tag{4}\label{eq:4}
 \end{align}
 $$
 
-Regardless of some changes of notations, the major distinction between Eq.$$(3)$$ and Eq.$$(1)$$ is that we now run policy $$\pi_\phi$$ in the next task $$T_{i+1}$$, which addresses our attempt on fast adaptation to $$T_{i+1}$$. In deed, Eq.$$(3)$$ equally says that we want to learn an internal structure $$\theta$$ such that after taking few gradient steps using trajectories $$\tau_{i,\theta}^{1:K}$$, we wish it behave well in $$T_{i+1}$$. The training process of our new method is similar to MAML-RL:
+Regardless of some changes of notations, the major distinction between Eq.$$\eqref{eq:3}$$ and Eq.$$\eqref{eq:1}$$ is that we now run policy $$\pi_\phi$$ in the next task $$T_{i+1}$$, which addresses our attempt on fast adaptation to $$T_{i+1}$$. In deed, Eq.$$\eqref{eq:3}$$ equally says that we want to learn an internal structure $$\theta$$ such that after taking few gradient steps using trajectories $$\tau_{i,\theta}^{1:K}$$, we wish it behave well in $$T_{i+1}$$. The training process of our new method is similar to MAML-RL:
 
 $$
 \begin{align}
@@ -140,7 +140,9 @@ We also visualize the training process as before
 Note that to compute unbiased adaptation gradients at training time, the agent runs policy $$\pi_\theta$$ in $$T_i$$ multiple times to collect $$K$$ trajectories. Here, policy $$\pi_\theta$$ does not necessarily optimize for maximal reward during training. At test time, however, the agent should maximize the total rewards, and thus it has to keep acting according to updated policy $$\pi_{\phi_i}$$ in $$T_i$$. To adjust for policy shift, we apply importance weight correction. Assuming the environment changes after every episode, we have
 
 $$
-\phi_{i+1}:=\theta-\alpha{1\over K}\sum_{k=1}^K{\pi_\theta(\tau^k)\over\pi_{\phi_{k}}(\tau^k)}\nabla_{\theta}L_{T_{k}}(\tau^k)\tag{5}
+\begin{align}
+\phi_{i+1}:=\theta-\alpha{1\over K}\sum_{k=1}^K{\pi_\theta(\tau^k)\over\pi_{\phi_{k}}(\tau^k)}\nabla_{\theta}L_{T_{k}}(\tau^k)\tag{5}\label{eq:5}
+\end{align}
 $$
 
 where $$\pi_{\phi_k}$$ is the policy used to collect $$\tau^k$$ in task $$T_k$$. In practice, we generally use the last $$K$$ trajectories $$\tau^{1:K}_{i,\phi}$$ to compute the new policy parameter.

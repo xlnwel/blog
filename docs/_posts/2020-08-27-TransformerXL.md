@@ -41,7 +41,7 @@ $$
 \pmb y_{hqk}&=\text{einsum}(\pmb w_{hqk},\pmb v_{hkd})\\\
 \pmb y &=\pmb x+\pmb y_{hqk}W_Y\\\
 \pmb y&=\text{LayerNorm}(\pmb y)
-\end{align}\tag {1}
+\end{align}\tag{1}\label{eq:1}
 $$
 
 where $$\pmb x$$ is the input and we use Einstein summation to denote the tensor multiplication.
@@ -52,7 +52,7 @@ $$
 \begin{align}
 \pmb p_{(pos, 2i)}&=\sin(pos/10000^{2i/d})\\\
 \pmb p_{(pos, 2i+1)}&=\cos(pos/10000^{2i/d})
-\end{align}\tag2
+\end{align}\tag{2}\label{eq:2}
 $$
 
 where $$pos$$ is the token's absolute position in the current segment, $$i$$ is the $$i$$-th dimension and $$d$$ is dimension. 
@@ -98,7 +98,7 @@ $$
 \tilde {\pmb h}_{\tau+1}^{n-1}&=[\text{SG}(h_\tau^{n-1}),h_{\tau+1}^{n-1}]\\\
 \pmb q_{\tau+1}^n, \pmb k_{\tau+1}^n, \pmb v_{\tau+1}^n&={\pmb h}_{\tau+1}^{n-1}W_q,\tilde {\pmb h}_{\tau+1}^{n-1}W_k, \tilde {\pmb h}_{\tau+1}^{n-1}W_v\\\
 \pmb h_{\tau+1}^n&=\text{Transformer-Layer}(\pmb q_{\tau+1}^n, \pmb k_{\tau+1}^n, \pmb v_{\tau+1}^n)
-\end{align}\tag {3}
+\end{align}\tag{3}\label{eq:3}
 $$
 
 where $$\text{SG}$$ denotes stop-gradient, $$[\pmb h_1,\pmb h_2]$$ concatenates $$\pmb h_1$$ and $$\pmb h_2$$ along the sequential dimension.
@@ -117,20 +117,22 @@ $$
 \begin{align}
 \alpha_{ij}&=(\pmb x_i+\pmb p_i)W_qW_k^\top (\pmb x_j+\pmb p_j)\\\
 &=\pmb x_iW_qW_k^\top \pmb x_j^\top+\pmb x_iW_qW_k^\top\pmb p_j^\top+\pmb p_iW_qW_k^\top\pmb x_j^\top+\pmb p_iW_qW_k^\top\pmb p_j^\top
-\end{align}\tag {4}
+\end{align}\tag{4}\label{eq:4}
 $$
 
 where $$\pmb x$$ and $$\pmb p$$ are row vectors of their corresponding matrices. The newly proposed form with relative positional encodings is as follows
 
 $$
-\alpha_{ij}=\underbrace{\pmb x_iW_q\color{blue}{W_{k,x}^\top} \pmb x_j^\top}_{a}+\underbrace{\pmb x_iW_q\color{green}{W_{k,r}^\top\pmb r_{i+M-j}^\top}}_{b}+\underbrace{\color{red}{\pmb u}\color{blue}{W_{k,x}^\top}\pmb x_j^\top}_{c}+\underbrace{\color{red}{\pmb v}\color{green}{W_{k,r}^\top\pmb r_{i+M-j}^\top}}_d{}\tag {5}
+\begin{align}
+\alpha_{ij}=\underbrace{\pmb x_iW_q\color{blue}{W_{k,x}^\top} \pmb x_j^\top}_{a}+\underbrace{\pmb x_iW_q\color{green}{W_{k,r}^\top\pmb r_{i+M-j}^\top}}_{b}+\underbrace{\color{red}{\pmb u}\color{blue}{W_{k,x}^\top}\pmb x_j^\top}_{c}+\underbrace{\color{red}{\pmb v}\color{green}{W_{k,r}^\top\pmb r_{i+M-j}^\top}}_d{}\tag{5}\label{eq:5}
+\end{align}
 $$
 
 where  $$\pmb u$$ and $$\pmb v$$ are row vectors, $$i\in\{0,\dots,L-1\}$$ and $$j\in\{0,\dots,M+L-1\}$$, and $$M$$ and $$L$$ are the cache and segment lengths, respectively. Unlike the original equation in the paper, we add $$M$$ to the subscript of $$\pmb r$$ to make things more clear. 
 
 We summarize changes as follows
 
-- The first change is to replace all appearances of the absolute positional encoding $$\pmb p_j$$ with its relative counterpart $$\pmb r_{i+M-j}$$. Note that $$\pmb r$$ is a sinusoid encoding as in Equation $$(2)$$.
+- The first change is to replace all appearances of the absolute positional encoding $$\pmb p_j$$ with its relative counterpart $$\pmb r_{i+M-j}$$. Note that $$\pmb r$$ is a sinusoid encoding as in Equation $$\eqref{eq:2}$$.
 - Secondly, the absolutely positional query vector $$\pmb p_iW_q$$ is replaced by its relative counterpart, a trainable vector $$\pmb u\in \mathbb R^d$$, since the positional query vector is the same for all query positions.
 - Finally, we use two separate weight matrices $$W_{k, x}$$ and $$W_{k,r}$$ for producing the content-based key vectors and location-based key vectors respectively.
 
@@ -146,6 +148,7 @@ Under the new parameterization, each term has an intuitive meaning:
 The naive way to compute $$\alpha$$ require computing $$W^\top_{k,r}\pmb r^\top_{i+M-j}$$ for all pairs $$(i,j)$$, whose cost is quadratic w.r.t. the sequence length. In this subsection, we reduce the cost to linear. First, notice that the relative distance $$i-j$$ can only be integer from $$0$$ to $$M+L-1$$, where $$M$$ is the cache length and $$L$$ is the segment length. This allows us to compute all $$\pmb r W_{k,r}$$ at once
 
 $$
+\begin{align}
 \pmb q=\pmb r W_{k,r}=
 \begin{bmatrix}
 \pmb r_{M+L-1} W_{k,r}\\\
@@ -153,6 +156,7 @@ $$
 \vdots\\\
 \pmb r_{0} W_{k,r}
 \end{bmatrix}\in\mathbb R^{(M+L)\times d}
+\end{align}
 $$
 
 Notice that we define $$\pmb q$$ in a reversed order, i.e., $$\pmb q_i=\pmb r_{M+L-1-i}W_{k,r}$$, to make further discussion easier.
@@ -160,6 +164,7 @@ Notice that we define $$\pmb q$$ in a reversed order, i.e., $$\pmb q_i=\pmb r_{M
 We collect the term $$(b)$$ for all possible $$(i,j)$$ into the following $$L\times(M+L)$$ matrix
 
 $$
+\begin{align}
 \pmb b=
 \begin{bmatrix}
 \tilde {\pmb x}_0\pmb q_{L-1}^\top&\tilde {\pmb x}_0\pmb q^\top_{L}&\dots&\tilde {\pmb x}_{0}\pmb q^\top_{M+L-1}&0&\dots &0\\\
@@ -167,11 +172,13 @@ $$
 \vdots&\vdots&\ddots&\vdots&\vdots&\ddots&\vdots\\\
 \tilde {\pmb x}_{L-1}\pmb q_{0}^\top&\tilde {\pmb x}_{L-1}\pmb q^\top_{1}&\dots&\tilde {\pmb x}_{L-1}\pmb q^\top_{M+1}&\tilde {\pmb x}_{L-2}\pmb q^\top_{M+2}&\dots &\tilde {\pmb x}_{L-1}\pmb q^\top_{M+L-1}\\\
 \end{bmatrix}
+\end{align}
 $$
 
 where $$\tilde {\pmb x}=\pmb xW_q$$. Then we further define
 
 $$
+\begin{align}
 \tilde{\pmb b}=\tilde{\pmb x}\pmb q^\top=
 \begin{bmatrix}
 \tilde {\pmb x}_0\pmb q_0^\top&\tilde {\pmb x}_0\pmb q^\top_{1}&\dots&\tilde {\pmb x}_0\pmb q^\top_{M+1}&\tilde {\pmb x}_0\pmb q^\top_{M+2}&\dots &\tilde {\pmb x}_0\pmb q^\top_{M+L-1}\\\
@@ -179,6 +186,7 @@ $$
 \vdots&\vdots&\ddots&\vdots&\vdots&\ddots&\vdots\\\
 \tilde {\pmb x}_{L-1}\pmb q_0^\top&\tilde {\pmb x}_{L-1}\pmb q^\top_{1}&\dots&\tilde {\pmb x}_{L-1}\pmb q^\top_{M+1}&\tilde {\pmb x}_{L-1}\pmb q^\top_{M+2}&\dots &\tilde {\pmb x}_{L-1}\pmb q^\top_{M+L-1}\\\
 \end{bmatrix}
+\end{align}
 $$
 
 Now, it is easy to see that the $$i$$-th row of $$\pmb b$$ is the result of shifting the $$i$$-th row of $$ \tilde{\pmb b}$$ by $$L-1-i$$  positions.
@@ -186,6 +194,7 @@ Now, it is easy to see that the $$i$$-th row of $$\pmb b$$ is the result of shif
 Similarly, we can collect the term $$d$$ for all possible $$(i,j)$$ into another $$L\times(M+L)$$ matrix:
 
 $$
+\begin{align}
 \pmb d=
 \begin{bmatrix}
 \pmb v\pmb q_{L-1}^\top&\pmb v\pmb q^\top_{L}&\dots&\pmb v\pmb q^\top_{M+L-1}&0&\dots &0\\\
@@ -193,15 +202,18 @@ $$
 \vdots&\vdots&\ddots&\vdots&\vdots&\ddots&\vdots\\\
 \pmb v\pmb q_{0}^\top&\pmb v\pmb q^\top_{1}&\dots&\pmb v\pmb q^\top_{M+1}&\pmb v\pmb q^\top_{M+2}&\dots &\pmb v\pmb q^\top_{M+L-1}\\\
 \end{bmatrix}
+\end{align}
 $$
 
 Then we following the same procedure to define
 
 $$
+\begin{align}
 \tilde{\pmb d}=
 \begin{bmatrix}
 \pmb v \pmb q_0&\pmb v \pmb q_1&\dots&\pmb v \pmb q_{M+1}&\pmb v \pmb q_{M+2}\dots\pmb v \pmb q_{M+L-1}
 \end{bmatrix}
+\end{align}
 $$
 
 Again, we can obtain $$\pmb d$$ from $$\tilde{\pmb d}$$ using a set of left-shift operations.

@@ -161,7 +161,9 @@ As there is a vast space of cyclic, non-transitive strategies and counter-strate
 League training maintains a league of players, populated by regularly saving copies of agents as new players during RL training. Then the latest agents play with all previous players in the league. This mechanism, known as fictitious self-play(FSP), helps handle cycles in self-play approach. However, uniformly sampling opponents can be wasteful as it is pointless to play with opponents that the agent has always defeated. Consequently, the authors introduce prioritized fictitious self-play(PFSP) that sample an agent's opponent based on the probability that the agent can beat the opponent. Mathematically, for an agent $$A$$, we sample the opponent $$B$$ from a candidate set $$\mathcal C$$ with probability
 
 $$
+\begin{align}
 f(P(A\text{ beats }B))\over\sum_{C\in\mathcal C}f(P(A\text{ beats }C))
+\end{align}
 $$
 
 where $$f:[0,1]\rightarrow [0,\infty]$$ is some weighting function.

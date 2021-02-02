@@ -21,7 +21,9 @@ We briefly summarize several recent papers that focus on generalization in reinf
 Igl et al. first argue that noise injected by regularization methods such as dropout and batch normalization can deteriorate the agent's performance and therefore affect the data distribution. Furthermore, such stochasticity can destabilize the training through the target critic or importance sampling. Therefore, Igl et al. propose to remove such noise at the rollout time and from the training targets. For example, when batch normalization is involved, we use the moving average statistics when computing actions during rollouts and the targets during training. In addition, they also propose to use a mixture policy gradients
 
 $$
+\begin{align}
 \mathcal G^{SNI}(\pi^r,\pi,V)=\lambda \mathcal G(\bar\pi^r,\bar\pi,\bar V)+(1-\lambda)\mathcal G(\bar\pi^r,\pi,\bar V)
+\end{align}
 $$
 
 where $$\pi^r$$ is the rollout policy(as they use AC algorithms in their experiments), $$\pi$$ is the network to update, $$V$$ is the value network, and $$\mathcal G$$ denotes the gradient function. The bar above the symbol implies that noises are suspended when computing the quantity. Therefore, the first term is the gradient function without noise injected and the second is with noise injected in the training policy network $$\pi$$.
@@ -33,7 +35,9 @@ $$\mathcal G^{SNI}$$ consists of two terms interpolated by $$\lambda\in[0,1]$$. 
 IBAC applies information bottleneck to the AC network, which minimizes $$\mathcal I(o;z)$$ and maximizes $$\mathcal I(z;a)$$, where $$z=f_\theta(o,\epsilon)$$ is the output of the encoder parameterized by $$\theta$$. The architecture thus becomes similar to a $$\beta$$-VAE. As now the encoder $$p(z\vert o)$$ is already regularized, they only apply the policy entropy term to the action heads. The final loss becomes
 
 $$
+\begin{align}
 \mathcal L=\mathcal L_{AC}-\lambda \mathcal H(\pi(\cdot|z))+\beta\mathcal L_{KL}
+\end{align}
 $$
 
 
@@ -58,7 +62,9 @@ As a result, they call their algorithm data-regularized actor-critic method, or 
 [Wang et al. 2020](#ref4) propose generating augmented observations by linearly interpolating two observations
 
 $$
+\begin{align}
 \tilde s=\lambda s_i+(1-\lambda)s_j
+\end{align}
 $$
 
 Where $$\lambda\sim Beta(\alpha,\alpha)$$ with $$\alpha=0.2$$ in their experiments. 
@@ -66,7 +72,9 @@ Where $$\lambda\sim Beta(\alpha,\alpha)$$ with $$\alpha=0.2$$ in their experimen
 Because the new observation becomes a convex combination of two random observations, they also mix training signals accordingly. For policy gradient method, the objective for augmented observations becomes
 
 $$
+\begin{align}
 \mathcal J=\mathbb E\left[\log\pi_\theta(\tilde a|\tilde s)\tilde A\right]
+\end{align}
 $$
 
 where $$\tilde A=\lambda A_i+(1-\lambda)A_j$$, and $$\tilde a$$ is $$a_i$$ if $$\lambda\ge 0.5$$ or $$a_j$$ otherwise.
@@ -74,7 +82,9 @@ where $$\tilde A=\lambda A_i+(1-\lambda)A_j$$, and $$\tilde a$$ is $$a_i$$ if $$
 For Q-learning, the objective for augmented observations becomes
 
 $$
+\begin{align}
 \mathcal L=\mathbb E\left[\left(r+\gamma\max_{a'}Q(\tilde s,a')-Q(\tilde s,\tilde a)\right)^2\right]
+\end{align}
 $$
 
 Where $$r=\lambda r_i+(1-\lambda)r_j$$, $$Q(\tilde s',a')=\lambda Q(s_i',a_i')+(1-\lambda)Q(s_j',a_j')$$,  and $$\tilde a$$ is $$a_i$$ if $$\lambda\ge 0.5$$ or $$a_j$$ otherwise.

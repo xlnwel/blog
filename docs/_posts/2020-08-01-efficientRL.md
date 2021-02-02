@@ -47,7 +47,9 @@ The authors experiment a variety of data augmentation techniques on Deepmind con
 In order to reduce the variance introduced by data augmentations, DrQ modifies the $$Q$$ loss as follows
 
 $$
+\begin{align}
 \mathcal L=\mathbb E_{s,a,s'}\left[{1\over N}\sum_{i=1}^N(Q(f^i(s),a)-(r+\gamma{1\over M}\sum_{j=1}^M \max _{a'}Q(f^j(s'), a')))\right]
+\end{align}
 $$
 
 where $$f$$ applies a data augmentation technique to $$s$$. Experiments shows that $$N=2, M=2$$ indeed reduce the variance on several environments.
@@ -57,14 +59,18 @@ where $$f$$ applies a data augmentation technique to $$s$$. Experiments shows th
 Momentum Predictive Representations(MPR) adds a convolutional transition model upon the convolutional encoder. The transition model $$h$$ consists of two convolutional layers with 64 $$3\times 3$$ filters, taking as inputs the spatial representation learned by the encoder and actions one-hot encoded as a sets of planes. The output of the transition model $$z=h(x)$$ is then passed to a projection head, mapping into a smaller latent space $$\hat y=g(z)$$, where $$g$$ is an MLP. The authors reuse the FC layers after the encoder in their experiments, i.e., $$\hat y$$ is the concatenation of outputs of the first layers of value and advantage heads. The prediction loss is computed from cosine similarities between predicted and observed representations in the next $$k$$ steps
 
 $$
+\begin{align}
 \mathcal L(s_{t:t+K},a_{t:t:K})=-\sum_{k=1}^K \ell_2(y_{t+k})^\top \ell_2(\hat y_{t+k})
+\end{align}
 $$
 
  where $$\ell_2$$ is the l2 normalization function and $$y$$ is the computed from a momentum encoder and projection head:
 
 $$
+\begin{align}
 h_m=\tau h_m+(1-\tau)h\\\
 g_m=\tau g_m+(1-\tau)g
+\end{align}
 $$
 
 MPR also uses the same set of image augmentations as DrQ, comprised of small random shifts and color jitter. They found it important to normalize activations to lie in $$[0,1]$$ at the output of the convolutional encoder and transition model when using augmentation.

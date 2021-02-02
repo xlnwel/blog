@@ -12,8 +12,10 @@ tags:
 Given a measure $$\eta$$, an exponential family of probability distributions is defined as 
 
 $$
+\begin{align}
 p(x|\eta)=h(x)\exp\left\{\eta^TT(x)-A(\eta)\right\}\\\
 where\quad A(\eta)=\log\int h(x)\exp\left\{\eta^TT(x)\right\}dx
+\end{align}
 $$
 
 where $$\eta$$ is a function of the parameter $$\theta$$. $$\eta$$ and $$\eta(\theta)$$ are identical and we only use the latter notation when necessary.
@@ -32,7 +34,9 @@ $$
 $$\eta$$ is referred to as the *natual parameter* or *canonical parameter*. The set of parameters $$\eta$$ for which the cumulant function is finite is referred to as the *natural parameter space*:
 
 $$
+\begin{align}
 \mathcal N=\left\{\eta:A(\eta)<\infty\right\}
+\end{align}
 $$
 
 Exponential families are referred to as *regular* if the natural parameter space is nonempty open set.
@@ -69,7 +73,9 @@ $$
 Moreover, the relationship between $$\eta$$ and $$\theta$$ is invertible:
 
 $$
+\begin{align}
 \theta={1\over1+e^{-\eta}}
+\end{align}
 $$
 
 which is the *logistic function* (or *sigmoid function*). This is commonly used as the last activation function in deep neural networks for binary classification problems, where $$\eta$$ is the output of the neural net, the input of the sigmoid function.
@@ -103,8 +109,10 @@ $$
 If we further define $$\eta_K=\log{\theta_{K}\over\theta_K}=0$$, we could compute $$\theta_K$$:
 
 $$
+\begin{align}
 \sum_{k=1}^Ke^{\eta_k}={1\over\theta_K}\\\
 \theta_K={1\over\sum_{k=1}^Ke^{\eta_k}}={e^{\eta_K}\over\sum_{k=1}^Ke^{\eta_k}}
+\end{align}
 $$
 
 then we derive $$\theta_k$$ from $$\eta$$
@@ -207,14 +215,18 @@ Especially, when the random variable equals to the sufficient statistic, $$X=T(X
 The natural exponential family has conjugate prior
 
 $$
+\begin{align}
 p(\theta)=\exp(\eta(\theta)T(\theta)-\log Z(\theta)))
+\end{align}
 $$
 
 
 
 
 $$
+\begin{align}
 \sigma^2+\mu^2=\mathbb E[X^2]
+\end{align}
 $$
 
 

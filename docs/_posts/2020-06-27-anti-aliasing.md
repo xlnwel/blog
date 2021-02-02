@@ -49,13 +49,17 @@ where $$k$$ and $$s$$ are the kernel size and strides, respectively. Applying a 
 **StridedConv$$\rightarrow$$ConvBlurPool.** Similarly, we modify strides convolutions as follows
 
 $$
+\begin{align}
 \text{ReLU}\circ\text{Conv}_{k,s}\rightarrow\text{BlurPool}_{m,s}\circ\text{ReLU}\circ \text{Conv}_{k, 1}
+\end{align}
 $$
 
 **AveragePool$$\rightarrow$$BlurPool.** For average pooling, we substitute the average operation with the blur operation.
 
 $$
+\begin{align}
 \text{AvgPool}_{k,s}\rightarrow\text{BlurPool}_{m,s}
+\end{align}
 $$
 
 

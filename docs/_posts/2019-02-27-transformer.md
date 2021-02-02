@@ -56,6 +56,7 @@ The decoder is also composed of a stack of $$N=6$$ identical layers. In addition
 Masks are used before softmax in the self-attention layer in both encoder and decoder to prevent unwanted attention to out-of-sequence positions. Furthermore, in conjunction with the general mask, an additional mask is used in the self-attention sub-layer in the decoder stack to prevent positions from attending to subsequent positions. Such a mask has a form of
 
 $$
+\begin{align}
 \begin{matrix}
 1&0&0&\dots&0\\\
 1&1&0&\dots&0\\\
@@ -63,6 +64,7 @@ $$
 \vdots&\vdots&\vdots&\ddots&\vdots\\\
 1&1&1&\dots&1
 \end{matrix}
+\end{align}
 $$
 
 In practice, the two masks in the decoder can be blended via a bit-wise and operation. 
@@ -80,7 +82,9 @@ An attention function can be described as a mapping from a query and a set of ke
 
 
 $$
+\begin{align}
 \mathrm{Attention}(Q,K,V)=\mathrm{softmax}\left(QK^T\over\sqrt{d_k}\right)V
+\end{align}
 $$
 
 where $$Q, K, V$$ are queries, keys, and values, respectively; $$d_k$$ is the dimension of the keys; the compatibility function (softmax part) computes the weights assigned to each value in a row. The dot-product $$QK^T$$ is scaled by $$1\over \sqrt{d_k}$$ to avoid extremely small gradients for large values of $$d_k$$, where the dot-product grows large in magnitude, pushing the softmax function into the edge region. In the resulting matrix $$A$$, the features in the rows are the weighted sum of features in $$V$$, i.e., $$A_{i,j}=\sum_k w_{i,k}V_{k,j}$$, where $$w_{i,k}$$ explains the similarity between $$Q_i$$ and $$K_k$$.
@@ -241,11 +245,13 @@ We can see that when $$f_{att}$$ is a dot-product function, $$c_t$$ is computed 
 The attention function $$f_{att}$$ calculates an unnormalized alignment score that reflects the importance of the annotation $$h_k$$ with respect to the previous hidden state $$s_{t-1}$$ in deciding the next state $$s_t$$ and generating $$y_t$$. It's typically defined as on of the following
 
 $$
+\begin{align}
 f_{att}(s_{t-1}, h_k)=\begin{cases}
 s_{t-1}^{\top}h_k&\text{dot}\\\
 s_{t-1}^{\top}Wh_k&\text{general}\\\
 v^{\top}\tanh(W_ss_{t-1}+W_hh_k)&\text{concat}
 \end{cases}
+\end{align}
 $$
 
 where $$v^\top$$ is a column of the weights in a dense layer.
