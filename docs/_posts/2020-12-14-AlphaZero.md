@@ -43,8 +43,6 @@ Q(s_t,a_t)&={W(s_t,a_t)\over N(s_t,a_t)}
 \end{align}
 $$
 
-The value network is trained to minimize the error between the predict value $$v_t$$ and the game outcome $$z$$, while the policy $$p$$ is trained to maximizes its similarity to the policy distribution $$\pi$$ of MCTS 
-
 ## Network Training
 
 AlphaZero trains networks through self-play, in which the agent always plays with the latest version of itself -- this is different from AlphaGo which play agaist the current best model). At the end of the game, the terminal position $$s_T$$ is scored by the game outcome $$z$$: $$-1$$ for a loss, $$0$$ for a draw, and $$+1$$ for a win. $$v$$ is trained to minimize the mean squared error between $$v$$ and $$z$$, $$p$$ is trained to minimize the KL divergence between $$p$$ and search tree policy $$\pi$$. Both $$v$$ and $$p$$ share the convolutionary layers, regularized by $$\ell_2$$ regularization. We summarize the loss function as
@@ -56,6 +54,10 @@ $$
 $$
 
 where $$c$$ is a hyperparameter controlling the level of regularization.
+
+## Comparison with Alpha-Beta Search
+
+It is worth noting that AlphaZero uses a combination of MCTS and deep neural networks, while previous chess programs often adopt alpha-beta search and a linear evaluation function. A deep neural network provides a more powerful evaluation function, but may also introduce larger worst-case generalization errors. When combined with alpha-beta search, which computes an explicit minimax, the biggest errors are typically propagated directly to the root of the subtree. By contrast, MCTS averages over the position evaluations within the subtree, rather than computing the minimax evaluation of that subtree. The approximation errors introduced by neural networks therefore tends to be cancel out when evaluating a large subtree.
 
 ## References
 

@@ -30,7 +30,7 @@ The Transformer follows the encoder-decoder structure using stacked self-attenti
 
 ### Positional Encoding
 
-In this work, we use sine and cosine functions of different frequencies to encode the position information into a $$d_{model}$$-dimensional feature:
+In sequential forecast, it is important to incorporate positional information so that the network learns how to predict based not only on the past events but also on the order of these events. However, neither the self-attention modules nor fully-connected layers exploits the input order. To tip off the network the relative position of the input in the sequence, we introduce positional encoding to explicitly incorporate positional information into the input. Specifically, we use sine and cosine functions of different frequencies to encode the position information into a $$d_{model}$$-dimensional feature:
 
 $$
 \begin{align}
@@ -39,7 +39,7 @@ PE_{(pos, 2i+1)}&=\cos(pos/10000^{2i/d_{model}})
 \end{align}
 $$
 
-where $$pos$$ is the token's position in the sequence and $$i$$ is the embedding dimension. That is, each dimension of the positional embedding corresponds to a sinusoid. The wavelengths form a geometric progression from $$2\pi$$ to $$10000⋅2\pi$$. We chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset $$k$$, $$PE_{pos+k}$$ can be represented as a linear function of $$PE_{pos}$$.
+where $$pos$$ is the token's position in the sequence and $$i$$ is the embedding dimension. That is, each dimension of the positional embedding corresponds to a sinusoid. The wavelengths form a geometric progression from $$2\pi$$ to $$10000⋅2\pi$$. We chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset $$k$$, $$PE_{pos+k}$$ can be represented as a linear function of $$PE_{pos}$$ (Proof in [Supplementary Materials](#proof1)).
 
 ### Encoder and Decoder Stacks
 
@@ -53,7 +53,7 @@ The decoder is also composed of a stack of $$N=6$$ identical layers. In addition
 
 #### Masking
 
-Masks are used before softmax in the self-attention layer in both encoder and decoder to prevent unwanted attention to out-of-sequence positions. Furthermore, in conjunction with the general mask, an additional mask is used in the self-attention sub-layer in the decoder stack to prevent positions from attending to subsequent positions. Such a mask has a form of
+Masks are used before softmax in the self-attention layer in both encoder and decoder to prevent unwanted attention to out-of-sequence positions. Furthermore, in conjunction with the general mask, an additional mask is used in the self-attention sub-layers in the decoder stack to prevent positions from attending to subsequent positions. Such masks have the form of
 
 $$
 \begin{align}
@@ -78,7 +78,7 @@ In practice, the two masks in the decoder can be blended via a bit-wise and oper
 
 #### Scaled Dot-Product Attention
 
-An attention function can be described as a mapping from a query and a set of key-value pairs to an output, where the query, keys, values, and output are all vectors. The output is computed as a weighted sum of the values, where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key:
+An attention function can be described as a mapping from a query and a set of key-value pairs to an output, where the *query*, *keys*, *values*, and output are all vectors. The output is computed as a weighted sum of the *values*, where the weight assigned to each value is computed by a compatibility function of the *query* with the corresponding *key*:
 
 
 $$
@@ -208,8 +208,6 @@ class MultiHeadSelfAttention(layers.Layer):
         return x
 ```
 
-
-
 ## Attention with RNNs
 
 In this section, we will extend our topic of attention to see how addtention works with RNNs.
@@ -265,3 +263,74 @@ Intuitively, they implement a mechanism of attention in the decoder. The decoder
 <a name='ref2'></a>Guillaume Klein et al. [OpenNMT: Open-Source Toolkit for Neural Machine Translation](http://nlp.seas.harvard.edu/2018/04/03/attention.html#attention)
 
 Dzmitry Bahdanau et al. Neural Machine Translation by Jointly Learning to Align and Translate 
+
+Timo Denk. Linear Relationships in the Transformer’s Positional Encoding. 
+
+## Supplementary Materials
+
+### Proof that $$PE_{i+k}$$ is a linear function of $$PE_{i}$$
+
+Rewrite $$PE_i$$ as follows
+
+$$
+\begin{align}
+PE_i=&
+\begin{bmatrix}
+\sin(a_1i)&\cos(a_1 i)&\dots&\sin(a_ni)&\cos(a_ni)
+\end{bmatrix}^\top\\\
+where\quad a_j=&{1\over10000^{2j/d_{model}}},\quad n=d_{model}/2
+\end{align}
+$$
+
+We show that there exits a linear map $$T^{k}$$ such that $$T^kPE_i=PE_{i+k}$$. More specifically, $$T^k$$ can be expressed as the following matrix
+
+$$
+\begin{align}
+T^k=&
+\begin{bmatrix}
+\pmb \Phi_1^k&\pmb 0&\dots&\pmb 0\\\
+\pmb 0&\pmb \Phi_2^k&\dots&\pmb 0\\\
+\vdots&\vdots&\ddots&\vdots\\\
+\pmb 0&\pmb 0&\dots&\pmb \Phi_n^k
+\end{bmatrix}\\\
+where\quad \pmb \Phi_j^k=&
+\begin{bmatrix}
+\cos(a_jk)&\sin(a_jk)\\\
+-\sin(a_jk)&\cos(a_jk)
+\end{bmatrix}
+\end{align}
+$$
+
+With these notations, we now show $$T^kPE_i=PE_{i+k}$$, i.e.,
+
+$$
+\begin{align}
+\pmb \Phi_j^k\begin{bmatrix}\sin(a_ji)\\\\cos(a_ji)\end{bmatrix}=\begin{bmatrix}\sin(a_j(i+k))\\\\cos(a_j(i+k))\end{bmatrix}
+\end{align}
+$$
+
+for all $$j\in[0,d_{model/2}]$$. 
+
+Expanding $$\pmb \Phi_j^k$$, we have
+
+$$
+\begin{align}
+\pmb \Phi_j^k\begin{bmatrix}\sin(a_ji)\\\\cos(a_ji)\end{bmatrix}=&
+\begin{bmatrix}
+\cos(a_jk)&\sin(a_jk)\\\
+-\sin(a_jk)&\cos(a_jk)
+\end{bmatrix}
+\begin{bmatrix}\sin(a_ji)\\\\cos(a_ji)\end{bmatrix}\\\
+=&\begin{cases}
+\cos(a_jk)\sin(a_ji)+\sin(a_jk)\cos(a_ji)\\\
+\cos(a_jk)\cos(a_ji)-\sin(a_jk)\sin(a_ji)\\\
+\end{cases}\\\
+&\qquad\color{red}{\text{apply the angle addition formula}}\\\
+=&\begin{cases}
+\sin(a_j(i+k))\\\
+\cos(a_j(i+k))
+\end{cases}\\\
+=&\begin{bmatrix}\sin(a_j(i+k))\\\\cos(a_j(i+k))\end{bmatrix}
+\end{align}
+$$
+

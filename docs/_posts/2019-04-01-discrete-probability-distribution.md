@@ -66,7 +66,7 @@ $$
 
 ### <a name='binomial'></a>Binomial Distribution
 
-We can extend the Bernoulli distribution to the binomial distribution, in which we have $$N$$ variables of a Bernoulli distribution. The binomial distribution can be written as
+We can extend the Bernoulli distribution to the binomial distribution, in which we have $$N$$ variables of a Bernoulli distribution and consider the probability of the number of successes. The binomial distribution can be written as
 
 $$
 \begin{align}
@@ -117,7 +117,7 @@ p(\mu|m,l,a,b)&={\Gamma(a+l+b+m)\over\Gamma(a+m)\Gamma(b+l)}\mu^{m+a-1}(1-\mu)^{
 \end{align}
 $$
 
-Equation $$\eqref{eq:6}$$ allows us incrementally update the distribution of $$\mu$$ as new data is observed. We can see that the beta distribution is a conjugate distribution of the binomial distribution. 
+Where $$m$$ and $$l$$ are the numbers of successes and failures observed, respectively. Equation $$\eqref{eq:6}$$ allows us incrementally update the distribution of $$\mu$$ as new data is observed. We can see that the beta distribution is a conjugate distribution of the binomial distribution. 
 
 If our goal is to predict, we can follow the sum and product rules of probability
 
@@ -165,7 +165,7 @@ We can maximize the likelihood of $$\pmb \mu$$ using a Lagrangian multiplier $$\
 
 $$
 \begin{align}
-\ln p(\mathcal D|\mu)=\sum_{k=1}^Km_k\ln\mu_k -\lambda\left(\sum_{k=1}^K\mu_k-1\right)
+\ln p(\mathcal D|\mu)=\sum_{k=1}^Km_k\ln\mu_k +\lambda\left(1-\sum_{k=1}^K\mu_k\right)
 \end{align}
 $$
 
@@ -173,11 +173,11 @@ If we set its derivative to zero, we obtain the maximum likelihood estimator for
 
 $$
 \begin{align}
-\mu_k=-{m_k\over\lambda}\tag{9}\label{eq:9}
+\mu_k={m_k\over\lambda}\tag{9}\label{eq:9}
 \end{align}
 $$
 
-We can obtain the Lagrangian multiplier by substituting Equation $$\eqref{eq:9}$$ into the constraint, which gives us $$\lambda=-N$$. Therefore, we have
+We can obtain the Lagrangian multiplier by substituting Equation $$\eqref{eq:9}$$ into the constraint, which gives us $$\lambda=N$$. Therefore, we have
 
 $$
 \begin{align}
@@ -209,7 +209,7 @@ where\quad\alpha_0=\sum_{k=1}^K\alpha_k
 $$
 
 
-Sampling from a Dirichlet distribution gives us a categorical distribution. According to [this answer](https://qr.ae/pNyGKz), if we factorize $$\pmb \alpha$$ into a probability distribution and a normalization constant, then the probability distribution happens to be the mean of the Dirichlet distribution. Furthermore, the constant is related to the variance: the variance is high for a larger constant, low for a small constant.
+Where $$\pmb \alpha$$ is a $$K$$-dimension vector of positive numbers. Sampling from a Dirichlet distribution gives us a categorical distribution. According to [this answer](https://qr.ae/pNyGKz), if we factorize $$\pmb \alpha$$ into a probability distribution and a normalization constant, then the probability distribution happens to be the mean of the Dirichlet distribution. Furthermore, the constant is related to the variance: the variance is high for a larger constant, low for a small constant.
 
 ## Poisson Probability
 
@@ -221,7 +221,7 @@ p(X=x)={\lambda^xe^{-\lambda}\over x!},\quad x\ge0
 \end{align}
 $$
 
-Both the mean and variance of a Poisson are $$\lambda$$.
+Both the mean and variance of a Poisson are $$\lambda$$. TBC.
 
 ### Relationship with Binomial Distribution
 

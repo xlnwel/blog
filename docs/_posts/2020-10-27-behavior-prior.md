@@ -191,7 +191,7 @@ Several modifications are made compared to Algorithm 1; also there are several m
   \nabla_\theta\mathbb E_{\pi}(Q(s,a,z))=\mathbb E_{\eta,\epsilon}\left[{\partial Q\over\partial a}\nabla_{\theta^H}\pi(z|x,\eta)\nabla_{\theta^L}\pi(a|s,z,\epsilon)\right]
   $$
 
-- In practice, it may be desirable to sample $$z$$ infrequently or hold it constant across multiple time steps to exhibit temporally consistent behavior. This gives us a similar structure as the one used in [FTW]({{ site.baseurl }}{% post_url 2020-03-27-FTW %}). 
+- In practice, it may be desirable to sample $$z$$ infrequently or hold it constant across multiple time steps to exhibit temporally consistent behavior. This gives us a similar structure as the one used in [FTW]({{ site.baseurl }}{% post_url 2021-01-01-FTW %}). 
 
 ## References
 
