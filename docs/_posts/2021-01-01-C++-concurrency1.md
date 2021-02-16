@@ -1,6 +1,6 @@
 ---
 title: "C++ Concurrency in Action — Chapter 1"
-excerpt: "Notes from C++ Concurrency in Action"
+excerpt: "Notes from Williams' C++ Concurrency in Action"
 categories:
   - Computer Science
 ---

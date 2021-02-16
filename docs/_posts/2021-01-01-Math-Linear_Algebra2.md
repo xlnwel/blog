@@ -1,3 +1,10 @@
+---
+title: "Mathematics for Machine Learning — Part 1"
+excerpt: "Notes from Thomas' Mathematics for Machine Learning"
+categories:
+  - Mathematics
+---
+
 ## Eigenthings
 
 **Proposition.** Let $$\pmb x$$ be an eigenvector of $$\pmb A$$ with corresponding eigenvalue $$\lambda$$. Then

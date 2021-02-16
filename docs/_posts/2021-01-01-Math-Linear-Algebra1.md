@@ -1,6 +1,6 @@
 ---
 title: "Mathematics for Machine Learning — Part 1"
-excerpt: "Notes from Garrett Thomas' "Mathematics for Machine Learning""
+excerpt: "Notes from Thomas' Mathematics for Machine Learning"
 categories:
   - Mathematics
 ---
