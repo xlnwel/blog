@@ -1,16 +1,18 @@
 ---
-title: "Mathematics for Machine Learning — Part 1"
-excerpt: "Notes from Thomas' Mathematics for Machine Learning"
+title: "Mathematics for Machine Learning — Linear Algebra Part 1"
+excerpt: "in which we discuss linear algebra used in machine learning/deep learning"
 categories:
   - Mathematics
 ---
+
+# Linear Algebra Part 1
 
 ## Linear Algebra
 
 There are two interpretations for $$\pmb A$$ in $$\pmb A\pmb x$$:
 
-1. Geometrically, $$\pmb A$$ transforms the canonical basis into basis described by the columns of $$\pmb A$$.
-2. As a linear map, $$\pmb A$$ translates $$\pmb x$$, a vector in the basis described by the columns of $$\pmb A$$, to a vector in the canonical space, which has the same length as $$\pmb x$$ if $$\pmb A$$ is orthogonal.
+1. Geometrically, $$\pmb A$$ transforms the canonical basis into basis denoted by the columns of $$\pmb A$$.
+2. As a linear map, $$\pmb A$$ translates $$\pmb x$$, a vector in the space described by the columns of $$\pmb A$$, to a vector in the canonical space, which has the same length as $$\pmb x$$ if $$\pmb A$$ is orthogonal.
 
 ## Vector spaces
 
@@ -73,7 +75,7 @@ $$
 \end{align}
 $$
 
-Define $$T\pmb v= \pmb A\pmb v$$, where $$\pmb A\in \mathbb R^{m \times n}$$. Because $$T\pmb v=v_1\pmb A_{1,:}+\dots+v_m\pmb A_{m,:}$$, the **column space** of $$\pmb A$$ is also the **range** of $$T$$, which we denote by $$\text{range}(\pmb A)$$. Similarly, the **row space** of $$\pmb A$$ is denoted $$\text{range}(A^\top)$$
+Define $$T\pmb v= \pmb A\pmb v$$, where $$\pmb A\in \mathbb R^{m \times n}$$. Because $$T\pmb v=v_1\pmb A_{:,1}+\dots+v_m\pmb A_{:,m}$$, the **column space** of $$\pmb A$$ is also the **range** of $$T$$, which we denote by $$\text{range}(\pmb A)$$. Similarly, the **row space** of $$\pmb A$$ is denoted by $$\text{range}(A^\top)$$
 
 It is a remarkable fact that the dimension of the column space of $$\pmb A$$ is the same as the dimension of the row space of $$\pmb A$$. This quantity is called the **rank** of $$\pmb A$$, and defined as
 
@@ -180,11 +182,12 @@ $$
 
 **Proposition.** Let $$S$$ be a finite dimensional subspace of $$V$$. Then
 
-1. For any $$\pmb v\in V$$ and orthogonal basis $$\pmb u_1,\dots,\pmb u_m$$ of $$S$$,
+1. For any $$\pmb v\in V$$ and orthogonal basis $$\pmb u_1,\dots,\pmb u_m$$ of $$S$$, the projection of $$\pmb v$$ onto $$S$$ is defined as
    
 $$
    P_S\pmb v=\langle\pmb v,\pmb u_1\rangle\pmb u_1+\cdots+\langle\pmb v,\pmb u_m\rangle\pmb u_m
    $$
+
 
 2. For any $$\pmb v$$, $$\pmb v-P_S\pmb v\perp S$$
 
@@ -196,31 +199,55 @@ $$
 
 6. $$P_S^2=P_S$$
 
-7. For any $$\pmb v\in V$$, $$\Vert P_S\pmb v\Vert\le \Vert \pmb v\Vert$$
+7. $$P_S^\top=P_S$$
 
-8. For any $$\pmb v\in V$$ and $$\pmb s\in S$$
-   $$
+8. For any $$\pmb v\in V$$, $$\Vert P_S\pmb v\Vert\le \Vert \pmb v\Vert$$
+
+9. For any $$\pmb v\in V$$ and $$\pmb s\in S$$
+   
+$$
    \Vert\pmb v- P_S\pmb v\Vert\le\Vert\pmb v-\pmb s\Vert
    $$
+
    With equality if and only if $$\pmb s=P_S\pmb v$$. That is
-   $$
+   
+$$
    P_S\pmb v=\min_{\pmb s\in S}\Vert \pmb v-\pmb s\Vert
    $$
 
-Consider a special case where $$S$$ is a subspace of $$\mathbb R^n$$ with orthonormal basis $$\pmb u_1,\dots\pmb u_m$$, then
-$$
 
-P_S\pmb v=\sum_{i=1}^n\pmb u_i^\top\pmb v\pmb u_i=\sum_{i=1}^n\pmb u_i\pmb u_i^\top\pmb v=\left(\sum_{i=1}^n\pmb u_i\pmb u_i^\top\right)\pmb v
+Consider a special case where $$S$$ is a subspace of $$\mathbb R^n$$ with orthonormal basis $$\pmb u_1,\dots\pmb u_m$$, then
 
 $$
 \begin{align}
-Therefore the operator $$P_S$$ can be expressed as a matrix
+P_S\pmb v=\sum_{i=1}^n\pmb u_i^\top\pmb v\pmb u_i=\sum_{i=1}^n\pmb u_i\pmb u_i^\top\pmb v=\left(\sum_{i=1}^n\pmb u_i\pmb u_i^\top\right)\pmb v
 \end{align}
 $$
 
-P_S=\sum_{i=1}^n\pmb u_i\pmb u_i^\top=\pmb U\pmb U^T
+Therefore the operator $$P_S$$ can be expressed as a matrix
+
 $$
-Where $$\pmb U$$ has $$\pmb u_1,\dots,\pmb u_n$$ as its columns.
+\begin{align}
+P_S=\sum_{i=1}^n\pmb u_i\pmb u_i^\top=\pmb U\pmb U^\top
+\end{align}
+$$
+
+where $$\pmb U$$ has $$\pmb u_1,\dots,\pmb u_n$$ as its columns. 
+
+### Gram-Schmidt process
+
+**Objective.** construct an orthonormal basis from linearly independent vectors $$\pmb v=\{\pmb v_1,\dots,\pmb v_n\}$$.
+
+$$
+\begin{align}
+&\pmb e_1={\pmb v_1\over\Vert \pmb v_1\Vert_2}\\\
+&\quad\mathbf{For}\ i=2,\dots,n\ \mathbf{do}\\\
+&\qquad \pmb u_i=\pmb v_i-\sum_{j=1}^{i-1}\langle \pmb v_i,\pmb e_j\rangle\pmb v_i\\\
+&\qquad \pmb e_i={\pmb u_i\over\Vert\pmb u_i\Vert_2}\\\
+&\pmb E=\{\pmb e_1,\dots,\pmb e_n\}\text{ is an orthonormal basis}
+\end{align}
+$$
+
 
 ## References
 

@@ -5,7 +5,7 @@ categories:
   - Computer Science
 ---
 
-## Managing threads
+# Managing threads
 
 ## Basic thread management
 

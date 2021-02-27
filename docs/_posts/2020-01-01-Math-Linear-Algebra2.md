@@ -1,17 +1,75 @@
 ---
-title: "Mathematics for Machine Learning — Part 1"
-excerpt: "Notes from Thomas' Mathematics for Machine Learning"
+title: "Mathematics for Machine Learning — Linear Algebra Part 2"
+excerpt: "in which we discuss linear algebra used in machine learning/deep learning"
 categories:
   - Mathematics
 ---
 
+# Linear Algebra Part 2
+
 ## Eigenthings
+
+**Proposition.** The eigenvalues of $$\pmb A$$ can be computed by solving $$\vert \pmb A-\lambda \pmb I\vert =0$$.
+
+**Proof.** By the definition of eigenvalues we have
+
+$$
+\begin{align}
+\pmb A\pmb x=&\lambda\pmb x\\\
+(\pmb A-\lambda\pmb I)\pmb x=&\pmb 0
+\end{align}
+$$
+
+In order to have nontrivial solution $$\pmb x$$, the determinant must be zero, i.e., $$\vert \pmb A-\lambda\pmb I\vert =0$$; otherwise, there will be an invert matrix such that $$\pmb x=(\pmb A-\lambda\pmb I)^{-1}\pmb 0=\pmb 0$$.
 
 **Proposition.** Let $$\pmb x$$ be an eigenvector of $$\pmb A$$ with corresponding eigenvalue $$\lambda$$. Then
 
 1. For any $$\gamma\in\mathbb R$$, $$\pmb x$$ is an eigenvector of $$\pmb A+\gamma\pmb I$$ with eigenvalue $$\lambda+\gamma$$
 2. If $$\pmb A$$ is invertible, then $$\pmb x$$ is an eigenvector of $$\pmb A^{-1}$$ with eigenvalue $$\lambda^{-1}$$
 3. $$\pmb A^k \pmb x=\lambda^k\pmb x$$ for any $$k\in\mathbb Z$$
+
+**Eigendecomposition.** Let $$\pmb A$$ be an $$n\times n$$ matrix with *linearly independent* eigenvectors $$\pmb q_1,\dots,\pmb q_n$$ and their eigenvalues $$\lambda_1,\dots,\lambda _n$$. we have
+
+$$
+\begin{align}
+\pmb A=\pmb Q\pmb \Lambda\pmb Q^{-1}
+\end{align}
+$$
+
+where $$\pmb Q$$ is the square matrix with $$\pmb q_1,\dots,\pmb q_n$$ as its columns, and $$\pmb \Lambda=\text{diag}(\lambda_1,\dots,\lambda _n)$$.
+
+**Proof.** By the definition of eigenvalues and eigenvectors, we have
+
+$$
+\begin{align}
+\pmb A\pmb Q=&\pmb Q\pmb \Lambda\\\
+\pmb A=&\pmb Q\pmb\Lambda\pmb Q^{-1}
+\end{align}
+$$
+
+A matrix $$\pmb A$$ with eigendecomposition is always [**diagonalizable**](https://en.wikipedia.org/wiki/Diagonalizable_matrix), and vice versa. $$\pmb A$$ is diagonalizable if  there exists a diagonal matrix $$\pmb D$$ and an invertible matrix $$\pmb P$$ such that $$\pmb A=\pmb P\pmb D\pmb P^{-1}$$. Note that there is no connection between 1)$$\pmb A$$ is diagonalizable and 2) $$\pmb A$$ is invertible. See the following table for examples
+
+|            | Diagonalizable                         | Non-diagonalizable                     |
+| ---------- | -------------------------------------- | -------------------------------------- |
+| Invertible | $$\begin{bmatrix}1&0\\\0&1\end{bmatrix}$$ \vert  $$\begin{bmatrix}1&1\\\0&1\end{bmatrix}$$ |
+| Singular   | $$\begin{bmatrix}0&0\\\0&0\end{bmatrix}$$ \vert  $$\begin{bmatrix}0&1\\\0&0\end{bmatrix}$$ |
+
+One way to remember eigendecomposition is to regard $$\pmb A\pmb x$$ as a three-step transformation to $$\pmb x$$:
+
+1. $$\pmb Q^\top$$ translates $$\pmb x$$ to the space denoted by the eigenvectors of $$\pmb A$$ (preserving the length if $$\pmb q_1,\dots\pmb q_n$$ are orthonormal)
+2. $$\pmb \Lambda$$ then scales the result along the basis by the corresponding eigenvalues 
+3. $$\pmb Q$$ translates the result back to the canonical space
+
+**Proposition.** $$\pmb A$$ is an $$n\times n$$ matrix with $$n$$ linearly independent eigenvectors $$\pmb q_1,\dots,\pmb q_n$$ and their eigenvalues $$\lambda_1,\dots,\lambda _n$$, then we have $$\pmb A^m=\pmb Q\pmb \Lambda^m\pmb Q^{-1}$$, where $$\pmb Q$$ is a matrix with $$\pmb q_1,\dots,\pmb q_n$$ as its columns, and $$\pmb \Lambda=\text{diag}(\lambda_1,\dots,\lambda _n)$$. 
+
+**Proof.** Because $$\pmb A=\pmb Q\pmb\Lambda\pmb Q^{-1}$$, we have
+
+$$
+\begin{align}
+\pmb A^m=(\pmb Q\pmb\Lambda\pmb Q^{-1})^m=\pmb Q\pmb\Lambda^m\pmb Q^{-1}
+\end{align}
+$$
+
 
 ## Square Matrices
 
@@ -44,15 +102,15 @@ The determinant of a *square* matrix $$\pmb A\in\mathbb R^{n\times n}$$ has seve
 5. $$\det(\alpha\pmb A)=\alpha^n\det(\pmb A)$$
 6. $$\det(\pmb A)=\prod_i\lambda_i(\pmb A)$$
 
-From 6, we have $$\det(\pmb A)=0$$ if $$\exist_i\lambda_i(\pmb A)=0$$. Because $$\det(\pmb A)=0$$, $$\det(\pmb A)^{-1}=0^{-1}$$ is not valid and there is no $$\det(\pmb A^{-1})$$.
+From 6, we have $$\det(\pmb A)=0$$ if $$\exist_i\lambda_i(\pmb A)=0$$. Because $$\det(\pmb A)=0$$, $$\det(\pmb A)^{-1}=0^{-1}$$ is not valid and there is no $$\det(\pmb A^{-1})$$ and $$\pmb A^{-1}$$.
 
 ### Orthogonal matrices
 
-A matrix $$\pmb Q\in\mathbb R^{n\times n}$$ is orthogonal if its columns are pairwise *orthonormal*. This implies
+A matrix $$\pmb A\in\mathbb R^{n\times n}$$ is orthogonal if its *columns and rows* are pairwise *orthonormal*. This implies
 
 $$
 \begin{align}
-\pmb Q^\top=\pmb Q^{-1}\Rightarrow\pmb Q\pmb Q^{\top}=\pmb I
+\pmb A\pmb A^{\top}=\pmb A^\top \pmb A\pmb =\pmb I\Rightarrow \pmb A^\top=\pmb A^{-1}
 \end{align}
 $$
 
@@ -60,19 +118,26 @@ Orthogonal matrices preserve inner product and $$\ell_2$$ norm
 
 $$
 \begin{align}
-\langle\pmb Q\pmb x,\pmb Q\pmb y\rangle=\pmb x^\top\pmb y\Rightarrow\Vert \pmb Q\pmb x\Vert_2=\Vert\pmb x\Vert_2
+\langle\pmb A\pmb x,\pmb A\pmb y\rangle=\pmb x^\top\pmb y\Rightarrow\Vert \pmb A\pmb x\Vert_2=\Vert\pmb x\Vert_2
 \end{align}
 $$
 
-Therefore, multiplication by an orthogonal matrix can be considered as a transformation that preserve length, but may rotate or reflect the vector about the origin. 
+Therefore, multiplication by an orthogonal matrix can be considered as a transformation that preserve length, but may rotate or reflect the vector about the origin. In fact, all invertible matrices with the property that $$\pmb A^\top=\pmb A^{-1}$$ preserve length. And we call such matrices **unitary matrices** and the corresponding linear map an **isometry**.
 
-In fact, all invertible matrices that have property that $$\pmb Q^\top=\pmb Q^{-1}$$ preserve length. And we call such matrices **unitary matrices** and the corresponding linear map an **isometry**.
+The determinant of an orthogonal matrix is either $$1$$ or $$-1$$. This can be derived as follows
+
+$$
+\begin{align}
+1=\det(\pmb I)=\det(\pmb A\pmb A^\top)=\det(\pmb A)\det(\pmb A^\top)=\det(\pmb A)^2
+\end{align}
+$$
+
 
 ### Symmetric matrices
 
-**Theorem.** (Spectral Theorem) If $$\pmb A\in\mathbb R^{n\times n}$$ is symmetric, then there exists an orthogonal basis for $$\mathbb R^n$$ consisting of eigenvectors of $$\pmb A$$
+**Theorem.** (Spectral Theorem) If $$\pmb A\in\mathbb R^{n\times n}$$ is symmetric, then there exists an orthonormal basis for $$\mathbb R^n$$ consisting of eigenvectors of $$\pmb A$$
 
-A practical application of Spectral Theorem is **eigendecomposition** or **spectral decomposition**. Denote the orthonormal eigenvectors of $$\pmb A$$ as $$\pmb q_1,\dots,\pmb q_n$$ and their eigenvalues $$\lambda_1,\dots,\lambda _n$$. Let $$\pmb Q$$ be an orthogonal matrix with $$\pmb q_1,\dots,\pmb q_n$$ as its columns, and $$\pmb \Lambda=\text{diag}(\lambda_1,\dots,\lambda _n)$$. By definition we have
+This implies that if $$\pmb A\in\mathbb R^{n\times n}$$ is symmetric, there exists an orthogonal matrix $$\pmb Q$$, whose columns&rows are orthonormal eigenvectors of $$\pmb A$$. This gives us
 
 $$
 \begin{align}
@@ -80,13 +145,7 @@ $$
 \end{align}
 $$
 
-Notice that $$\pmb Q^\top=\pmb Q^{-1}$$ as $$\pmb Q$$ is orthogonal. Therefore, a symmetric matrix $$\pmb A$$ is always [*diagonalizable*](https://en.wikipedia.org/wiki/Diagonalizable_matrix). That is, there exists diagonal matrix $$\pmb \Lambda$$ and basis $$\pmb Q$$ consisting of eigenvectors of $$\pmb A$$ such that $$\pmb A=\pmb Q\pmb \Lambda\pmb Q^{-1}$$. 
-
-An way to remember eigendecomposition is to regard $$\pmb A\pmb x$$ as a three-step transformation to $$\pmb x$$:
-
-1. $$\pmb Q^\top$$ translates $$\pmb x$$ to the space denoted by the eigenvectors of $$\pmb A$$
-2. $$\pmb \Lambda$$ then scales the result along the basis by the corresponding eigenvalues 
-3. $$\pmb Q$$ translates the result back to the canonical space
+since $$\pmb Q^\top=\pmb Q^{-1}$$ for an orthogonal matrix $$\pmb Q$$. 
 
 #### Rayleigh quotients
 
@@ -201,10 +260,15 @@ where
 - $$\pmb\Sigma$$ is a diagonal matrix whose diagonal entries are the **singular values** of $$\pmb A$$. i.e., square roots of the eigenvalues of both $$\pmb A\pmb A^\top$$ and $$\pmb A^\top\pmb A$$
 - The columns of $$\pmb V$$ are the **right-singular eigenvectors** of $$\pmb A$$, i.e., *orthonormal eigenvectors* of $$\pmb A^\top\pmb A$$ .
 
-## Fundamental Theorem of Linear Algebra
+### Comparison between singular value decomposition and eigenvalue decomposition
 
-
+- The vectors in the eigendecomposition matrix $$\pmb Q$$ are not necessarily orthogonal, so the change of basis isn't a simple rotation. On the other hand, the vectors in the matrices $$\pmb U$$ and $$\pmb V$$ in the SVD are orthonormal, so they do represent rotations (and possibly flips).
+- In the SVD, the matrices $$\pmb U$$ and $$\pmb V$$ are usually not related to each other at all. In the eigendecomposition the non-diagonal matrices $$\pmb Q$$ and $$\pmb Q^{-1}$$ are inverses of each other.
+- In the SVD the entries in the diagonal matrix $$\pmb \Sigma$$ are all real and nonnegative. In the eigendecomposition, the entries of $$\pmb \Lambda$$ can be any complex number—negative, positive, imaginary, whatever.
+- The SVD always exists for any sort of rectangular or square matrix, whereas the eigendecomposition can only exists for square matrices, and even among square matrices sometimes it doesn't exist.
 
 ## References
 
 Thomas, Garrett. 2018. “Mathematics for Machine Learning” 56 (5): 1–47.
+
+https://math.stackexchange.com/a/320232/401382

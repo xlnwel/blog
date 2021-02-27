@@ -159,12 +159,15 @@ The target unit selection is computed from two attention mechanisms:
 $$
    \text{softmax}(H_aM^{\top})
    $$
+
    Noticeably, this design allows a varied number of available actions since the subsequent sample/argmax operation always yields a single action regardless of $$N_a$$.
 
 2. The chosen action ID is then embedded and multiplied by unit embeddings. The target unit is sampled/argmaxed from the dot product of this result and an output head of the LSTM. Let's denote the unit embeddings by a matrix $$U$$ of shape $$N_u\times W_u$$, the action embedding $$A$$ by $$1\times W_u$$, and the output of the fully-connected layer in Figure18.2 $$H_u$$ by $$1\times W_u$$, where $$N_u,W_u$$ are the number of units($$189$$ according to the paper) and the embedding size. The softmax over the target units are computed as follows
-   $$
+   
+$$
    \text{softmax}(H_u(U\circ A)^{\top})
    $$
+
    
    The above process computes two cosine similarities. The first cosine similarity happens at $$U\cdot A$$, suggesting how suitable the selected action is to each unit. The second happens at $$H_u(U\cdot A)$$, indicating how favorable each unit is based on the current agent state.
 
@@ -199,23 +202,22 @@ OpenAI Five is a large project; it requires constant refinements to the training
 OpenAI et al. designed "surgery" tools for continuing to train a single set of parameters across changes to the environment, model architecture, observation space, and action space.
 
 **Changing the architecture and observation space:** We discuss two situations: adding more units to a fully-connected layer and add more units to the LSTM layer. Notice that we can take changing the observation as a special case of the first situation. Suppose, we have two consecutive fully-connected layers:
-$$
 
+$$
 \begin{align}
 y&=W_1x+B_1\\\
 z&=W_2y+B_2\\\
 \end{align}
+$$
+
+If we want to increase the dimension of $$y$$ from $$d_y$$ to $$\hat d_y$$, it will cause the shapes of $$W_1, W_2, B_1$$ to change. OpenAI et al. proposed to initialize the new variables as
 
 $$
 \begin{align}
-If we want to increase the dimension of $$y$$ from $$d_y$$ to $$\hat d_y$$, it will cause the shapes of $$W_1, W_2, B_1$$ to change. OpenAI et al. proposed to initialize the new variables as
+\hat W_1=\begin{bmatrix}W_1\\\R()\end{bmatrix},\hat B_1=\begin{bmatrix}B_1\\\R()\end{bmatrix},\quad\hat W_2=\begin{bmatrix}W_2&0\end{bmatrix}
 \end{align}
 $$
 
-\hat W_1=\begin{bmatrix}W_1\\\R()\end{bmatrix},\hat B_1=\begin{bmatrix}B_1\\\R()\end{bmatrix},\quad\hat W_2=\begin{bmatrix}W_2&0\end{bmatrix}
-
-$$
-\begin{align}
 Where $$R()$$ indicates a random initialization. The initialization of $$\hat W_1$$ and $$\hat B_1$$ ensure that the first $$d_y$$ dimensions of activation $$\hat y$$ will be the same as the old activation $$y$$, and the remained will be randomized. The initialization of $$\hat W_2$$, on the other hand, ensures that the next layer will ignore the new random activations, and the next layer's activation will be the same as in the old model, i.e., $$\hat z=z$$.
 
 For LSTM, we cannot do the same because of its recurrent nature; if we randomize the new weights they will impact performance, but if we set them to zero then the new hidden dimensions will be symmetric and gradient updates will never differentiate them. OpenAI et al. finally decide to initialize new weights with random values significantly smaller than ordinary random initialization.
@@ -257,11 +259,13 @@ Figure 5a shows that a larger batch size can always speed up the learning proces
 </figure>
 
 As Dota 2 has extremely long time dependencies, Open AI Five uses a time horizon up to $$360$$ seconds, defined as
+
+$$
+\begin{align}
+H={T\over 1-\gamma}
 \end{align}
 $$
 
-H={T\over 1-\gamma}
-$$
 where $$H$$ is the horizon, $$T$$ is the real game time corresponding to each step($$0.133$$ seconds). When $$H=360$$, $$\gamma\approx 0.99963$$. Figure $$6$$ shows the effect of the horizon on the agent performance.
 
 ## References

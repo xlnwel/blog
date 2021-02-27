@@ -5,7 +5,7 @@ categories:
   - Computer Science
 ---
 
-## Synchronizing concurrent operations
+# Synchronizing concurrent operations
 
 ## Waiting for an event or other condition
 
@@ -134,7 +134,178 @@ Accessing a single `std::share_future` object from multiple threads is not safe 
 
 ## Waiting with a time limit
 
+### Clocks
+
+Specifically, a clock is a class that provides four distinct pieces of information:
+
+- The time now
+- The type of the value used to represent the times obtained from the clock
+- The tick period of the clock
+- Whether or not the clock ticks at a uniform rate and is therefore considered to be a steady clock
+
+### Durations
+
+`std::chrono::duration<>` specifies a time interval. It can be used with `.*_for()` member functions.
+
+### Time points
+
+`std::chrono::time_point<>` represents a point in time. It's the return type of `std::chrono::system_clock::now` and can be used with `.*_until()` member functions.
+
+### Functions that accept timeouts
+
+| Class/Namespace                                              | Functions                                      | Return Values                                                |
+| ------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------ |
+| `std::this_thread`                                           | `sleep_for()`, `sleep_until`                   | N/A                                                          |
+| `std::condition_variable`, `std::condition_variable_any`     | `wait_for`, `wait_until`                       | `std::cv_status::timeout`, `std::cv_status::no_timeout`      |
+| `std::timed_mutex`, `std::recursive_timed_mutex`,`std::shared_timed_mutex` | `try_lock_for`, `try_lock_until`               | `bool`                                                       |
+| `std::shared_timed_mutex`                                    | `try_lock_shared_for`, `try_lock_shared_until` | `bool`                                                       |
+| `std::unique_lock<timed_mutex>`, `std::shared_lock<shared_timed_mutex>` | `try_lock_for`, `try_lock_until`               | `bool`                                                       |
+| `std::future`, `std::shared_future`                          | `wait_for`, `wait_until`                       | `std::future_status::timeout`, `std::future_status::ready`, `std::future_status::deferred` |
+
 ## Using synchronization of operations to simplify code
+
+### Synchronizing operations with message passing
+
+Communicating Sequential Processes have no shared data; all communication is passed through the message queues. Each thread is therefore a state machine: when it receives a message, it updates its state and maybe sends one or more message to other threads. Note that "state" here is not necessarily some variable; it can be some function that instructs what to do next. For example, the ATM example provided in Section 4.4.2 treats a member function as the state of the logic thread; the logic thread repeatedly calls the state and may switch the state based on the new message received. 
+
+### Continuation-style concurrency with the Concurrency TS
+
+`std::experimental::future` has a member function `then`, which spawns a new thread to do following-up tasks when the current `std::experiment::future` is *ready*. The following-up task should be a function that takes as input a future of previous return(e.g., `std::future<int>` if the previous task returns a `int`. Note that it's `std::future` not 
+
+`std::experimental::future`). `std::experimental::future` is not compatible with `std::future` and is obtained from the corresponding functions in `std::experimental`, such as `std::experimental::promise`.
+
+### Waiting for more than one future
+
+When there's a series of tasks running in parallel and you want to retrieve them when they are all done and do some following-up tasks, one may try to call `.get()` member function of the corresponding futures one by one either synchronously in the current thread or asynchronously in a new thread as follows.
+
+```c++
+std::async([all_results=std::move(task_futures)] {
+  std::vector<DataType> v;
+  for (auto& f: all_results) {
+    v.push_back(f.get());
+  }
+  return do_some_thing(v);
+})
+```
+
+Either way, there will be a thread waiting for each task and repeatedly being woken up as each result become available. Not only does this occupy the thread doing the waiting, bu it adds additional context switches as each future becomes ready.
+
+With `std::experimental::when_all`, this waiting and switching can be avoided. It accepts a set of futures to be waited on and returns a new future that becomes ready when all the futures are ready. The following code demonstrates an example
+
+```c++
+std::experimental::when_all(task_futures.begin(), task_futures.end())
+	.then([](auto f) {// we use auto to deduce the type: std::future<std::vector<std::experimental::future<DataType>>>
+  std::vector ready_futures = f.get();
+  std::vector<DataType> v;
+  for (auto& f: all_results) {
+    v.push_back(f.get());	// will not block
+  }
+  return do_some_thing(v);
+})
+```
+
+### Waiting for the first future in a set with `when_any`
+
+`std::experimental::when_any` creates a future that becomes ready when at least one of the input futures become ready. It returns a structure `when_any_result<>`, which contains two members: 
+
+1. `futures` contains all input futures
+2. `index` is the index of ready future
+
+An example of retrieving the ready future is given below
+
+```c++
+std::experimental::future<std::experimental::when_any_result<
+  std::vector<std::expeirmental::future<DataType>>> result_of_when_any;
+auto results = result_of_when_any.get();
+DataType = results.futures[results.index].get();	// retrieve data
+```
+
+### `std::experimental::latch`
+
+A **latch** is a synchronization object that becomes ready when its counter is decremented to zero. It's *useful when you are waiting for a set of threads to reach a particular point in code*.
+
+```c++
+const thread_count = max(std::thread::hardware_concurrency(), 2);
+std::experimental::latch done(thread_count);
+DataType data[thread_count];
+std::vector<std::future<void>> threads;
+for (int i = 0; i < thread_count; ++i) {
+  threads.push_back(std::async(std::launch::async, [&, i]{
+    data[i] = make_data(i);
+    done.count_down();	// counts down the latch
+    do_more_stuff();
+  }));
+}
+done.wait();	// waits on the latch
+process_data(data);	// processes data. Threads may not be completed
+```
+
+### `std::experimental::barrier`
+
+A barrier is a *reusable* synchronization component used for *internal synchronization between a set of threads*. When threads arrive at the barrier(at the point of calling `.arrive_and_wait()`), they block until all of the threads involved have arrived at the barrier, at which point they are all released.
+
+```c++
+// data objects
+DataSource source;
+DataSinc sink;
+std::vector<DataChunk> chunks;
+std::vector<DataChunk> results;
+
+constexpr thread_count = max(std::thread::hardware_concurrency(), 2);
+std::experimental::barrier sync(thread_count);
+std::vector<std::future<void>> threads;
+for (int i = 0; i < thread_count; ++i) {
+  threads.push_back(std::async(std::launch::async, [&, i]{
+    while (!source.done()) {
+      if (!i) {
+        chunks = source.get_data();	// get data in thread with i == 0
+      }
+      sync.arrive_and_wait();	// all threads wait for chunks to be ready
+      results[i] = process(chunks[i]);
+      sync.arrive_and_wait();	// waits for all threads to finish their processing
+      if (!i) {
+        sink.write_data(results)
+      }
+    }
+  }));
+}
+```
+
+### `std::experimental::flex_barrier`
+
+`std::experimental::flex_barrier` add a completion function object to the completion phase where all threads arrive at the barrier. The completion function is run on one thread after all threads have arrived and returns a number indicating the number of participating threads in the next cycle ($$-1$$ indicates the set of participating threads is unchanged).
+
+```c++
+// data objects
+DataSource source;
+DataSinc sink;
+std::vector<DataChunk> chunks;
+std::vector<DataChunk> results;
+
+auto split_source = [&] {
+  if (!source.done) {
+    chunks = source.get_data();
+  }
+}
+split_source();	// prepare chunks
+
+constexpr thread_count = max(std::thread::hardware_concurrency(), 2);
+std::experimental::flex_barrier sync(thread_count, [&] {
+  sink.write_data(results);
+  split_source();
+  return -1;	// the number of participating threads remains unchanged
+});
+std::vector<std::future<void>> threads;
+for (int i = 0; i < thread_count; ++i) {
+  threads.push_back(std::async(std::launch::async, [&, i]{
+    while (!source.done()) {
+      results[i] = process(chunks[i]);
+      sync.arrive_and_wait();	// waits for all threads to finish their processing, and 
+      }
+    }
+  }));
+}
+```
 
 ## References
 

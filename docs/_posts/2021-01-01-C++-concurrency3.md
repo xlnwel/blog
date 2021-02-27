@@ -5,7 +5,7 @@ categories:
   - Computer Science
 ---
 
-## Sharing data between threads
+# Sharing data between threads
 
 ## Problems with sharing data between threads
 
@@ -124,11 +124,11 @@ private:
 public:
 	X(connection_info const& connection_details_): connection_details(connection_details_) {} 
   void send_data(data_packet const& data) { 
-    std::call_once(connection_init_flag,&X::open_connection,this); 
+    std::call_once(connection_init_flag, &X::open_connection, this); 	// lazy initialization
     connection.send_data(data); 
   } 
   data_packet receive_data() {
-    std::call_once(connection_init_flag,&X::open_connection,this); 
+    std::call_once(connection_init_flag, &X::open_connection, this);  	// lazy initialization
     return connection.receive_data(); 
   }
 };
