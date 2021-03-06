@@ -1,11 +1,10 @@
 ---
-title: "Efficient RL"
+title: "Efficient Value-Based RL"
 excerpt: "In which we discuss several recent works trying to improve sample efficiency of reinforcement learning algorithms."
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
-  - Model-Free Reinforcement Learning
+  - Value-Based Reinforcement Learning
 ---
 
 ## Introduction
@@ -14,7 +13,7 @@ We briefly summarize several papers trying to improve data efficiency in RL. Not
 
 ## [CURL](#ref1)
 
-CURL employs two techniques to speed up existing model-free algorithms: 1) random cropping, which randomly crops an $$84\times 84$$ images from a $$100\times 100$$ input image, and 2) contrastive learning, which trains another head on top of the image embedding using InfoNCE from [CPC]({{ site.baseurl }}{% post_url 2018-09-24-CPC %}).
+CURL employs two techniques to speed up existing model-free algorithms: 1) random cropping, which randomly crops an $$84\times 84$$ images from a $$100\times 100$$ input image, and 2) contrastive learning, which trains another head on top of the image embedding using InfoNCE from [CPC]({{ site.baseurl }}{% post_url 2018-09-21-CPC %}).
 
 CURL employs the bi-linear inner-product $$sim(q,k)=q^TWk$$, where $$q$$ and $$k$$ are the anchor and target(a.k.a., query and key), $$W$$ is a learnable parameter matrix. Following the same vein as MoCo, $$q$$ is obtained from an online encoder while $$k$$ is obtained from a target network with momentum update. Additionally, when cooperating with random cropping, we use different crops as the inputs to the online and target networks. The following code demonstrates the process
 

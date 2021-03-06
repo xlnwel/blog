@@ -4,7 +4,6 @@ excerpt: "In which we discuss AlphaStar, an agent that achieves Grandmaster leve
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
   - Multi-Agent Reinforcement Learning
   - Distributed Reinforcement Learning
   - Reinforcement Learning Application
@@ -211,12 +210,3 @@ That's it. It was a long journey; hopefully, you were enjoying it. If you bump i
 1. Vinyals, Oriol, Igor Babuschkin, Wojciech M. Czarnecki, Michaël Mathieu, Andrew Dudzik, Junyoung Chung, David H. Choi, et al. 2019. “Grandmaster Level in StarCraft II Using Multi-Agent Reinforcement Learning.” *Nature* 575 (November). https://doi.org/10.1038/s41586-019-1724-z.
 2. DeepMind Blog: https://deepmind.com/blog/article/alphastar-mastering-real-time-strategy-game-starcraft-ii
 3. Nature Page: https://www.nature.com/articles/s41586-019-1724-z
-
-```
-@misc{alphastarblog,
-  title="{AlphaStar: Mastering the Real-Time Strategy Game StarCraft II}",
-  author={Vinyals, Oriol and Babuschkin, Igor and Chung, Junyoung and Mathieu, Michael and Jaderberg, Max and Czarnecki, Wojtek and Dudzik, Andrew and Huang, Aja and Georgiev, Petko and Powell, Richard and Ewalds, Timo and Horgan, Dan and Kroiss, Manuel and Danihelka, Ivo and Agapiou, John and Oh, Junhyuk and Dalibard, Valentin and Choi, David and Sifre, Laurent and Sulsky, Yury and Vezhnevets, Sasha and Molloy, James and Cai, Trevor and Budden, David and Paine, Tom and Gulcehre, Caglar and Wang, Ziyu and Pfaff, Tobias and Pohlen, Toby and Yogatama, Dani and Cohen, Julia and McKinney, Katrina and Smith, Oliver and Schaul, Tom and Lillicrap, Timothy and Apps, Chris and Kavukcuoglu, Koray and Hassabis, Demis and Silver, David},
-  howpublished={\url{https://deepmind.com/blog/alphastar-mastering-real-time-strategy-game-starcraft-ii/}},
-  year={2019}
-}
-```

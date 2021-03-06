@@ -4,7 +4,6 @@ excerpt: "In which we discuss a variant of MAML-RL for solving tasks that change
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
   - Meta-Learning
 ---
 

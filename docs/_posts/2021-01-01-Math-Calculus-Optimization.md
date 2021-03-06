@@ -58,12 +58,12 @@ $$
 
 ## The Jacobian
 
-The **Jacobian** of $$f:\mathbb R^n\rightarrow\mathbb R^m$$ is a $$m \times n$$ matrix of first order partial derivatives
+The **Jacobian** of $$f:\mathbb R^n\rightarrow\mathbb R^m$$ is an $$m \times n$$ matrix of first order partial derivatives
 
 $$
 \begin{align}
 \mathbf J_f=\begin{bmatrix}
-{\partial f_1\over\partial x_1}&\dots&{\partial f_n\over\partial x_n}\\\
+{\partial f_1\over\partial x_1}&\dots&{\partial f_1\over\partial x_n}\\\
 \vdots&\ddots&\vdots\\\
 {\partial f_m\over\partial x_1}&\dots&{\partial f_m\over\partial x_n}
 \end{bmatrix}
@@ -100,14 +100,12 @@ $$
 
 If the second partial derivatives are continuous, the order of differentiation can be interchanged (Clairaut's theorem), so the Hessian matrix will be symmetric.
 
-The Hessian is used in some optimization algorithms such as Newton's method. It's *expensive to calculate* but can drastically reduce the number of iterations needed to converge to a local optimum by providing information about the curvature of $$f$$.
-
 We often say $$\pmb x$$ is a **critical point** if $$\nabla f(\pmb x)=\pmb 0$$ or no partial derivative exists at $$\pmb x$$. We can use the Hessian matrix to determine if a critical point is local minimum or a local maximum. Specifically if the Hessian at $$\pmb x$$ is positive definite, $$\pmb x$$ is a local minimum. When $$\pmb H$$ is symmetric, the following statements are equivalent
 
 1. $$\pmb H$$ is positive definite
 2. $$\pmb x^\top\pmb H\pmb x>0$$ for any nonzero real vector $$\pmb x$$
 3. The eigenvalues of $$\pmb H$$ are all positive (by the Rayleigh quotient)
-4. The determinant is positive: $$\vert \pmb H\vert >0$$ ($$\vert \pmb H\vert =\prod_i\lambda_i$$)
+   - $$\Longrightarrow$$ The determinant is positive: $$\vert \pmb H\vert >0$$ ($$\vert \pmb H\vert =\prod_i\lambda_i$$)
 5. The diagonal entries of $$\pmb H$$ are positive (conceiving the case for $$i\in d$$, $$\pmb e_i^\top\pmb H\pmb e_i>0$$, where $$\pmb e_i$$ is a vector of zeros except for $$1$$ in the $$i^{th}$$ place)
 
 If the Hessian at $$\pmb x$$ is negative definite, $$\pmb x$$ is a local maximum. The following statements are equivalent
@@ -115,12 +113,12 @@ If the Hessian at $$\pmb x$$ is negative definite, $$\pmb x$$ is a local maximum
 1. $$\pmb H$$ is negative definite
 2. $$\pmb x^\top\pmb H\pmb x<0$$ for any nonzero real vector $$\pmb x$$
 3. The eigenvalues of $$\pmb H$$ are all negative (by the Rayleigh quotient)
-4. The determinant is positive when $$d$$ is even and negative when $$d$$ is odd: $$\vert \pmb H\vert >0$$ ($$\vert \pmb H\vert =\prod_i\lambda_i$$)
+   - $$\Longrightarrow$$ The determinant is positive when $$d$$ is even and negative when $$d$$ is odd
 5. The diagonal entries of $$\pmb H$$ are negative (conceiving the case for $$i\in d$$, $$\pmb e_i^\top\pmb H\pmb e_i<0$$, where $$\pmb e_i$$ is a vector of zeros except for $$1$$ in the $$i^{th}$$ place)
 
 ### Conditions for local minima
 
-We prove the Hessian is positive definite for local minimum from the Taylor's theorem. 
+We prove the Hessian is positive semi-definite for local minimum from the Taylor's theorem. 
 
 $$
 \begin{align}
@@ -128,7 +126,7 @@ f(\pmb x^*+\Delta\pmb x)=f(\pmb x^*)+\nabla f(\pmb x^*)^\top\Delta\pmb x+{1\over
 \end{align}
 $$
 
-where the last inequality holds when the gradient $$\nabla f(\pmb x^*)=\pmb 0$$ and the Hessian $$\pmb H(\pmb x^*)=\nabla^2 f(\pmb x^*+t\Delta\pmb x)$$ is positive semi-definite. 
+where the last inequality holds for a critical point (the gradient $$\nabla f(\pmb x^*)=\pmb 0$$) when the Hessian $$\pmb H(\pmb x^*)=\nabla^2 f(\pmb x^*+t\Delta\pmb x)$$ is positive semi-definite. 
 
 Note that $$\nabla f(\pmb x^*)=\pmb 0$$ and $$\pmb H(\pmb x^*)$$ is *positive semi-definite* is a necessary but not a sufficient condition for $$\pmb x^*$$ being a local minimum. For example, $$f(x)=x^3$$ has $$f'(0)=0$$ and $$f''(0)=0$$ but $$f$$ has a saddle point at $$x=0$$. The function $$f(x)=-x^4$$ is an even worse offender — it has the same gradient and Hessian at $$x=0$$ but $$x$$ is a strict local maximum for this function.
 
@@ -136,7 +134,7 @@ On the other hand, $$\nabla f(\pmb x^*)=0$$ and $$\pmb H(\pmb x^*)$$ is *positiv
 
 ### Directional second derivative
 
-The second derivative in a specific direction represented by a unit $$\pmb d$$ is given by $$\pmb d^\top\pmb H\pmb d$$. When $$\pmb d$$ is an eigenvector of $$\pmb H$$, the second derivative in that direction is given by the corresponding eigenvalue. For other directions of $$\pmb d$$, the directional second derivative is a weighted average of all of the eigenvalues, with weights between $$0$$ and $$1$$, and eigenvectors that have smaller angle with $$\pmb d$$ receiving more weight. 
+The second derivative in a specific direction represented by a unit $$\pmb d$$ is given by $$\pmb d^\top\pmb H\pmb d$$, which describes the magnitude of the gradient changes along $$\pmb d$$. When $$\pmb d$$ is an eigenvector of $$\pmb H$$, the second derivative in that direction is given by the corresponding eigenvalue. For other directions of $$\pmb d$$, the directional second derivative is a weighted average of all of the eigenvalues, with weights between $$0$$ and $$1$$, and eigenvectors that have smaller angle with $$\pmb d$$ receiving more weight. 
 
 The directional second derivative tells us how well we can expect a gradient descent to perform. Make a second-order Taylor series approximation
 
@@ -162,7 +160,7 @@ $$
 \end{align}
 $$
 
-In the worst case, when $$\pmb g$$ aligns with the eigenvector of $$\pmb H$$ corresponding to the maximum eigenvalue $$\lambda_\max$$, the optimal step size is given by $${1\over\lambda_\max}$$. To the extent that the function we minimize can be approximated well by a quadratic function, the eigenvalues of Hessian thus determine the scale of the learning rate.
+By the Rayleigh inequality, $$\epsilon^*\in[{1\over\lambda_\max},{1\over\lambda_\min}]$$. In the worst case, when $$\pmb g$$ aligns with the eigenvector of $$\pmb H$$ corresponding to the maximum eigenvalue $$\lambda_\max$$, the optimal step size is given by $${1\over\lambda_\max}$$. To the extent that the function we minimize can be approximated well by a quadratic function, the eigenvalues of Hessian thus determine the scale of the learning rate.
 
 ### Inefficiency of gradient descent
 
@@ -244,6 +242,7 @@ $$
 \begin{align}
 &f(t\pmb x+(1-t)\pmb y)\le tf(\pmb x)+(1-t)f(\pmb y)=f(\pmb y)+t(f(\pmb x)-f(\pmb y))\\\
 \Longleftrightarrow\quad&{f(t(\pmb x-\pmb y)+\pmb y)- f(\pmb y)\over t}\le f(\pmb x)-f(\pmb y)\\\
+&\quad\color{red}{\text{first-order Taylor approximation}}\\\
 \Longleftrightarrow\quad&{f(\pmb y)+t\nabla f(\pmb y)^\top(\pmb x-\pmb y)-f(\pmb y)\over t}\le f(\pmb x)-f(\pmb y)\\\
 \Longleftrightarrow\quad&\langle\nabla f(\pmb y),\pmb x-\pmb y\rangle+f(\pmb y)\le f(\pmb x)
 \end{align}

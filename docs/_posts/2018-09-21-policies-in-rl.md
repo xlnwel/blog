@@ -4,7 +4,7 @@ excerpt: "In which we talk in detail about some wildly used policy in reinforcem
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
+  - Exploration
 image: 
   path: /images/rl/Policy.png
 ---

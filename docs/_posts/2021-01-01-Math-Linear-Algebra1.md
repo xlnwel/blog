@@ -9,10 +9,10 @@ categories:
 
 ## Linear Algebra
 
-There are two interpretations for $$\pmb A$$ in $$\pmb A\pmb x$$:
+There are two interpretations for $$\pmb A\in\mathbb R^{m \times n}$$ in $$\pmb A\pmb x=\pmb b$$:
 
-1. Geometrically, $$\pmb A$$ transforms the canonical basis into basis denoted by the columns of $$\pmb A$$.
-2. As a linear map, $$\pmb A$$ translates $$\pmb x$$, a vector in the space described by the columns of $$\pmb A$$, to a vector in the canonical space, which has the same length as $$\pmb x$$ if $$\pmb A$$ is orthogonal.
+1. As a linear map, $$\pmb A$$ projects $$\pmb x$$ in the space $$\mathbb R^n$$ onto a (sub)space of $$\mathbb R^m$$ denoted by the columns of $$\pmb A$$, which gives us the result vector $$\pmb b$$ in the column space of $$\pmb A$$.
+2. We take the columns of $$\pmb A$$ as axes, then each element $$x_i$$ of $$\pmb x$$ describes the coordinate along the respective columns $$\pmb A_{:,i}$$. When the columns of $$\pmb A$$ are linearly independent, $$\pmb x$$ uniquely characterizes a vector in the column space of $$\pmb A$$. 
 
 ## Vector spaces
 

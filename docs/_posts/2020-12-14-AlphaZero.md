@@ -4,7 +4,6 @@ excerpt: "In which we discuss AlphaZero, an agent that achieves super-human perf
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
   - Multi-Agent Reinforcement Learning
   - Distributed Reinforcement Learning
   - Reinforcement Learning Application

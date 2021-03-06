@@ -13,7 +13,7 @@ The point is to break down the data structure into a more fine-grained one so th
 - Can the scope of locks be restricted to allow some parts of an operation to be performed outside the lock?
 - Can different parts of the data structure be protected with different mutexes?
 - Do all operations require the same level of protection?
-- Can a simple change to the dat structure improve the opportunities for concurrency without affecting the operational semantics
+- Can a simple change to the data structure improve the opportunities for concurrency without affecting the operational semantics
 
 Here's some guidelines for thread safe code.
 
@@ -24,7 +24,7 @@ Here's some guidelines for thread safe code.
 
 ## Lock-based concurrent data structures
 
-In this section, Anthony shows an example of thread-safe queue, starting from the primitive one that adds lock to the `std::queue`. Then he moves to one using list nodes which allows us to apply separate `mutex`es to the `head` and `tail` node pointers. Moreover, he argues the benefit of using a dummy `head`, which frees us from checking if the `head` is `nullptr` and thus avoids locking `head_mutex` in the `push` operation. An interesting practice of the final thread-safe queue is that it always stores data in the current tail and update the tail thereafter, see the code below
+In this section, Anthony shows an example of thread-safe queue, starting from the primitive one that adds lock to the `std::queue`. Then he moves to one using list nodes which allows us to apply separate `mutex`es to the `head` and `tail` node pointers. Moreover, he argues the benefit of using a dummy `head`, which frees us from checking if the `head` is `nullptr` and thus avoids locking `head_mutex` in the `push` operation. An interesting practice in the final thread-safe queue is that it always stores data in the current tail and update the tail thereafter, see the code below
 
 ```c++
 void push(T data) {

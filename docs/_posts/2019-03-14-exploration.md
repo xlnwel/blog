@@ -4,7 +4,6 @@ excerpt: "In which we discuss a bunch of exploration algorithm, including count-
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
   - Exploration
 ---
 

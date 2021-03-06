@@ -48,7 +48,7 @@ s.t.\quad
 \end{align}
 $$
 
-The **Karush-Kuhn-Tucker** (KKT) approach provides a general solution for such problems . With the KKT approach, we introduce the **generalized Lagrangian** or **generalized Lagrange function** as
+The **Karush-Kuhn-Tucker** (KKT) approach provides a general solution for such problems. With the KKT approach, we introduce the **generalized Lagrangian** or **generalized Lagrange function** as
 
 $$
 \begin{align}

@@ -47,7 +47,7 @@ $$
 \end{align}
 $$
 
-A matrix $$\pmb A$$ with eigendecomposition is always [**diagonalizable**](https://en.wikipedia.org/wiki/Diagonalizable_matrix), and vice versa. $$\pmb A$$ is diagonalizable if  there exists a diagonal matrix $$\pmb D$$ and an invertible matrix $$\pmb P$$ such that $$\pmb A=\pmb P\pmb D\pmb P^{-1}$$. Note that there is no connection between 1)$$\pmb A$$ is diagonalizable and 2) $$\pmb A$$ is invertible. See the following table for examples
+A matrix $$\pmb A$$ with eigendecomposition is always [**diagonalizable**](https://en.wikipedia.org/wiki/Diagonalizable_matrix), and vice versa. $$\pmb A$$ is diagonalizable if there exists a diagonal matrix $$\pmb D$$ and an invertible matrix $$\pmb P$$ such that $$\pmb A=\pmb P\pmb D\pmb P^{-1}$$. We call such matrices **normal** matrices. Note that there is no connection between 1)$$\pmb A$$ is diagonalizable and 2)$$\pmb A$$ is invertible. See the following table for examples
 
 |            | Diagonalizable                         | Non-diagonalizable                     |
 | ---------- | -------------------------------------- | -------------------------------------- |
@@ -122,7 +122,7 @@ $$
 \end{align}
 $$
 
-Therefore, multiplication by an orthogonal matrix can be considered as a transformation that preserve length, but may rotate or reflect the vector about the origin. In fact, all invertible matrices with the property that $$\pmb A^\top=\pmb A^{-1}$$ preserve length. And we call such matrices **unitary matrices** and the corresponding linear map an **isometry**.
+Therefore, multiplication by an orthogonal matrix can be considered as a transformation that preserve length, but may rotate or reflect the vector about the origin. We call such matrices **unitary matrices** and the corresponding linear map an **isometry**.
 
 The determinant of an orthogonal matrix is either $$1$$ or $$-1$$. This can be derived as follows
 
@@ -137,7 +137,60 @@ $$
 
 **Theorem.** (Spectral Theorem) If $$\pmb A\in\mathbb R^{n\times n}$$ is symmetric, then there exists an orthonormal basis for $$\mathbb R^n$$ consisting of eigenvectors of $$\pmb A$$
 
-This implies that if $$\pmb A\in\mathbb R^{n\times n}$$ is symmetric, there exists an orthogonal matrix $$\pmb Q$$, whose columns&rows are orthonormal eigenvectors of $$\pmb A$$. This gives us
+**Proof.** We rewrite the spectral theorem as follows
+
+Let $$n\le N$$ and $$W$$ be an $$n$$-dimensional subspace of $$\mathbb R^N$$. For a linear transformation $$\pmb A: W\rightarrow W$$ that is symmetric, there are eigenvectors $$\pmb v_1,\dots,\pmb v_n\in W$$ of $$\pmb A$$ such that $$\{\pmb v_1,\dots,\pmb v_n\}$$ is an orthonormal basis for $$W$$ associated with real eigenvalue $$\lambda_i$$
+
+We prove it by induction. Assume the spectral theorem is true for some $$n-1$$ and all $$N$$, which obviously holds for $$n=1$$. We show it's true for $$n$$.
+
+For $$n> 1$$, we let $$\{\pmb u_1,\dots,\pmb u_n\}$$ be an arbitrary orthonormal basis for $$\mathbb R^{n}$$. Represent an arbitrary element of $$\mathbb R^{n\times n}$$ by
+
+$$
+\begin{align}
+\pmb w=\alpha_1\pmb u_1+\dots+\alpha_n\pmb u_n
+\end{align}
+$$
+
+We can write $$\pmb w=w(\alpha_1,\dots,\alpha_n)$$ as a function of $$\{\alpha_1,\dots\alpha_n\}$$. We consider the following optimization problem
+
+$$
+\begin{align}
+\text{Maximize}\quad \pmb w^\top&\pmb A\pmb w\\\
+s.t.\quad \pmb w^\top \pmb w&=1
+\end{align}
+$$
+
+Let
+
+$$
+\begin{align}
+F(\alpha_1,\dots,\alpha_n)=&\pmb w^\top\pmb A\pmb w\\\
+G(\alpha_1,\dots,\alpha_n)=&\pmb w^\top\pmb w-1
+\end{align}
+$$
+
+The method of Lagrangian implies at the maximum $$\{\alpha^*_i\}$$ for each $$i$$
+
+$$
+\begin{align}
+{\partial\over\partial\alpha_i^*} F(\alpha_1^*,\dots,\alpha_n^*)=&
+\lambda{\partial\over\partial\alpha_i^*} G(\alpha_1^*,\dots,\alpha_n^*)\\\
+2\pmb A\pmb w^*{\partial\pmb w^*\over \partial \alpha_i^*}=&\lambda2\pmb w^*{\partial\pmb w^*\over \partial \alpha_i^*}\\\
+\pmb A\pmb w^* =&\lambda\pmb w^*
+\end{align}
+$$
+
+This says, the maximum of our optimization problem $$\pmb w^*$$ is an eigenvector of $$\pmb A$$ with eigenvalue $$\lambda$$. Now consider the following subspace of $$\mathbb R^{n-1}$$
+
+$$
+\begin{align}
+W'=\text{span}(\pmb w^*)^\perp
+\end{align}
+$$
+
+TBD.
+
+The spectral theorem implies that if $$\pmb A\in\mathbb R^{n\times n}$$ is symmetric, there exists an orthogonal matrix $$\pmb Q$$, whose columns&rows are orthonormal eigenvectors of $$\pmb A$$. This gives us
 
 $$
 \begin{align}
@@ -217,13 +270,13 @@ A *symmetric matrix* $$\pmb A$$ is a positive definite matrix if for all *nonzer
 
 Positive definite matrices are always invertible, but positive semi-definite may not. The following proposition says that we can always make a positive semi-definite invertible by add a small number to its diagonal.
 
-**Proposition.** If $$\pmb A$$ is positive semi-definite and $$\epsilon>0$$, then $$\pmb A+\epsilon \pmb I$$ is positive definite
+**Proposition.** If $$\pmb A$$ is positive semi-definite and $$\epsilon>0$$, then $$\pmb A+\epsilon \pmb I$$ is positive definite.
 
 #### The geometry of positive definite quadratic forms
 
 A **level set** or **isocontour** of a function is the set of all inputs such that the function applied to these inputs yields a given output. Mathematically the $$c$$-isocontour of $$f$$ is $$\{\pmb x\in\text{dom} f:f(x)=c\}$$.
 
-Consider the special case $$f=\pmb x^\top\pmb A\pmb x$$ where $$\pmb A$$ is *positive definite matrix*. Since $$\pmb A$$ is positive definite, it has unique matrix square root $$\pmb A^{1/2}=\pmb Q\pmb \Lambda^{1/2}\pmb Q^\top$$, where $$\pmb Q\pmb \Lambda\pmb Q^\top$$ is the eigendecomposition of $$\pmb A$$ and $$\pmb \Lambda=\text{diag}(\sqrt{\lambda_1},\dots,\sqrt{\lambda_n})$$. For a $$c\ge 0$$, the $$c$$-isocontour of $$f$$ is the set of $$\pmb x\in\mathbb R^n$$ such that
+Consider the special case $$f=\pmb x^\top\pmb A\pmb x$$ where $$\pmb A$$ is *positive definite matrix*. Because $$\pmb A$$ is positive definite, it has unique matrix square root $$\pmb A^{1/2}=\pmb Q\pmb \Lambda^{1/2}\pmb Q^\top$$, where $$\pmb Q\pmb \Lambda\pmb Q^\top$$ is the eigendecomposition of $$\pmb A$$ and $$\pmb \Lambda=\text{diag}(\sqrt{\lambda_1},\dots,\sqrt{\lambda_n})$$. For a $$c\ge 0$$, the $$c$$-isocontour of $$f$$ is the set of $$\pmb x\in\mathbb R^n$$ such that
 
 $$
 \begin{align}
@@ -241,7 +294,7 @@ $$
 
 where $$\tilde{\pmb z}=\pmb Q^\top\hat {\pmb z}$$ also satisfies $$\Vert\tilde{\pmb z}\Vert_2=1$$ since $$\pmb Q^\top$$ is orthogonal. Using this parameterization, we see that the solution set $$\{\pmb x\in\mathbb R^n:f(\pmb x)=c\}$$ is the image of the unit space $$\{\tilde {\pmb z}\in\mathbb R^n:\Vert\tilde {\pmb z}\Vert_2=1\}$$ under the invertible linear map $$\pmb x=\sqrt c\pmb Q\pmb \Lambda^{-1/2}\tilde{\pmb z}$$. This gives us a clear algebraic understanding of the $$c$$-isocontour of $$f$$ in terms of a sequence of linear transformations applied to a unit sphere: 
 
-- We starts with the unit sphere $$\tilde {\pmb z}$$, then scale every axis $$i$$ by $$\lambda_i^{-1/2}$$, resulting in an axis-aligned ellipsoid. Note that the axis lengths of the ellipsoid are proportional to the inverse square roots of the eigenvalues of $$\pmb A$$.
+- We starts with the unit sphere $$\tilde {\pmb z}$$, and scale every axis $$i$$ by $$\lambda_i^{-1/2}$$, resulting in an axis-aligned ellipsoid. Note that the axis lengths of the ellipsoid are proportional to the inverse square roots of the eigenvalues of $$\pmb A$$.
 - Then this ellipsoid undergoes a rigid transformation(i.e., one that preserves length and angles, such as rotation and reflection) given by $$\pmb Q$$, changing the basis to eigenvectors of $$\pmb A$$.
 
 ## Singular value decomposition

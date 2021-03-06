@@ -21,8 +21,6 @@ C++20 introduces `std::jthread` for stoppable threads. `std::jthread` can be sto
 
 One way to interrupt another thread is to define an atomic Boolean variable and have that thread constantly check this variable. If it is true, throw an exception indicating that the thread is interrupt.
 
-
-
 ## References
 
 Williams, Anthony. 2019. *C++ Concurrency in Action, 2nd Edition*.

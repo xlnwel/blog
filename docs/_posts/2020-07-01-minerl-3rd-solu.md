@@ -4,7 +4,6 @@ excerpt: "In which we discuss the 3rd-place solution to MineRL 2019 Competition.
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
   - Offline Reinforcement Learning
   - Reinforcement Learning Application
 ---

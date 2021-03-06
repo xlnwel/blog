@@ -4,7 +4,6 @@ excerpt: "In which we discuss the impact of time limits in reinforcement learnin
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
 ---
 
 ## Introduction

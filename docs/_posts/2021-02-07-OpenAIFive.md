@@ -4,7 +4,6 @@ excerpt: "In which we discuss OpenAI Five, an agent that achieves super-human pe
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
   - Multi-Agent Reinforcement Learning
   - Distributed Reinforcement Learning
   - Reinforcement Learning Application

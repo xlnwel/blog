@@ -4,7 +4,6 @@ excerpt: "In which we discuss an agent developed by OpenAI et al. that exhibits 
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
   - Multi-Agent Reinforcement Learning
   - Distributed Reinforcement Learning
   - Reinforcement Learning Application

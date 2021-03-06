@@ -200,15 +200,16 @@ Hence
 
 $$
 \begin{align}
-\Vert \pmb A-\tilde{\pmb A}\Vert_2^2\ge&\Vert(\pmb A-\tilde{\pmb A})\pmb x\Vert_2^2&\color{red}{\text{by definition of the matrix norm}}\\\
-=&\Vert\pmb A\pmb x\Vert_2^2& \color{red}{\text{since }x\in \text{null}(\tilde{\pmb A})}\\\
-=&\sum_{i=1}^{k+1}\sigma_i^2|\pmb v_i^\top\pmb x|^2&\color{\red}{\text{since }x\in\text{rank}(V_{k+1})}\\\
+\Vert \pmb A-\tilde{\pmb A}\Vert_2^2\ge&{\Vert(\pmb A-\tilde{\pmb A})\pmb x\Vert_2^2\over \Vert\pmb x\Vert_2^2}&\color{red}{\text{by definition of the matrix norm}}\\\
+=&\Vert(\pmb A-\tilde{\pmb A})\pmb x\Vert_2^2&\color{red}{\text{since }\Vert\pmb x\Vert_2^2}\\\
+=&\Vert\pmb A\pmb x\Vert_2^2& \color{red}{\text{since }\pmb x\in \text{null}(\tilde{\pmb A})}\\\
+=&\sum_{i=1}^{k+1}\sigma_i^2|\pmb v_i^\top\pmb x|^2&\color{\red}{\text{since }\pmb x\in\text{rank}(V_{k+1})}\\\
 \ge&\sigma_{k+1}^2\sum_{i=1}^{k+1}|\pmb v_i^\top\pmb x|^2\\\
 =&\sigma_{k+1}^2&\color{red}{\text{since }\pmb v_i\text{ is orthonormal vectors and }\Vert\pmb x\Vert_2=1}
 \end{align}
 $$
 
-where $$\sigma_{i}$$ is the $$i^{th}$$ singular value. Because, by the definition of the matrix norm, $$\Vert \pmb A-\pmb A_k\Vert_2=\sigma_{k+1}^2$$, $$\Vert\pmb A-\pmb A_k\Vert_2\le\Vert \pmb A-\tilde{\pmb A}\Vert_2$$.
+where $$\sigma_{i}$$ is the $$i^{th}$$ singular value. Because, by the definition of the matrix norm, $$\Vert \pmb A-\pmb A_k\Vert_2^2=\sigma_{k+1}^2$$, $$\Vert\pmb A-\pmb A_k\Vert_2^2\le\Vert \pmb A-\tilde{\pmb A}\Vert_2^2$$.
 
 ## Pseudoinverses
 

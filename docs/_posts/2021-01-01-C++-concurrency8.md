@@ -39,7 +39,7 @@ C++17 provides `std::hardware_constructive_interference_size` to specify the max
 
 ### Dividing array elements for complex operations
 
-Carefully choose the data access pattern when distributing large block of data among threads. For example, when multiplying two large $$n\times n$$ matrices $$\pmb C=\pmb A\pmb B$$, one may choose to compute $$m$$ rows in each thread. Because $$C_{ij}=\sum_kA_{ik}B_{kj}$$, this amounts to $$m \times n$$ reads from $$\pmb A$$ and $$n\times n$$ reads from $$\pmb B$$, resulting in total $$(m+n)\times n$$ reads. When $$n\gg n$$ the costs are dominated by reads from $$\pmb B$$. One better solution is to compute $$m \times m$$ sub-matrix in $$\pmb C$$ in each thread. This reduces total reads to $$2m \times n$$, significantly reducing the number of reads for $$n\gg m$$. Furthermore, it can also reduces the potential contention if there is any.
+Carefully choose the data access pattern when distributing large block of data among threads. For example, when multiplying two large $$n\times n$$ matrices $$\pmb C=\pmb A\pmb B$$, one may choose to compute $$m$$ rows in each thread. Because $$C_{ij}=\sum_kA_{ik}B_{kj}$$, this amounts to $$m \times n$$ reads from $$\pmb A$$ and $$n\times n$$ reads from $$\pmb B$$, resulting in total $$(m+n)\times n$$ reads. When $$n\gg m$$ the costs are dominated by reads from $$\pmb B$$. One better solution is to compute $$m \times m$$ sub-matrix in $$\pmb C$$ in each thread. This reduces total reads to $$2m \times n$$, significantly reducing the number of reads for $$n\gg m$$. Furthermore, it can also reduces the potential contention if there is any.
 
 ### Data access patterns in other data structures
 
@@ -85,7 +85,7 @@ A thread may be blocked because, for example, it's waiting for other thread to c
 
 ### Improving responsiveness with concurrency
 
-Most modern graphical use interface frameworks are event-driver; the user performs actions on the user interface by pressing keys or moving the mouse, which generate a series of events or messages that the application then handles. To increase responsiveness, we usually handle the lengthy task on a new thread and leave a dedicated GUI thread to process the events. The following code shows a simple example, which only handles a single task
+Most modern graphical user interface frameworks are event-driver; the user performs actions on the user interface by pressing keys or moving the mouse, which generate a series of events or messages that the application then handles. To increase responsiveness, we usually handle the lengthy task on a new thread and leave a dedicated GUI thread to process the events. The following code shows a simple example, which only handles a single task
 
 ```c++
 std::thread task_thread;
@@ -117,10 +117,6 @@ void process(const EventType& event) {
   }
 }
 ```
-
-## Designing concurrent code in practice
-
-
 
 ## References
 

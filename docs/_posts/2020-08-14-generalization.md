@@ -4,7 +4,6 @@ excerpt: "In which we discuss several recent works trying to improve generalizat
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
   - Generalization in Reinforcement Learning
 ---
 

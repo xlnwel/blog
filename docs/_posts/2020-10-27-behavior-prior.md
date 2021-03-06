@@ -4,8 +4,7 @@ excerpt: "In which we discuss behavior priors for KL regularized reinforcement l
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
-  - Model-Free Reinforcement Learning
+  - Value-Based Reinforcement Learning
   - Multitask Reinforcement Learning
   - Exploration
   - Regularization in Reinforcement Learning
@@ -13,7 +12,7 @@ tags:
 
 ## Introduction
 
-Besides algorithmic choices, one way to improve sample efficiency in reinforcement learning is to inject prior knowledge about the structure of the world. This can be done in multiple ways: For example, [Vinyals et al. 2019](#ref2) learns from expert demonstrations a latent variable that take on a certain type of information and use that to constrain the space of the solution. In this post, we discuss the work of [Tirumala et al. 2020](#ref2), which learns behavior priors that capture the movement and interaction pattern of the agent from a set of related tasks and follow the probabilistic graphic model to regularize the task-specific policies. Experiments show that a good behavior prior can guide exploration, helping escape local optima, improving performance.
+Besides algorithmic choices, one way to improve sample efficiency in reinforcement learning is to inject prior knowledge about the structure of the world. This can be done in multiple ways: For example, [Vinyals et al. 2019](#ref2) learns from expert demonstrations a latent variable that takes on a certain type of information and use that to constrain the space of the solution. In this post, we discuss the work of [Tirumala et al. 2020](#ref2), which learns behavior priors that capture the movement and interaction pattern of the agent from a set of related tasks and follow the probabilistic graphic model to regularize the task-specific policies. Experiments show that a good behavior prior can guide exploration, helping escape local optima and improving performance.
 
 ## KL-Regularized RL
 
@@ -121,12 +120,12 @@ We consider directed latent variable models for both $$\pi_0$$ and $$\pi$$ of th
 
 $$
 \begin{align}
-\pi_0(\tau)=\int\pi_0(\tau|y)\pi_0(y)dy\tag{9}\label{eq:9}\\\
+\pi_0(\tau)=\int\pi_0(\tau|z)\pi_0(z)dz\tag{9}\label{eq:9}\\\
 \pi(\tau)=\int\pi(\tau|z)\pi(z)dz\tag{10}\label{eq:10}
 \end{align}
 $$
 
-Where the latents $$y$$ and $$z$$ can be time varying, continuous or discrete, and can exhibit further structure. Notice that we also consider policies $$\pi$$ with latent variables, which admits multiple solutions to solving the tasks. Moreover, the KL term towards a suitable prior can create pressure to learn a distribution over solutions, and augmenting $$\pi$$ may make it easier to model these distinct solutions. ([Hausman et al., 2018](#ref4))
+where the latents $$z$$ can be time varying, continuous or discrete, and can exhibit further structure. Notice that we also consider policies $$\pi$$ with latent variables, which admits multiple solutions to solving the tasks. Moreover, the KL term towards a suitable prior can create pressure to learn a distribution over solutions, and augmenting $$\pi$$ may make it easier to model these distinct solutions. ([Hausman et al., 2018](#ref4))
 
 ### Simplified Form
 
@@ -166,7 +165,7 @@ $$
 \end{align}
 $$
 
-If we don't consider the concept of hierarchy, Equation $$\eqref{eq:12}$$ simply lifts the KL penalty from the policy to a latent variable inside the neural network. 
+If we don't consider the concept of hierarchy, Equation $$\eqref{eq:12}$$ simply lifts the KL regularization from the policy to a latent variable inside the neural network. 
 
 In most of experiments, [Tirumala et al. 2020](#ref1) use a lower level policy shared between the prior and policy and find this structured prior performs better than unstructured prior, especially on complex tasks. Furthermore, they find additional performance gain in a separate lower level prior.
 
@@ -182,7 +181,7 @@ In most of experiments, [Tirumala et al. 2020](#ref1) use a lower level policy s
   </style>
 </figure>
 
-Several modifications are made compared to Algorithm 1; also there are several mistakes in the above pseudocode:
+Several modifications are made compared to Algorithm 1
 
 - Besides policies, value functions are also conditioned on $$z$$. This also changes the way of computing $$c_i$$, which now becomes $$c_i=\lambda\min\left({\pi^H(z_i\vert x_i)\pi^L(a_i\vert x_i,z_i)\over \mu(a_i,x_i)},1\right)$$. Notice that we consider the latent $$z$$ when computing the current action probability but do not consider it in the behavior policy $$\mu$$. This reduces the variance of the estimator.
 
@@ -192,6 +191,8 @@ $$
   \nabla_\theta\mathbb E_{\pi}(Q(s,a,z))=\mathbb E_{\eta,\epsilon}\left[{\partial Q\over\partial a}\nabla_{\theta^H}\pi(z|x,\eta)\nabla_{\theta^L}\pi(a|s,z,\epsilon)\right]
   $$
 
+
+- We add an additional entropy term to the policy loss to encourage exploration.
 
 - In practice, it may be desirable to sample $$z$$ infrequently or hold it constant across multiple time steps to exhibit temporally consistent behavior. This gives us a similar structure as the one used in [FTW]({{ site.baseurl }}{% post_url 2021-02-01-FTW %}). 
 

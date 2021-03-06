@@ -4,7 +4,6 @@ excerpt: "In which we discuss several challenges of real-world reinforcement lea
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
 ---
 
 ## Challenges

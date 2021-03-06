@@ -4,8 +4,7 @@ excerpt: "In which we discuss several design decisions on on-policy reinforcemen
 categories:
   - Reinforcement Learning
 tags:
-  - Reinforcement Learning
-  - Model-Free Reinforcement Learning
+  - Policy-Gradient Reinforcement Learning
 ---
 
 ## Introduction
@@ -71,7 +70,7 @@ Gradient clipping might slightly help.
 
 GAE and V-trace appears to perform better than N-step returns, which indicates that it is beneficial to combine the value estimators from multiple time steps. However, no significant performance difference between GAE and V-trace is spotted.
 
-Huber loss performs worse than MSE loss in all environments. These show outliners in value function generally help. Surprisingly, value clipping implemented in OpenAI baselines' PPO generally hurts the performance -- in their experiments, it only helps in some cases when $$\epsilon=1$$. However, my experiences with PPO in Procgen indicates value clipping is helpful with the default hyperparameter setting. I conjecture the difference is introduced because 1) [Andrychowicz et al. 2020](#ref1) do not apply reward normalization in their experiments -- when the reward scale is large, $$\text{clip}(v - v_{old}, -\epsilon, \epsilon)$$ could be too conservative as $$\epsilon$$ is usually small; 2) outliners in value loss compromise the representation learned by the shared CNN. 
+Huber loss performs worse than MSE loss in all environments. These show outliners in value function generally help. Surprisingly, value clipping implemented in OpenAI baselines' PPO generally hurts the performance—in their experiments, it only helps in some cases when $$\epsilon=1$$. However, my experiences with PPO in Procgen indicates value clipping is sometimes helpful. I conjecture the difference is introduced because 1) [Andrychowicz et al. 2020](#ref1) do not apply reward normalization in their experiments—when the reward scale is large, $$\text{clip}(v - v_{old}, -\epsilon, \epsilon)$$ could be too conservative as $$\epsilon$$ is usually small; 2) outliners in value loss may compromise the representation learned by the shared CNN. 
 
 ## Training Setup
 

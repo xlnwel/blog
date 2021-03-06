@@ -13,10 +13,11 @@ Advantage:
 
 1. Some systems provide higher-level communication mechanisms so that it can be easier to write safe concurrent code with process rather than threads.
 2. You can run the separate processes on distinct machines connected over a network.
+3. Data is inherently protected.
 
 Downside:
 
-1. Communication between processes is often either complicated to set up or slow, or both, because operating systems typically provide a lot of protection between processes to avoid one process accidentally modifying data belonging to another process.
+1. Communication between processes is often either complicated to set up or slow, or both, because processes don't share the stack and memory. Communication between process is often achieved with named pipes, memory mapped files and etc.
 2. There is an inherent overhead in running multiple processes: it takes time to start a process, the operating system must devote internal resources to managing the process, and so forth.
 
 ## Concurrency with Multiple Threads

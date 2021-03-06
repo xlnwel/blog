@@ -129,7 +129,7 @@ Accessing a single `std::share_future` object from multiple threads is not safe 
 `std::shared_future` instances are usually constructed from
 
 1. `std::future` instance via move constructor, which transfers the ownership of the synchronous state from `std::future` to `std::shared_future`: `std::shared_future sf = std::future;`
-2. `.get_future()` member function of `std::promise` and `std::packaged_task` as the transfer of ownership is implicit for rvalues: `std::shared_future sf = some_promise.get_future()'`
+2. `.get_future()` member function of `std::promise` and `std::packaged_task` as the transfer of ownership is implicit for rvalues: `std::shared_future sf = some_promise.get_future();`
 3. `.share()` member function of `std::future`: `auto sf = some_future.share()`
 
 ## Waiting with a time limit
@@ -170,9 +170,7 @@ Communicating Sequential Processes have no shared data; all communication is pas
 
 ### Continuation-style concurrency with the Concurrency TS
 
-`std::experimental::future` has a member function `then`, which spawns a new thread to do following-up tasks when the current `std::experiment::future` is *ready*. The following-up task should be a function that takes as input a future of previous return(e.g., `std::future<int>` if the previous task returns a `int`. Note that it's `std::future` not 
-
-`std::experimental::future`). `std::experimental::future` is not compatible with `std::future` and is obtained from the corresponding functions in `std::experimental`, such as `std::experimental::promise`.
+`std::experimental::future` has a member function `then`, which spawns a new thread to do following-up tasks when the current `std::experiment::future` is *ready*. The following-up task should be a function that takes as input a future of previous return(e.g., `std::future<int>` if the previous task returns a `int`. Note that it's `std::future` rather than `std::experimental::future`). `std::experimental::future` is not compatible with `std::future` and is obtained from the corresponding functions in `std::experimental`, such as `std::experimental::promise`.
 
 ### Waiting for more than one future
 
@@ -220,13 +218,13 @@ auto results = result_of_when_any.get();
 DataType = results.futures[results.index].get();	// retrieve data
 ```
 
-### `std::experimental::latch`
+### `std::latch`
 
 A **latch** is a synchronization object that becomes ready when its counter is decremented to zero. It's *useful when you are waiting for a set of threads to reach a particular point in code*.
 
 ```c++
 const thread_count = max(std::thread::hardware_concurrency(), 2);
-std::experimental::latch done(thread_count);
+std::latch done(thread_count);
 DataType data[thread_count];
 std::vector<std::future<void>> threads;
 for (int i = 0; i < thread_count; ++i) {
@@ -240,7 +238,7 @@ done.wait();	// waits on the latch
 process_data(data);	// processes data. Threads may not be completed
 ```
 
-### `std::experimental::barrier`
+### `std::barrier`
 
 A barrier is a *reusable* synchronization component used for *internal synchronization between a set of threads*. When threads arrive at the barrier(at the point of calling `.arrive_and_wait()`), they block until all of the threads involved have arrived at the barrier, at which point they are all released.
 
@@ -252,7 +250,7 @@ std::vector<DataChunk> chunks;
 std::vector<DataChunk> results;
 
 constexpr thread_count = max(std::thread::hardware_concurrency(), 2);
-std::experimental::barrier sync(thread_count);
+std::barrier sync(thread_count);
 std::vector<std::future<void>> threads;
 for (int i = 0; i < thread_count; ++i) {
   threads.push_back(std::async(std::launch::async, [&, i]{
@@ -271,7 +269,7 @@ for (int i = 0; i < thread_count; ++i) {
 }
 ```
 
-### `std::experimental::flex_barrier`
+### `std::flex_barrier`
 
 `std::experimental::flex_barrier` add a completion function object to the completion phase where all threads arrive at the barrier. The completion function is run on one thread after all threads have arrived and returns a number indicating the number of participating threads in the next cycle ($$-1$$ indicates the set of participating threads is unchanged).
 
@@ -290,7 +288,7 @@ auto split_source = [&] {
 split_source();	// prepare chunks
 
 constexpr thread_count = max(std::thread::hardware_concurrency(), 2);
-std::experimental::flex_barrier sync(thread_count, [&] {
+std::flex_barrier sync(thread_count, [&] {
   sink.write_data(results);
   split_source();
   return -1;	// the number of participating threads remains unchanged

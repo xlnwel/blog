@@ -47,7 +47,7 @@ Memory location is a crucial concept for multithreading in C++; if some thread t
 
 An **atomic operation** is an indivisible operation, which one can't be observed as a half done from any thread in the system.
 
-**atomic types ** defined in `<atomic>` header may be implemented using some mutexes or other locking mechanism, rather than using lock-free atomic CPU instructions. When using atomic operations as a replacement for an operation that would otherwise uses a mutex for synchronization, the hoped-for performance gains may not be materialized if the atomic operations themselves implemented with an internal mutex. One may use member function `x.is_lock_free()` to identify, at run time, if the atomic object `x` is lock-free, or use `static constexpr` member variable `X::is_always_lock_free` at compile time.
+**atomic types** defined in `<atomic>` header may be implemented using some mutexes or other locking mechanism, rather than using lock-free atomic CPU instructions. When using atomic operations as a replacement for an operation that would otherwise uses a mutex for synchronization, the hoped-for performance gains may not be materialized if the atomic operations themselves implemented with an internal mutex. One may use member function `x.is_lock_free()` to identify, at run time, if the atomic object `x` is lock-free, or use `static constexpr` member variable `X::is_always_lock_free` at compile time.
 
 `std::atomic_flag` is the only type that's required to be lock-free. Other atomic types may or may not be lock-free depending on the implementation. On most popular platforms, it's expected that the atomic variants of all the built-in types are indeed lock-free, but it's not required.
 
@@ -84,7 +84,7 @@ Moreover, if the user-defined type provides a custom comparison operator doing s
 
 ### Synchronizing operations and enforcing ordering
 
-Let A and B be some operations. In particular, A is often an atomic write while B is an atomic read. We first introduce several terms before discussing ordering
+Let A and B be some operations. In particular, A is an *atomic write* while B is an *atomic read* if we talk about inter-thread synchronization. We first introduce several terms before discussing ordering
 
 - *Sequenced-before.* Within a same thread, A is sequenced-before B if A is evaluated before B
 - *Carries-a-dependency-to.* Within a same thread, A carries a dependency to B if B reads the result of A
@@ -104,7 +104,12 @@ There are four models for memory ordering. We order them from the mos relaxed on
 
 ### Fences
 
-If A in thread 1 synchronizes with B in thread 2 and there is a fence with `memory_ordering_release` before A and a fence with `memory_ordering_acquire` after B, then everything that happens before A becomes visible side effect to thread 2 after the acquire fence. 
+One may use `atomic_thread_fence` to enforce happens before. Assume B in thread 2 reads value written by A in thread 1. There are four way to ensure release-acquire ordering
+
+1. A is release, and B is acquire
+2. A is relaxed, B is acquire, and there is a release fence before A 
+3. A is release, B is relaxed, and there is an acquire fence after B
+4. Both A and B are relaxed. There is a release fence before A and an acquire fence after B
 
 ## References
 

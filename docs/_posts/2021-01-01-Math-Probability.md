@@ -1,5 +1,5 @@
 ---
-title: "Mathematics for Machine Learning — Probability"
+˜title: "Mathematics for Machine Learning — Probability"
 excerpt: "in which we discuss probabilities used in machine learning/deep learning"
 categories:
   - Mathematics
@@ -54,7 +54,7 @@ Variance also has some useful properties
 - $$\text{Var}(\alpha X+\beta)=\alpha^2 \text{Var}(X)$$
 - If all $$X_i$$ are uncorrelated, then $$\text{Var}(\sum_{i=1}^nX_i)=\sum_{i=1}^n\text{Var}(X_i)$$
 
-Because the units of variance are not the same as the units of the random variable, we define **standard deviation**
+Because the units of variance are not the same as the units of the random variable, we introduce the **standard deviation** as the square root of the variance.
 
 ## Covariance
 
@@ -100,7 +100,7 @@ Two variables are **uncorrelated** if $$\rho(X,Y)=\text{Cov}(X,Y)=0$$.
 
 In the absence of prior knowledge about what form a distribution over the real numbers should take, the **Gaussian distribution** (a.k.a. the **normal distribution**) is a good default choice for two major reasons
 
-- Many distributions we wish to model are truly close to being normal distributions. The **central limit theorem** shows that the sum of many independent random variables is approximate normally distributed.
+- Many distributions we wish to model are truly close to being normal distributions. The **central limit theorem** shows that the sum/mean of many independent random variables is approximate normally distributed.
 - Out of all possible probability distributions with the same variance, the normal distribution encodes the maximum amount of uncertainty(in other words, it has the maximum entropy) over the real numbers. 
 
 The multivariate normal distribution is expressed as
