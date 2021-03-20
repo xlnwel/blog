@@ -1,12 +1,11 @@
 ---
 title: "Hide and Seek"
-excerpt: "In which we discuss an agent developed by OpenAI et al. that exhibits several emergent strategies in hide-and-seek environment."
+excerpt: "Discussion on an agent developed by OpenAI et al. that exhibits several emergent strategies in hide-and-seek environment."
 categories:
   - Reinforcement Learning
 tags:
-  - Multi-Agent Reinforcement Learning
-  - Distributed Reinforcement Learning
-  - Reinforcement Learning Application
+  - Multi-Agent RL
+  - RL Application
 ---
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/kopoLzvh5jY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -21,7 +20,7 @@ There are $$N$$ agents interacting with each other in the environment. Each agen
 
 ## Method
 
-The agent is based on [PPO]({{ site.baseurl }}{% post_url 2018-11-21-PPO %}), [GAE]({{ site.baseurl }}{% post_url 2018-11-27-GAE %}), LSTM, rapid, and self-play. Both hider and seeker share the same actor-critic architecture.
+The agent is based on [PPO]({{ site.baseurl }}{% post_url 2018-11-27-PPO %}), [GAE]({{ site.baseurl }}{% post_url 2018-12-01-GAE %}), LSTM, rapid, and self-play. Both hider and seeker share the same actor-critic architecture.
 
 ### Input Preprocessing
 

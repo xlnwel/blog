@@ -1,10 +1,11 @@
 ---
 title: "The Deadly Triad"
-excerpt: "In which we analyze how different components of DQN play a role in emergence of the deadly triad"
+excerpt: "We analyze how different components of DQN play a role in emergence of the deadly triad"
 categories:
   - Reinforcement Learning
 tags:
-  - Value-Based Reinforcement Learning
+  - Value-Based RL
+  - Tricks
 ---
 
 ## Introduction

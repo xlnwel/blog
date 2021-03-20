@@ -1,10 +1,10 @@
 ---
 title: "Some Exploration Algorithms: EX2, LSH, VIME etc."
-excerpt: "In which we discuss a bunch of exploration algorithm, including count-based methods, Thompson sampling, and information gain exploration."
+excerpt: "Discussion on a bunch of exploration algorithm, including count-based methods, Thompson sampling, and information gain exploration."
 categories:
   - Reinforcement Learning
 tags:
-  - Exploration
+  - Exploration in RL
 ---
 
 ## Introduction

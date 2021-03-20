@@ -5,7 +5,7 @@ categories:
   - Computer Science
 ---
 
-# Designing advanced thread management
+# advanced thread management
 
 ## Thread pools
 

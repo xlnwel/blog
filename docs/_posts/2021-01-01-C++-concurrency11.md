@@ -35,7 +35,7 @@ Race conditions often cause the following types of problems:
 
 ### Questions to think about when reviewing multithreaded code
 
-Here are some questions to think about when reviewing multithreaded code(I summarize them a bit, you may want to refer to Page 343 for the complete list)
+Here are some questions to think about when reviewing multithreaded code
 
 - Which data needs to be protected from concurrent code?
 - How do you ensure that the data is protected?

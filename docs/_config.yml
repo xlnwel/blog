@@ -18,8 +18,8 @@
 remote_theme: mmistakes/so-simple-theme
 
 locale: en-US
-title: "Maybe"
-description: "One Day."
+title: "Zero"
+description: "Give it time."
 baseurl: "/blog"
 url: "https://xlnwel.github.io"
 logo: "/images/logo.jpg"
@@ -39,7 +39,7 @@ google_analytics: "UA-2011187-2"
 disqus:
   shortname: "sosimpletheme"
 twitter:
-  username: "Maybe___OneDay"
+  username: "Zero"
 google_site_verification: "UQj93ERU9zgECodaaXgVpkjrFn9UrDMEzVamacSoQ8Y"
 
 # Liquid

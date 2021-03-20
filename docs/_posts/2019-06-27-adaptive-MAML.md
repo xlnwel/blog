@@ -1,6 +1,6 @@
 ---
 title: "Adaptive MAML — Applying MAML-RL to nonstationary environments"
-excerpt: "In which we discuss a variant of MAML-RL for solving tasks that change dynamically due to non-stationary of the environment."
+excerpt: "Discussion on a variant of MAML-RL for solving tasks that change dynamically due to non-stationary of the environment."
 categories:
   - Reinforcement Learning
 tags:

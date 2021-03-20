@@ -1,6 +1,6 @@
 ---
 title: "Discrete Probability Distributions"
-excerpt: "In which we discuss several discrete probability distributions in statistics"
+excerpt: "Discussion on several discrete probability distributions in statistics"
 categories:
   - Mathematics
 tags:
@@ -18,7 +18,7 @@ tags:
   - [Dirichlet Distribution](#dirichlet)
 - [Poisson Distribution](#poisson)
 
-## <a name='bv'></a>Binary Variables
+## <a name="bv"></a>Binary Variables
 
 For a binary variable, we define the Bernoulli distribution as
 
@@ -64,13 +64,17 @@ $$
 $$
 
 
-### <a name='binomial'></a>Binomial Distribution
+### <a name="binomial"></a>Binomial Distribution
 
 We can extend the Bernoulli distribution to the binomial distribution, in which we have $$N$$ variables of a Bernoulli distribution and consider the probability of the number of successes. The binomial distribution can be written as
 
 $$
 \begin{align}
-\text{Bin}(m|N,\mu)=\begin{pmatrix}N\\\m\end{pmatrix}\mu^m(1-\mu)^{N-m}\tag{4}\label{eq:4}
+\text{Bin}(m|N,\mu)=\begin{pmatrix}
+N\\\
+m
+\end{pmatrix}
+\mu^m(1-\mu)^{N-m}\tag{4}\label{eq:4}
 \end{align}
 $$
 
@@ -84,7 +88,7 @@ $$
 $$
 
 
-### <a name='beta'></a>Beta Distribution
+### <a name="beta"></a>Beta Distribution
 
 The maximum likelihood estimation given by Equation $$\eqref{eq:3}$$ can easily overfit for small dataset, especially when we have all observations of $$1$$ or $$0$$. We can mitigate such overfitting by introducing a prior distribution on the parameters. For binary variables, we choose the beta distribution for $$\mu$$, which is defined as
 
@@ -128,7 +132,7 @@ p(x=1|\mathcal D)=\int_0^1p(x=1|\mu)p(\mu|\mathcal D)d\mu=\int_0^1\mu p(\mu|\mat
 $$
 
 
-## <a name='mn'></a>Multinomial Variables
+## <a name="mn"></a>Multinomial Variables
 
 We generally represent a variable that can take on one of $$K$$ values by a one-hot $$K$$-dimensional vector $$\pmb x$$. 
 
@@ -155,9 +159,9 @@ Suppose we have a dataset $$\mathcal D=\{\pmb x_1,\dots,\pmb x_N\}$$ of i.i.d. o
 
 $$
 \begin{align}
-p(\mathcal D|\pmb\mu)=\prod_{n=1}^N p(\pmb x_n|\mu)=\prod_{n=1}^N\prod_{k=1}^K\mu_k^{x_{nk}}=\prod_{k=1}^K\mu_k^{\sum_n x_{nk}}=\prod_{k=1}^K\mu_k^{m_k}\tag{8}\label{eq:8}\\\
-where\quad m_k=\sum_nx_{nk}\\\
-s.t.\quad\sum_{k=1}^K\mu_k=1,\ \mu_k>0
+p(\mathcal D|\pmb\mu)=\prod_{n=1}^N p(\pmb x_n|\mu)=&\prod_{n=1}^N\prod_{k=1}^K\mu_k^{x_{nk}}=\prod_{k=1}^K\mu_k^{\sum_n x_{nk}}=\prod_{k=1}^K\mu_k^{m_k}\tag{8}\label{eq:8}\\\
+where\quad m_k=&\sum_nx_{nk}\\\
+s.t.\quad\sum_{k=1}^K\mu_k=&1,\ \mu_k>0
 \end{align}
 $$
 
@@ -186,25 +190,26 @@ $$
 $$
 
 
-### <a name='multinomial'></a>Multinomial Distribution
+### <a name="multinomial"></a>Multinomial Distribution
 
 We can consider the joint distribution of the quantities $$m_1,\dots, m_K$$ conditioned on the parameters $$\pmb\mu$$ and on the total number $$N$$ of observations. This gives us
 
 $$
 \begin{align}
-\text{Mult}(m_1,m_2,\dots,m_K)=\begin{pmatrix}N\\\m_1m_2\dots m_K\end{pmatrix}\prod_{k=1}^K\mu_k^{m_k}
+\text{Mult}(m_1,m_2,\dots,m_K)=\begin{pmatrix}N\\\
+m_1m_2\dots m_K\end{pmatrix}\prod_{k=1}^K\mu_k^{m_k}
 \end{align}
 $$
 
 
-### <a name='dirichlet'></a>Dirichlet Distribution
+### <a name="dirichlet"></a>Dirichlet Distribution
 
 Similar to the beta distribution for the binomial distribution, the Dirichlet distribution is a conjugate distribution for the multinomial distribution. It takes the form
 
 $$
 \begin{align}
-\text{Dir}(\pmb\mu|\pmb\alpha)={\Gamma(\alpha_0)\over\Gamma(\alpha_1)\dots\Gamma(\alpha_K)}\prod_{k=1}^K\mu_k^{\alpha_k-1}\propto\prod_{k=1}^K\mu_k^{\alpha_k-1}\\\
-where\quad\alpha_0=\sum_{k=1}^K\alpha_k
+\text{Dir}(\pmb\mu|\pmb\alpha)=&{\Gamma(\alpha_0)\over\Gamma(\alpha_1)\dots\Gamma(\alpha_K)}\prod_{k=1}^K\mu_k^{\alpha_k-1}\propto\prod_{k=1}^K\mu_k^{\alpha_k-1}\\\
+where\quad\alpha_0=&\sum_{k=1}^K\alpha_k
 \end{align}
 $$
 
@@ -229,7 +234,7 @@ The binomial distribution tends to be the Poisson distribution as $$n\rightarrow
 
 ## Appendix
 
-### <a name='app1'></a>1. Properties of Gamma Function
+### <a name="app1"></a>1. Properties of Gamma Function
 
 The gamma function can be seen as the solution to the following interpolation problem:
 

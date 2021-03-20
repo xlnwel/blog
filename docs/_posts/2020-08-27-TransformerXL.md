@@ -1,12 +1,10 @@
 ---
 title: "TransformerXL"
-excerpt: "In which we discuss a successor of Transformer, namely TransformerXL, that can learn from sequences beyond a fixed length"
+excerpt: "Discussion on a successor of Transformer, namely TransformerXL, that can learn from sequences beyond a fixed length"
 categories:
   - Deep Learning
 tags:
-  - Deep Learning
-  - Representation Learning
-  - Network Architecture
+  - Sequential Model
 ---
 
 ## Introduction

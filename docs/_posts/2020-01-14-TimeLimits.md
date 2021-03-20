@@ -1,6 +1,6 @@
 ---
 title: "Time Limits in Reinforcement Learning"
-excerpt: "In which we discuss the impact of time limits in reinforcement learning"
+excerpt: "Discussion on the impact of time limits in reinforcement learning"
 categories:
   - Reinforcement Learning
 tags:

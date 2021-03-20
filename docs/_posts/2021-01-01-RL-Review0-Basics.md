@@ -4,6 +4,7 @@ excerpt: "Reinforcement learning basics"
 categories:
   - Reinforcement Learning
 tags:
+  - RL Review
 ---
 
 ### Prove the convergence of the Bellman optimality update
@@ -21,17 +22,9 @@ If we can prove $$\vert \mathcal TV(s)-\mathcal TV^*(s)\vert <\vert V(s)-V^*(s)\
 $$
 \begin{align}
 |\mathcal TV(s)-\mathcal TV^*(s)|&=\left|\gamma\max_a\mathbb E_{p(s'|s,a)}[V(s')]-\gamma\max_a\mathbb E_{p(s'|s,a)}[V^*(s')]\right|\\\
-&\qquad\color{red}{\text{because } |\max_x f(x)-\max_x g(x)|\le\max_x|f(x)-g(x)|}\\\
+&\qquad\color{red}{|\max_x f(x)-\max_x g(x)|\le\max_x|f(x)-g(x)|}\\\
 &\le\gamma\max_a\mathbb E_{p(s'|s,a)}\left|[V(s')]-[V^*(s')]\right|\\\
 &\le\gamma\max_s|V(s)-V^*(s)|
-\end{align}
-$$
-
-the first ineuqality follows from property
-
-$$
-\begin{align}
-|\max_x f(x)-\max_x g(x)|\le\max_x|f(x)-g(x)|
 \end{align}
 $$
 
@@ -103,7 +96,7 @@ v(s_t)=\rho_t(r_t+\gamma v(s_{t+1}))+(1-\rho_t)V(s_t)\tag{1}\label{eq:1}
 \end{align}
 $$
 
-where $$v$$ denotes the off-policy target, $$\rho$$ denotes the importance sampling ratio, and $$V$$ denotes the value function. This reduces the variance since if $$\rho$$ is zero, then instead of the target being zero and causing the estimate to shrink, the target is the same as the estimate and causes no change. The importance sampling ratio being zero means we should ignore the sample, so leaving the estimate unchanged seems appropriate. The second, additional term in Eq.$$\eqref{eq:1}$$ is called a *control variate* (for obscure reasons). Notice that the control variate does not change the expected update; the importance sampling ratio has expected value one(i.e., $$\mathbb E_{b}[{\pi\over b}]=1$$) and is uncorrelated with the estimate($$V(s_t)$$), so the expected value of the control variate is zero. (7.4 Sutton & Barto)
+where $$v$$ denotes the off-policy target, $$\rho$$ denotes the importance sampling ratio, and $$V$$ denotes the value function. This reduces the variance since if $$\rho$$ is zero, then instead of the target being zero and causing the estimate to shrink, the target is the same as the estimate and causes no change. The importance sampling ratio being zero means we should ignore the sample, so leaving the estimate unchanged seems appropriate. The second, additional term in Eq.$$\eqref{eq:1}$$ is called a *control variate* (for obscure reasons). Notice that the control variate does not change the expected update; the importance sampling ratio has expected value one(i.e., $$\mathbb E_{b}[{\pi\over b}]=1$$) and is uncorrelated with the estimate($$V(s_t)$$), so the expected value of the control variate is zero. (7.4 Sutton & Barto 2018)
 
 Expanding $$v(s_{t+1})$$, we will have
 
@@ -139,7 +132,7 @@ q(s_t,a_t)&=\underbrace{r_t+\gamma V(s_{t+1})-Q(s_t,a_t)}_{\delta_t}+Q(s_t,a_t)+
 \end{align}
 $$
 
-where we take $$q(s_{t+n}, a_{t+n})=Q(s_{t+n}, a_{t+n})$$ at the last step. This is almost the Retrace($$\lambda$$) introduced by R´emi Munos et al. in 2016, except that Retrace($$\lambda$$) truncates $$\rho$$ and additionally multiply $$\rho$$ by $$\lambda$$. Note that the importance sampling starts from $$t+1$$ since action value has specified action at time $$t$$. Equation $$\eqref{eq:6}$$ shows a recursive way to compute $$q(s_t,a_t)-Q(s_t,a_t)$$.
+where we take $$q(s_{t+n}, a_{t+n})=Q(s_{t+n}, a_{t+n})$$ at the last step. This is almost the Retrace($$\lambda$$) introduced by [R´emi Munos et al. 2016]({{ site.baseurl }}{% post_url 2020-11-07-Retrace %}), except that Retrace($$\lambda$$) truncates $$\rho$$ and additionally multiply $$\rho$$ by $$\lambda$$. Note that the importance sampling starts from $$t+1$$ since action value has specified action at time $$t$$. Equation $$\eqref{eq:6}$$ shows a recursive way to compute $$q(s_t,a_t)-Q(s_t,a_t)$$.
 
 ### Compare Policy Gradient Algorithms with Value-Based algorithms
 

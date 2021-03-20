@@ -1,9 +1,10 @@
 ---
 title: "Challenges of Real-World Reinforcement Learning"
-excerpt: "In which we discuss several challenges of real-world reinforcement learning."
+excerpt: "Discussion on several challenges of real-world reinforcement learning."
 categories:
   - Reinforcement Learning
 tags:
+  - Overviews
 ---
 
 ## Challenges
@@ -20,7 +21,7 @@ Dulac-Arnold et al. enumerate several challenges of real-world reinforcement lea
 8. Inference that must happen in real-time at the control frequency of the system.
 9. Large and/or unknown delays in the system actuators, sensors, or rewards.
 
-## <a name='brl'></a>Batch Reinforcement Learning
+## <a name="brl"></a>Batch Reinforcement Learning
 
 We have covered several algorithms in batch reinforcement learning(BRL) in the previous posts[[1]({{ site.baseurl }}{% post_url 2019-12-07-BCQ %}), [2]({{ site.baseurl }}{% post_url 2019-12-14-REM %})], another important aspect of BRL is off-policy evaluation, which refers to evaluate the policy's performance without running it on the real system. There are three approaches to off-policy evaluation:
 
@@ -92,16 +93,16 @@ Van Seijen et al. present an approach that takes advantage of multi-objective re
 
 ## References
 
-<a name='dalal2018'></a>Dalal, G., Dvijotham, K., Vecerik, M., Hester, T., Paduraru, C., and Tassa, Y. Safe exploration in continuous action spaces. CoRR, abs/1801.08757, 2018. URL http://arxiv.org/abs/1801.08757.
+<a name="dalal2018"></a>Dalal, G., Dvijotham, K., Vecerik, M., Hester, T., Paduraru, C., and Tassa, Y. Safe exploration in continuous action spaces. CoRR, abs/1801.08757, 2018. URL http://arxiv.org/abs/1801.08757.
 
-<a name='carrara2018'></a>Carrara, N., Laroche, R., Bouraoui, J., Urvoy, T., Olivier, T. D. S., and Pietquin, O. A ﬁtted-q algorithm for budgeted mdps. In EWRL 2018, 2018.
+<a name="carrara2018"></a>Carrara, N., Laroche, R., Bouraoui, J., Urvoy, T., Olivier, T. D. S., and Pietquin, O. A ﬁtted-q algorithm for budgeted mdps. In EWRL 2018, 2018.
 
-<a name='hausknetcht2015'></a>Hausknecht, M. J. and Stone, P. Deep recurrent q-learning for partially observable mdps. CoRR, abs/1507.06527, 2015
+<a name="hausknetcht2015"></a>Hausknecht, M. J. and Stone, P. Deep recurrent q-learning for partially observable mdps. CoRR, abs/1507.06527, 2015
 
-<a name='peng2018'></a>Peng, X. B., Andrychowicz, M., Zaremba, W., and Abbeel, P. Sim-to-real transfer of robotic control with dynamics randomization. In 2018 IEEE International Conference on Robotics and Automation (ICRA), pp. 1–8. IEEE, 2018
+<a name="peng2018"></a>Peng, X. B., Andrychowicz, M., Zaremba, W., and Abbeel, P. Sim-to-real transfer of robotic control with dynamics randomization. In 2018 IEEE International Conference on Robotics and Automation (ICRA), pp. 1–8. IEEE, 2018
 
-<a name='tamar2015'></a>Tamar, A., Glassner, Y., and Mannor, S. Optimizing the cvar via sampling. In Twenty-Ninth AAAI Conference on Artiﬁcial Intelligence, 2015b.
+<a name="tamar2015"></a>Tamar, A., Glassner, Y., and Mannor, S. Optimizing the cvar via sampling. In Twenty-Ninth AAAI Conference on Artiﬁcial Intelligence, 2015b.
 
-<a name='seijen2017'></a>Harm van Seijen, Mehdi Fatemi, Joshua Romoff, Romain Laroche, Tavian Barnes, Jeffrey Tsang. Hybrid Reward Architecture for Reinforcement Learning. in NIPS 2017
+<a name="seijen2017"></a>Harm van Seijen, Mehdi Fatemi, Joshua Romoff, Romain Laroche, Tavian Barnes, Jeffrey Tsang. Hybrid Reward Architecture for Reinforcement Learning. in NIPS 2017
 
-<a name='hung2018'></a>Hung, C.-C., Lillicrap, T., Abramson, J., Wu, Y., Mirza, M., Carnevale, F., Ahuja, A., and Wayne, G. Optimizing agent behavior over long time scales by transporting value. arXiv preprint arXiv:1810.06721, 2018.
+<a name="hung2018"></a>Hung, C.-C., Lillicrap, T., Abramson, J., Wu, Y., Mirza, M., Carnevale, F., Ahuja, A., and Wayne, G. Optimizing agent behavior over long time scales by transporting value. arXiv preprint arXiv:1810.06721, 2018.

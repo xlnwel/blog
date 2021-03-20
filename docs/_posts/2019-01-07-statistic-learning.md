@@ -1,10 +1,9 @@
 ---
 title: "SL — Statistic Learning: A Connection to Neural Networks"
-excerpt: "In which we expand the topic of latent variable models in a sense that the latent variables model the underlying structure of the observed data, whereby the model is able to do statistical inference over these latent variables. Then we will build a connnection between statistic learning and neural networks."
+excerpt: "We expand the topic of latent variable models in a sense that the latent variables model the underlying structure of the observed data, whereby the model is able to do statistical inference over these latent variables. Then we will build a connnection between statistic learning and neural networks."
 categories:
-  - Deep Learning
+  - Mathematics
 tags:
-  - Deep Learning
   - Mathematics
 ---
 

@@ -1,11 +1,10 @@
 ---
-stitle: "Anti-Aliasing"
-excerpt: "In which we discuss ."
+title: "Anti-Aliasing"
+excerpt: "Discussion on aliasing in modern convolutional neural networks and address it with low-pass filters."
 categories:
   - Deep Learning
 tags:
-  - Deep Learning
-  - Network Architecture
+  - Computer Vision
 ---
 
 ## Terminologies
@@ -66,4 +65,4 @@ $$
 
 ## References
 
-<a name='ref1'></a>Zhang, Richard. 2019. “Making Convolutional Networks Shift-Invariant Again.” *36th International Conference on Machine Learning, ICML 2019* 2019-June: 12712–22.
+<a name="ref1"></a>Zhang, Richard. 2019. “Making Convolutional Networks Shift-Invariant Again.” *36th International Conference on Machine Learning, ICML 2019* 2019-June: 12712–22.

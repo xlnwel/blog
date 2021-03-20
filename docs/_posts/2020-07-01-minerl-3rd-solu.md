@@ -1,11 +1,11 @@
 ---
 title: "3rd-place solution to MineRL 2019 Competition"
-excerpt: "In which we discuss the 3rd-place solution to MineRL 2019 Competition."
+excerpt: "Discussion on the 3rd-place solution to MineRL 2019 Competition."
 categories:
   - Reinforcement Learning
 tags:
-  - Offline Reinforcement Learning
-  - Reinforcement Learning Application
+  - Offline RL
+  - RL Application
 ---
 
 ## Introduction

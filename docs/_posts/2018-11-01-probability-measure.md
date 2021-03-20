@@ -1,6 +1,6 @@
 ---
 title: "Probability Measures in Deep Learning"
-excerpt: "In which we scratch several probability measures commonly seen in deep learning."
+excerpt: "We scratch several probability measures commonly seen in deep learning."
 categories:
   - Mathematics
 tags:
@@ -17,9 +17,9 @@ D_{KL}(p\Vert q) = \int p(x) \log{p(x)\over q(x)}dx
 $$
 
 
-Forward KL --- moment-matching: Drawing $$q(x)$$ close to $$p(x)$$
+Forward KL—moment-matching: Drawing $$q(x)$$ close to $$p(x)$$
 
-Reverse KL --- mode-seeking: Drawing $$p(x)$$ close to $$q(x)$$
+Reverse KL—mode-seeking: Drawing $$p(x)$$ close to $$q(x)$$
 
 https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/
 

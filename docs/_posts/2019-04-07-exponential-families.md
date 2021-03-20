@@ -1,6 +1,6 @@
 ---
 title: "Exponential Families"
-excerpt: "In which we talk about Exponential Famlies"
+excerpt: "Discussion on Exponential Famlies"
 categories:
   - Mathematics
 tags:

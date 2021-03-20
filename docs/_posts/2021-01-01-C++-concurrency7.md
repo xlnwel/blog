@@ -11,9 +11,9 @@ categories:
 
 Data structures and algorithms that use mutexes, conditional variables, and futures to synchronize the data are called *blocked* data structures and algorithms. When a thread is blocked, the OS will suspend the thread completely and allow another thread to run first.
 
-Data structures and algorithms that don't use blocking library functions are said to be *nonblocking*. 
+Data structures and algorithms that don't use blocking library functions are said to be *nonblocking*. In C++, nonblocking concurrency is achieved by *atomic* types and operations.
 
-The reason for using a compare/exchange operation is that another thread might have modified the data in the meantime, in which case the code will need to redo part of its operation(e.g., the false part of compare/exchange) before trying the compare/exchange again.
+The most important atomic operation is the compare/exchange operation. It's important as another thread might have modified the data in the meantime, in which case the code will need to redo part of its operation(e.g., the false part of compare/exchange) before trying the compare/exchange again.
 
 ## Detecting nodes that can't be reclaimed using hazard pointers
 
@@ -98,5 +98,5 @@ Several guidelines for working lock-free data structures are listed below
 
 ## References
 
-<a name='ref1'></a>Williams, Anthony. 2019. *C++ Concurrency in Action, 2nd Edition*.
+<a name="ref1"></a>Williams, Anthony. 2019. *C++ Concurrency in Action, 2nd Edition*.
 

@@ -1,20 +1,21 @@
 ---
 title: "Go-Explore"
-excerpt: "In which we discuss Go-Explore, a family of algorithms designed for hard-exploration games"
+excerpt: "Discussion on Go-Explore, a family of algorithms designed for hard-exploration games"
 categories:
   - Reinforcement Learning
 tags:
-  - Exploration
+  - Exploration in RL
 ---
 
 ## Introduction
 
 We discuss Go-Explore proposed by [Ecoffet et al. 2021](#ref1) on Nature. Go-Explore outperform humans on all Atari57, and achieve incredibly good performance on hard-exploration games, such as Montezuma's Revenge.
 
-Despite it's appealing results, there are two main disadvantages needed to be aware of:
+Despite it's appealing results, there are three concerns needed to be aware of:
 
-1. Go-Explore requires the environment to be resettable to some specific state. Although [Ecoffet et al. 2021](#ref1) also propose training a policy to circumvent this issue, they only test it on Montezuma's Revenge and Pitfall and therefore, we don't suppose it's a general solution.
-2. Go-Explore is sample inefficient on environments with dense rewards, compared to the contemporary SOTA algorithms such as [Agent57]({{ site.baseurl }}{% post_url 2020-05-01-Agent57 %}). In particular, it uses the [backward algorithm]({{ site.baseurl }}{% post_url 2020-12-14-Backward %}) in the Robustification phase, which is prohibitively expensive and time-consuming.
+1. Go-Explore requires the environment to be resettable to some specific state. [Ecoffet et al. 2021](#ref1) also propose training a goal-directed policy to circumvent this issue, which also outperforms SOTA algorithms and human performance in Montezuma's Revenge and Pitfall. However, regarding the limited environments they test in, it's still unclear if this is a general solution.
+2. In the exploration phase, Go-Explore is only able to find the optimal open-loop trajectories. In other words, There is no learning happening here and subsequently there is no way to replicate these trajectories if the environment is stochastic. Learning actually happens in the robustification phase, where Go-Explore adopts the [backward algorithm]({{ site.baseurl }}{% post_url 2021-01-21-Backward %}), which is extremely expensive, to learn from these optimal trajectories. The good news is that the policy learned in the robustification phase is able to achieve performance comparable to, sometimes exceeding the one from the exploration phase.
+3. Due to the random exploration nature in the exploration phase, Go-Explore is sample inefficient(usually trained in the scale of billions of frames) on environments with dense rewards, compared to the contemporary SOTA algorithms such as [Agent57]({{ site.baseurl }}{% post_url 2020-05-01-Agent57 %}). 
 
 ## Issues of Intrinsic-Motivated Exploration
 
@@ -62,7 +63,7 @@ Go-Explore avoids these problems by storing an archive of promising states so th
   </style>
 </figure>
 
-Go-Explore consists of two phases: In Phase 1, it maintains an archive that records promising(novel) states. At each iteration, the agent first returns to one of the states in the archive, and then takes actions to explore the environment for $$k$$ steps, adding novel states and associated trajectories to the archive. In Phase 2, it learns a policy through the [backward algorithm]({{ site.baseurl }}{% post_url 2020-12-14-Backward %}). 
+Go-Explore consists of two phases: In Phase 1, it maintains an archive that records promising(novel) states. At each iteration, the agent first returns to one of the states in the archive, and then takes actions to explore the environment for $$k$$ steps, adding novel states and associated trajectories to the archive. In Phase 2, it learns a policy through the [backward algorithm]({{ site.baseurl }}{% post_url 2021-01-21-Backward %}). 
 
 Note that 1) Phase 1 may not involve any network training if random actions are used for exploration; 2) Due to the prohibitive cost of the backward algorithm, the robustification phase may be omitted if we only need good trajectories for the game, in which case, no learning is performed.
 
@@ -102,7 +103,7 @@ Here $$H_n(\pmb p)$$ is the normalized entropy, which preserves the scale of the
 
 At each step of the randomized search, new values of each parameter $$w,h,d$$ are proposed by sampling from a geometric distribution whose mean is the current best known value of the given parameter. If the current best known value is lower than a heuristic minimum mean, the heuristic mean is used instead. New parameter values are re-sampled if they fall outside of the valid range of the parameter.
 
-The recent frames that constitute the sample over which parameter search is done are obtained by maintaining a set of recently seen sample frames as Go-Explore runs: each time a frame not already in the set is seen during the explore step, it is added to the running set with a probability of $$1\%$$. If the resulting set contains more than 10,000 frames, the oldest frame it contains is removed.
+The recent frames that constitute the sample over which parameter search is done are obtained by maintaining a set of recently seen sample frames as Go-Explore runs: during the exploration phase, a frame not already is added to the running set with a probability of $$1\%$$. If the resulting set contains more than 10,000 frames, the oldest frame it contains is removed.
 
 We omit the domain knowledge representations and refer interested readers to the paper.
 
@@ -112,7 +113,7 @@ Cells and the corresponding state and trajectories are added to the archive if i
 
 ### Robustification
 
-It works by starting the agent near the last state in the trajectory, and then running an ordinary RL algorithm from there (in this case Proximal Policy Optimization (PPO+SIL) ). Once the algorithm has learned to obtain the same or a higher reward than the example trajectory from that starting place near the end of the trajectory, the algorithm backs the agent’s starting point up to a slightly earlier place along the trajectory, and repeats the process until eventually the agent has learned to obtain a score greater than or equal to the example trajectory all the way from the initial state.
+It works by starting the agent near the last state in the trajectory, and then running an ordinary RL algorithm from there (in this case, PPO+SIL). Once the algorithm has learned to obtain the same or a higher reward than the example trajectory from that starting place near the end of the trajectory, the algorithm backs the agent’s starting point up to a slightly earlier place along the trajectory, and repeats the process until eventually the agent has learned to obtain a score greater than or equal to the example trajectory all the way from the initial state.
 
 #### Self-Imitation Learning
 
@@ -152,7 +153,7 @@ Figure 3 shows promising results of Go-Explore. However, the SOTA excludes Agent
   </style>
 </figure>
 
-From Figure 2, we can see that the robustification phase may produce a better learning algorithm even exceeding the exploration phase. 
+From Figure 2, we can see that the robustification phase produces a comparable, sometimes even a better learning algorithm that exceeds the exploration phase. 
 
 ## References
 

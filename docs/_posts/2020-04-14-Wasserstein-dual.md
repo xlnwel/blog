@@ -5,7 +5,6 @@ categories:
   - Mathematics
 tags:
   - Mathematics
-  - Deep Learning
 ---
 
 ## Introduction

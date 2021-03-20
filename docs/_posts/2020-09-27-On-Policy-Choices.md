@@ -1,15 +1,27 @@
 ---
 title: "What Matters In On-Policy Reinforcement Learning?"
-excerpt: "In which we discuss several design decisions on on-policy reinforcement learning"
+excerpt: "Discussion on several design decisions on on-policy reinforcement learning"
 categories:
   - Reinforcement Learning
 tags:
-  - Policy-Gradient Reinforcement Learning
+  - Policy-Gradient RL
+  - Tricks
 ---
 
 ## Introduction
 
 On-policy algorithms such as PPO has been successfully applied to solve many practical tasks. Lying beneath the success are numerous decision choices that greatly affect the performance but are understated in the corresponding literature. In this post, we follow the footprint of [Andrychowicz et al. 2020](#ref1) to discuss several design decisions on on-policy reinforcement learning.
+
+## TL; DR
+
+- Try PPO loss first with $$\epsilon=.25$$ for multi-pass on-policy training.
+- For feature-based continuous control tasks, $$\tanh$$ performs better than $$\text{ReLU}$$
+- Initialize the policy head with small weights($$100\times$$ smaller than others) and the standard deviation to a small value
+- Apply observation normalization and gradient clipping
+- Use large experience chunk and large mini-batch
+- Do not gather too much transitions at each iteration unless you increases the mini-batch size
+- Recompute advantage and shuffle data for each epoch
+- Use Adam with $$lr=3e-4$$ for a start
 
 ## Environments
 
@@ -32,7 +44,7 @@ For PPO, they also observe that $$\epsilon=0.2$$ and $$\epsilon=0.3$$ performs r
 
 **Recommandation:** Use the PPO loss. Start with the clipping threshold set to $$0.25$$ but also try lower and higher values if possible.
 
-**Thoughts.** It's quite surprising that V-trace performs so worse in their experiments. This is likely caused by the inability of V-trace to handle off-policy data, due to multiple passes over experience. Note that V-trace trade off variance of importance sampling for a biased estimate. Therefore, when 
+**Thoughts.** It's quite surprising that V-trace performs so worse in their experiments. This is likely caused by the inability of V-trace to handle off-policy data, due to multiple passes over experience. Note that V-trace trade off variance of importance sampling for a biased estimate, converging to a policy that interpolates the optimal and behavior policies.
 
 ## Network Architecture
 
@@ -46,7 +58,7 @@ For PPO, they also observe that $$\epsilon=0.2$$ and $$\epsilon=0.3$$ performs r
   </style>
 </figure>
 
-Networks too large or too small could significantly impair the performance. Surprisingly, they find $$\tanh$$ performs best and $$ReLU$$ performs worst (Figure 30). This is contrast to my experience on image-based tasks, where I find $$ReLU$$ outperforms other activations.
+Networks too large or too small could significantly impair the performance. Surprisingly, they find $$\tanh$$ performs best and $$\text{ReLU}$$ performs worst (Figure 30). This is contrast to my experience on image-based tasks, where I find $$\text{ReLU}$$ outperforms other activations.
 
 Policy initialization matters: initializing the action distribution with mean $$0$$ and standard deviation $$0.5$$ regardless of input appears most fruitful on the considered environments. This can be achieved by initializing the policy MLP with smaller weights in the last layer.
 
@@ -54,13 +66,13 @@ They find that network initialization does not matter much (except that He initi
 
 No benefit is found to learn state-dependent standard deviation. No difference is spotted using exponentiation or softplus when transforming the standard deviation to ensure non-negativity.
 
-**Recommendation:** Initialize the last policy layer with $$100\times$$ smaller weights. Use softplus to transform network output into action standard deviation and add a (negative) offset to its input to decrease the initial standard deviation of actions. Tune this off-set if possible.
+**Recommendation:** Initialize the last policy layer with $$100\times$$ smaller weights. Use softplus to transform network output into action standard deviation and add a (negative) offset to its input to decrease the initial standard deviation of actions. Tune this offset if possible.
 
 ## Normalization and Clipping
 
 Observation normalization is crucial for good performance but the clipping after normalization seems less important. 
 
-Value normalization normalize the value function targets and denormalize the value function accordingly to obtain predicted value: $$\hat V=v_\mu+V\max(v_\sigma, 10^{-6})$$, where $$v_\mu$$ and $$v_\sigma$$ are empirical mean and standard deviation, respectively. It's hard to say if value function normalization is useful as it sometimes helps significantly but sometime hurts badly. 
+Value normalization normalizes the value function targets and denormalize the value function accordingly to obtain predicted value: $$\hat V=v_\mu+V\max(v_\sigma, 10^{-6})$$, where $$v_\mu$$ and $$v_\sigma$$ are empirical mean and standard deviation, respectively. It's hard to say if value function normalization is useful as it sometimes helps significantly but sometime hurts badly. 
 
 Per-batch advantage normalization, which usually done in PPO, seems not affect the performance. I suspect that advantage normalization helps when the raw advantage leads to large or negligible policy changes. Therefore, it's better to monitor the (approximate) KL divergence between the current policy and behavior policy at the end of each training epoch.
 
@@ -97,12 +109,11 @@ Use Adam with $$3e-4$$ and $$\beta_1=0.9$$ as a start and tune the learning rate
     }
   </style>
 </figure>
-
 A variety policy regularization techniques(Table 1) are experimented, but none of them is found particularly useful across all environments. This may be due to the simplicity of the environments, for which the PPO loss is sufficient to enforce the trust region and careful policy initialization is enough to guarantee good exploration.
 
 ## References
 
-<a name='ref1'></a>Andrychowicz, Marcin, Anton Raichuk, Piotr Stańczyk, Manu Orsini, Sertan Girgin, Raphael Marinier, Léonard Hussenot, et al. 2020. “What Matters In On-Policy Reinforcement Learning? A Large-Scale Empirical Study,” no. 1. http://arxiv.org/abs/2006.05990.
+<a name="ref1"></a>Andrychowicz, Marcin, Anton Raichuk, Piotr Stańczyk, Manu Orsini, Sertan Girgin, Raphael Marinier, Léonard Hussenot, et al. 2020. “What Matters In On-Policy Reinforcement Learning? A Large-Scale Empirical Study,” no. 1. http://arxiv.org/abs/2006.05990.
 
 ## Supplementary Materials
 

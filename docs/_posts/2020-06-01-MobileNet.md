@@ -1,11 +1,10 @@
 ---
 title: "MobileNet"
-excerpt: "In which we discuss MobileNet families"
+excerpt: "Discussion on MobileNet families"
 categories:
   - Deep Learning
 tags:
-  - Deep Learning
-  - Network Architecture
+  - Computer Vision
 ---
 
 ## Introduction

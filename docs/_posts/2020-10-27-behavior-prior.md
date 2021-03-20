@@ -1,18 +1,35 @@
 ---
 title: "Behavior Priors for Kl regularized Reinforcement Learning"
-excerpt: "In which we discuss behavior priors for KL regularized reinforcement learning and"
+excerpt: "Discussion on behavior priors for KL regularized reinforcement learning"
 categories:
   - Reinforcement Learning
 tags:
-  - Value-Based Reinforcement Learning
-  - Multitask Reinforcement Learning
-  - Exploration
-  - Regularization in Reinforcement Learning
+  - Value-Based RL
+  - Multitask RL
+  - Exploration in RL
+  - Regularization in RL
 ---
 
 ## Introduction
 
-Besides algorithmic choices, one way to improve sample efficiency in reinforcement learning is to inject prior knowledge about the structure of the world. This can be done in multiple ways: For example, [Vinyals et al. 2019](#ref2) learns from expert demonstrations a latent variable that takes on a certain type of information and use that to constrain the space of the solution. In this post, we discuss the work of [Tirumala et al. 2020](#ref2), which learns behavior priors that capture the movement and interaction pattern of the agent from a set of related tasks and follow the probabilistic graphic model to regularize the task-specific policies. Experiments show that a good behavior prior can guide exploration, helping escape local optima and improving performance.
+Besides algorithmic choices, one way to improve sample efficiency in reinforcement learning is to inject prior knowledge about the structure of the world. This can be done in multiple ways: For example, [Vinyals et al. 2019](#ref2) learns from expert demonstrations a latent variable that takes on a certain type of information and use that to constrain the space of the solution. In this post, we discuss the work of [Tirumala et al. 2020](#ref1), which learns behavior priors that capture the movement and interaction pattern of the agent from a set of related tasks and follow the probabilistic graphic model to regularize the task-specific policies. Experiments show that a good behavior prior can guide exploration, helping escape local optima and improving performance.
+
+## TL; DR
+
+- With an appropriate prior, KL regularized RL provides a meaningful way to explore and boost learning.
+
+- Information asymmetric is important in KL regularized RL; excessive information hinders the agent's ability to learn new tasks while too little information yields a meaningless prior.
+
+- To deal with complex situations, where the prior is multi-modal, we employ the latent variable model and derive the following upper bound for the KL divergence between the current and prior policies:
+  
+$$
+  \begin{align}
+  D_{KL}(\pi(a_t|x_t)\Vert\pi_0(a_t|x_t))\le D_{KL}&(\pi^H(z_t|x_t)\Vert\pi_0^H(z_t|x_t))\\\
+  &+\mathbb E_{\pi^H(z_t|x_t)}[D_{KL}(\pi^L(a_t|z_t,x_t)\Vert \pi_0^L(a_t|z_t,x_t))]
+  \end{align}
+  $$
+
+  which can be used in the KL regularized objective
 
 ## KL-Regularized RL
 
@@ -61,7 +78,7 @@ $$
 
 ### Information Asymmetry for Behavior Priors
 
-A good behavior prior can simplify the learning problem by effectively restricting the search space to a meaningful region. Such priors exhibit structured behaviors, such as gaits and movements of a robot, that exploits the dynamics of the environment with little or no task-specific details. One way to learn such priors is to limit the information they have access to. For example, we can split $$x$$ into two disjoint subsets $$x^G$$ and $$x^D$$ -- the former contains all task-specific information while the latter contains the task-agnostic information -- and allow $$\pi_0$$ access only to $$x^D$$. This turns Equation $$\eqref{eq:1}$$ into the following objective
+A good behavior prior can simplify the learning problem by effectively restricting the search space to a meaningful region. Such priors exhibit structured behaviors, such as gaits and movements of a robot, that exploits the dynamics of the environment with little or no task-specific details. One way to learn such priors is to limit the information they have access to. For example, we can split $$x$$ into two disjoint subsets $$x^G$$ and $$x^D$$—the former contains all task-specific information while the latter contains the task-agnostic information—and allow $$\pi_0$$ access only to $$x^D$$. This turns Equation $$\eqref{eq:1}$$ into the following objective
 
 $$
 \begin{align}
@@ -194,14 +211,14 @@ $$
 
 - We add an additional entropy term to the policy loss to encourage exploration.
 
-- In practice, it may be desirable to sample $$z$$ infrequently or hold it constant across multiple time steps to exhibit temporally consistent behavior. This gives us a similar structure as the one used in [FTW]({{ site.baseurl }}{% post_url 2021-02-01-FTW %}). 
+- In practice, it may be desirable to sample $$z$$ infrequently or hold it constant across multiple time steps to exhibit temporally consistent behavior. This gives us a similar structure as the one used in FTW. 
 
 ## References
 
-<a name='ref1'></a>>Tirumala, Dhruva, Alexandre Galashov, Hyeonwoo Noh, Leonard Hasenclever, Razvan Pascanu, Jonathan Schwarz, Guillaume Desjardins, et al. 2020. “Behavior Priors for Efficient Reinforcement Learning,” 1–58. http://arxiv.org/abs/2010.14274.
+<a name="ref1"></a>>Tirumala, Dhruva, Alexandre Galashov, Hyeonwoo Noh, Leonard Hasenclever, Razvan Pascanu, Jonathan Schwarz, Guillaume Desjardins, et al. 2020. “Behavior Priors for Efficient Reinforcement Learning,” 1–58. http://arxiv.org/abs/2010.14274.
 
-<a name='ref2'></a>Vinyals, Oriol, Igor Babuschkin, Wojciech M. Czarnecki, Michaël Mathieu, Andrew Dudzik, Junyoung Chung, David H. Choi, et al. 2019. “Grandmaster Level in StarCraft II Using Multi-Agent Reinforcement Learning.” *Nature* 575 (November). https://doi.org/10.1038/s41586-019-1724-z.
+<a name="ref2"></a>Vinyals, Oriol, Igor Babuschkin, Wojciech M. Czarnecki, Michaël Mathieu, Andrew Dudzik, Junyoung Chung, David H. Choi, et al. 2019. “Grandmaster Level in StarCraft II Using Multi-Agent Reinforcement Learning.” *Nature* 575 (November). https://doi.org/10.1038/s41586-019-1724-z.
 
-<a name='ref3'></a>Galashov, Alexandre, Siddhant M. Jayakumar, Leonard Hasenclever, Dhruva Tirumala, Jonathan Schwarz, Guillaume Desjardins, Wojciech M. Czarnecki, Yee Whye Teh, Razvan Pascanu, and Nicolas Heess. 2019. “Information Asymmetry in KL-Regularized RL.” *ArXiv*, 1–25.
+<a name="ref3"></a>Galashov, Alexandre, Siddhant M. Jayakumar, Leonard Hasenclever, Dhruva Tirumala, Jonathan Schwarz, Guillaume Desjardins, Wojciech M. Czarnecki, Yee Whye Teh, Razvan Pascanu, and Nicolas Heess. 2019. “Information Asymmetry in KL-Regularized RL.” *ArXiv*, 1–25.
 
-<a name='ref4'></a>Hausman, Karol, Jost Tobias Springenberg, Ziyu Wang, Nicolas Heess, and Martin Riedmiller. Learning an embedding space for transferable robot skills. In International Conference on Learning Representations, 2018.
+<a name="ref4"></a>Hausman, Karol, Jost Tobias Springenberg, Ziyu Wang, Nicolas Heess, and Martin Riedmiller. Learning an embedding space for transferable robot skills. In International Conference on Learning Representations, 2018.

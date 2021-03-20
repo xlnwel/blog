@@ -1,12 +1,10 @@
 ---
 title: "Transformer"
-excerpt: "In which we discuss a self-attention architecture named Transformer."
+excerpt: "Discussion on a self-attention architecture named Transformer."
 categories:
   - Deep Learning
 tags:
-  - Deep Learning
-  - Representation Learning
-  - Network Architecture
+  - Sequential Model
 ---
 
 ## Introduction
@@ -131,7 +129,7 @@ class MultiHeadSelfAttention(layers.Layer):
                  norm_kwargs={},
                  drop_rate=0,
                  use_rezero=False,
-                 name='sa',
+                 name="sa",
                  **kwargs):
         super().__init__(name=name)
         self._key_size = key_size
@@ -258,9 +256,9 @@ Intuitively, they implement a mechanism of attention in the decoder. The decoder
 
 ## References
 
-<a name='ref1'></a>Ashish Vaswani et al. Attention Is All You Need
+<a name="ref1"></a>Ashish Vaswani et al. Attention Is All You Need
 
-<a name='ref2'></a>Guillaume Klein et al. [OpenNMT: Open-Source Toolkit for Neural Machine Translation](http://nlp.seas.harvard.edu/2018/04/03/attention.html#attention)
+<a name="ref2"></a>Guillaume Klein et al. [OpenNMT: Open-Source Toolkit for Neural Machine Translation](http://nlp.seas.harvard.edu/2018/04/03/attention.html#attention)
 
 Dzmitry Bahdanau et al. Neural Machine Translation by Jointly Learning to Align and Translate 
 
