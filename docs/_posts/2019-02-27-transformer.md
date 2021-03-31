@@ -19,7 +19,7 @@ This post ends with a brief discussion of the additive attention architecture, w
 
 ## Model Architecture
 
-The Transformer follows the encoder-decoder structure using stacked self-attention and fully connected layers for both the encoder and decoder, shown in the left and right halves of the following figure, respectively
+The Transformer follows the encoder-decoder structure using stacked self-attention and fully connected-layers for both the encoder and decoder, shown in the left and right halves of the following figure, respectively
 
 <figure>
   <img src="{{ '/images/attention/transformer.png' | absolute_url }}" alt="">

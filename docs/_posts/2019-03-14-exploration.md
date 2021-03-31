@@ -1,6 +1,6 @@
 ---
 title: "Some Exploration Algorithms: EX2, LSH, VIME etc."
-excerpt: "Discussion on a bunch of exploration algorithm, including count-based methods, Thompson sampling, and information gain exploration."
+excerpt: "Discussion on several exploration algorithms, including count-based methods, Thompson sampling, and information gain exploration."
 categories:
   - Reinforcement Learning
 tags:
@@ -9,7 +9,7 @@ tags:
 
 ## Introduction
 
-Exploration plays an important role in reinforcement learning: it helps agents to explore the environment, and therefore learn potential better policy. In this post, we will talk about a set of active exploration methods, involving exploration bonus, Thompson sampling, and information gain exploration. For every strategy, we will first introduce some intuition and their uses in multi-bandit environment, in which we have $$N$$ action choices $$\{a_1,\dots,a_N\}$$, and each action $$a_i$$ yields a reward $$r(a_i)$$ sampled from an unknown distribution $$p_i(r(a_i))$$. Then we bring them to the Markov decision process, introducing some algorithms built upon these theories.
+Exploration plays an important role in reinforcement learning: it helps agents to explore the environment, and therefore learn potential better policy. In this post, we discuss a set of active exploration methods, involving exploration bonus, Thompson sampling, and information gain exploration. For every strategy, we will first present some intuition and their uses in multi-bandit environment, in which we have $$N$$ action choices $$\{a_1,\dots,a_N\}$$, and each action $$a_i$$ yields a reward $$r(a_i)$$ sampled from an unknown distribution $$p_i(r(a_i))$$. Then we bring them to the Markov decision process, introducing some algorithms built upon these theories.
 
 ## Exploration Bonus
 
@@ -69,6 +69,7 @@ $$
   <img src="{{ '/images/exploration/pixel.png' | absolute_url }}" alt="">
 </figure> 
 
+
 where $$x^{i,j}$$ is a pixel located at position $$(i,j)$$, the and $$p_{\theta_{i,j}}$$ may be a network that takes as input the top-left neighbourhood of $$x^{i,j}$$ and outputs the probability of $$x^{i,j}$$ (which is only my conjecture. I have not gone into detail of the paper.)
 
 #### Exploration: A Study of Count-Based Exploration
@@ -117,12 +118,11 @@ $$
 
 Then we employ $$-\log p(s)$$ as the exploration bonus instead of Eq.$$\eqref{eq:2}$$ used before.
 
-<figure style="width: 200px" class="align-right">
+<figure style="width: 400px" class="align-right">
   <img src="{{ '/images/exploration/amortized exemplar model.png' | absolute_url }}" alt="">
   <figcaption>We use x to represent s here
   </figcaption>
 </figure> 
-
 The above discriminator is kind of specialized to a single exemplar, and therefore we have to train a discriminator for each new state. This is impractical in practice, and we could unify all discriminators by conditioning a single discriminator on the exemplar. The resulting architecture is shown on the right, where $$X^*$$ is the exemplar and $$X$$ is the input data for the discriminator to distinguish (where the exemplar is labeled positive and the others are labeled negative). In practice, we use the same amount of positive and negative data for fair training. 
 
 As a last note, the authors of the paper propose using a VAE structure to further introduce disentanglement for state generalization. The resulting objective is almost the same as that of VAE except that we do classification at the end rather than reconstructing the data.
@@ -179,7 +179,7 @@ I(\Theta; S_{t+1}|h_t, a_t)&=D_{KL}[p(\theta,s_{t+1}|h_t,a_t)\Vert p(\theta|h_t)
 \end{align}
 $$
 
-where $$h_t$$ is a history of states and actions up to time step $$t$$, and $$s$$ and $$a$$ denote state and action as usual. Once we obtain this information gain, we can add it to the reward to achieve the trade-off between exploitation and exploration
+where $$h_t$$ is a history of states and actions up to time step $$t$$, and $$s$$ and $$a$$ denote the state and action as usual. Once we obtain this information gain, we can add it to the reward to achieve the trade-off between exploitation and exploration
 
 $$
 \begin{align}
@@ -237,11 +237,10 @@ $$
 1.\quad& \mathrm{For\ }t=1\dots,T:\\\
 2.\quad&\quad\mathrm{Run\ the\ policy}\ \pi\ \mathrm{to\ collect\ transition}\ (s_t,a_t,s_{t+1})\mathrm{\ and\ reward\ }r(s_t,a_T),\\\
 &\quad\mathrm{adding\ transition\ to\ replay\ buffer}\\\
-2.\quad&\quad\mathrm{Compute\ information\ gain\ }I(\theta|\phi; s_{t+1})\ \mathrm{according\ to\ Eq.(5),\ where\ }\mathrm{\phi_{t+1}}\\\
-&\quad\mathrm{is\ obtained\ by\ minimizing\ Eq.}(6)\\\
-3.\quad&\quad \mathrm{Construct\ new\ reward\ }r'(s_t, a_t, s_{t+1})=r(s_t,a_t)+\eta I(\theta|\phi;s_{t+1})\\\
-4.\quad&\mathrm{Optimize\ Eq.(4)\ to\ update\ }q(\theta|\phi)\mathrm{\ with\ data\ sampled\ from\ replay\ buffer}\\\
-5.\quad&\mathrm{Use\ rewards\ }\{r'(s_t,a_t,s_{t+1})\}\mathrm{\ to\ update\ policy\ \pi\ using\ some\ model-free\ method}
+3.\quad&\quad\mathrm{Compute\ information\ gain\ }I(\theta|\phi; s_{t+1})\\\
+4.\quad&\quad \mathrm{Construct\ new\ reward\ }r'(s_t, a_t, s_{t+1})=r(s_t,a_t)+\eta I(\theta|\phi;s_{t+1})\\\
+5.\quad&\mathrm{Optimize\ Eq.(3)\ to\ update\ }q(\theta|\phi)\mathrm{\ with\ data\ sampled\ from\ replay\ buffer}\\\
+6.\quad&\mathrm{Use\ rewards\ }\{r'(s_t,a_t,s_{t+1})\}\mathrm{\ to\ update\ policy\ \pi\ using\ some\ model-free\ method}
 \end{align}
 $$
 
