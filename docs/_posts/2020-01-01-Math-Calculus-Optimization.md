@@ -315,10 +315,43 @@ where the last step is obtained because of $$t\in[0,1]$$. Therefore, $$\nabla^2 
 
 **Definition.** $$f$$ is **$$m$$-strongly convex** if 
 
+1. $$\forall \pmb x, g(\pmb x)=f(\pmb x)-{1\over 2}m\Vert \pmb x \Vert^2$$ is convex
+2. $$f(t\pmb x+(1-t)\pmb y)\le tf(\pmb x)+(1-t)f(\pmb y)-{1\over 2}mt(1-t)\Vert\pmb x-\pmb y\Vert^2,\forall\pmb x,\pmb y$$
+3. $$f(\pmb x)\ge f(\pmb y)+\langle\nabla f(\pmb y),\pmb x-\pmb y\rangle + {1\over 2}m\Vert\pmb x-\pmb y\Vert^2, \forall\pmb x,\pmb y$$
+4. $$(\nabla f(\pmb x)-\nabla f(\pmb y))^\top(\pmb x-\pmb y)\ge m\Vert\pmb x-\pmb y\Vert^2,\forall \pmb x, \pmb y$$
+
+**Proof.** We starts from 1 and derive the rest.
+
+$$1\Longrightarrow2$$:
+
 $$
 \begin{align}
-&&f(t\pmb x+(1-t)\pmb y)\le& tf(\pmb x)+(1-t)f(\pmb y)-{1\over 2}mt(1-t)\Vert\pmb x-\pmb y\Vert^2\\\
-\Longleftrightarrow &&f(\pmb x)\ge& f(\pmb y)+\langle\nabla f(\pmb y),\pmb x-\pmb y\rangle + {1\over 2}m\Vert\pmb x-\pmb y\Vert^2
+g(t\pmb x+(1-t)\pmb y)\le& tg(\pmb x)+(1-t)g(\pmb y)\\\
+f(t\pmb x+(1-t)\pmb y)-{1\over 2}m\Vert t\pmb x+(1-t)\pmb y\Vert^2\le& tf(\pmb x)+(1-t)f(\pmb y)-{1\over 2}m(t\Vert\pmb x\Vert^2-(1-t)\Vert\pmb y\Vert^2)\\\
+f(t\pmb x+(1-t)\pmb y)-{1\over 2}m(t^2\pmb x^\top\pmb x+2t(1-t)\pmb x^\top\pmb y+(1-t)^2\pmb y^\top\pmb y)\le& tf(\pmb x)+(1-t)f(\pmb y)-{1\over 2}m(t\Vert\pmb x\Vert^2-\Vert\pmb y\Vert^2)\\\
+f(t\pmb x+(1-t)\pmb y)\le& tf(\pmb x)+(1-t)f(\pmb y)-{1\over 2}m(t(1-t)\Vert\pmb x\Vert^2-t(1-t)\Vert\pmb y\Vert^2+2t(1-t)\pmb x^\top\pmb y)\\\
+f(t\pmb x+(1-t)\pmb y)\le& tf(\pmb x)+(1-t)f(\pmb y)-{1\over 2}mt(1-t)\Vert\pmb x-\pmb y\Vert^2,\forall\pmb x,\pmb y
+\end{align}
+$$
+
+$$1\Longrightarrow3$$
+
+$$
+\begin{align}
+g(\pmb x)\ge& g(\pmb y)+\langle\nabla g(\pmb y),\pmb x-\pmb y\rangle\\\
+f(\pmb x)-{1\over 2}m\Vert \pmb x\Vert^2\ge& f(\pmb y)-{1\over 2}m\Vert \pmb y\Vert^2+\langle\nabla f(\pmb y)-m\pmb y,\pmb x-\pmb y\rangle\\\
+f(\pmb x)\ge& f(\pmb y)+\langle\nabla f(\pmb y),\pmb x-\pmb y\rangle+{1\over 2}m(\Vert \pmb x\Vert^2+\Vert \pmb y\Vert^2-2\pmb x\pmb y)\\\
+f(\pmb x)\ge& f(\pmb y)+\langle\nabla f(\pmb y),\pmb x-\pmb y\rangle + {1\over 2}m\Vert\pmb x-\pmb y\Vert^2
+\end{align}
+$$
+
+$$1\Longrightarrow4$$
+
+$$
+\begin{align}
+(\nabla g(\pmb x)-\nabla g(\pmb y))^\top(\pmb x-\pmb y)\ge&0\\\
+(\nabla f(\pmb x)-\nabla f(\pmb y)-m(\pmb x\Vert-\pmb y\Vert))^\top(\pmb x-\pmb y)\ge& 0\\\
+(\nabla f(\pmb x)-\nabla f(\pmb y))^\top(\pmb x-\pmb y)\ge&m\Vert\pmb x-\pmb y\Vert^2
 \end{align}
 $$
 

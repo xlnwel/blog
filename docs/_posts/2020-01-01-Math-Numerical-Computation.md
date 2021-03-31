@@ -3,7 +3,6 @@ title: "Mathematics for Machine Learning — Numerical Computation"
 excerpt: "We we discuss probabilities used in machine learning/deep learning"
 categories:
   - Mathematics
-
 ---
 
 # Numerical Computation
