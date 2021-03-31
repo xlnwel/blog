@@ -24,7 +24,7 @@ The agent is based on [PPO]({{ site.baseurl }}{% post_url 2018-11-27-PPO %}), [G
 
 ### Input Preprocessing
 
-Advantage targets are z-scored over each buffer before each optimization step. Observations and value function targets(?) are z-scored using a mean and variance estimator that is obtained from a running estimator with decay parameter $$1-10^5$$ per optimization substep. It is confusing to z-score the value function targets
+Advantage targets are z-scored over each buffer before each optimization step. Observations and value function targets are z-scored using a mean and variance estimator that is obtained from a running estimator with decay parameter $$1-10^5$$ per optimization substep. Notice that we normalize the value function targets instead of rewards here.
 
 ### Optimization Setup
 
@@ -51,12 +51,27 @@ Training is performed using the distributed *rapid* framework, which interleaves
     }
   </style>
 </figure>
+The policy architecture adopted here consists of three parts:
 
-The lidar observations, which I hypothesize are 2D tensors of shape *[n_lidars, features]* as there is no further detail in the paper, are first passed through a circular 1D-convolution and concatenated onto the agent's representation of self $$x_{self}$$. Each object is concatenated with $$x_{self}$$ and then embedded with a dense layer where parameters are shared between objects of the same type. All the embedded entities are then passed through a residual self-attention block, similar to [Transformer]({{ site.baseurl }}{% post_url 2019-02-27-transformer %}), in the form of $$y=\text{dense}(\text{self_attention}(x))+x$$, with masks to filter out-of-sight objects. We then average-pool entity embeddings(also with masks), which converts tensors of shape *[entity, features]* to *[features]*, and concatenate this pooled representation to $$x_{self}$$. Finally the resulting representaiton is passed through another dense layer and an LSTM before pulling off separate action heads. Layer normalization is added to every hidden layer of the policy network except the 1D-convolution layer as its leads to fast training and better transfer performance.
+- **Encoders**. The lidar observations are first passed through a circular 1D-convolution and concatenated onto the agent's representation of self, $$x_{self}$$. Other objects are concatenated with $$x_{self}$$ and then embedded with a dense layer where parameters are shared between objects of the same type.
+- **Masked residual self-attention**. All the embedded entities are passed through a masked residual self-attention in the form of $$y=\text{dense}(\text{self-attention}(x))+x$$, with masks filter out-of-sign objects. The outputs are average-pooled along the entity dimension with masks and again concatenated to $$x_{self}$$.
+- **LSTM and action heads.** The final representation is passed through another dense layer and an LSTM before pulling off separate action heads.
 
 The value function uses a similar network structure but it has access to the full environment state without any information masked due to visibility.
 
 ## Interesting Experimental Results
+
+### Six Emergent Phases
+
+<figure>
+  <img src="{{ '/images/marl/hide&seek-figureA1.png' | absolute_url }}" align='right' alt="" width="1000">
+  <figcaption></figcaption>
+  <style>
+    figure figcaption {
+    text-align: center;
+    }
+  </style>
+</figure>
 
 ### Scale Plays a Critical Rule in Learning
 
@@ -84,13 +99,16 @@ By defaults, the agent is trained with mini-batch size of $$64,000$$. OpenAI et 
   </style>
 </figure>
 
-Open AI et al. found a relationship between environment randomness and skill emergence: As the amount of randomness is reduced, fewer stages of skill progression emerges, and with at times less sophisticated strategies (e.g., hiders learn to run away and use boxes as moveable shields)
+Open AI et al. 2019 found a relationship between environment randomness and skill emergence: As the amount of randomness is reduced, fewer stages of skill progression emerges, and with at times less sophisticated strategies (e.g., hiders learn to run away and use boxes as moveable shields)
 
 ### Comparison to Intrinsic Motivation
 
-Open AI et al. compare behaviors learned in hide-and-seek to two intrinsic motivation methods: [count-based exploration]({{ site.baseurl }}{% post_url 2019-03-14-exploration %}) and [RND]({{ site.baseurl }}{% post_url 2019-03-21-RND %}). They found the agent learned in multi-agent setting exhibits more human-interpretable behavior  
+Open AI et al. 2019 compare behaviors learned in hide-and-seek to two intrinsic motivation methods: [count-based exploration]({{ site.baseurl }}{% post_url 2019-03-14-exploration %}) and [RND]({{ site.baseurl }}{% post_url 2019-03-21-RND %}). They found the agent learned in multi-agent setting exhibits more human-interpretable behavior  
 
 ### Transferability
 
-In order to evaluate agent's capabilities, OpenAI et al. experiments several benchmark intelligence tests that use the same observation and action spaces as hide and seek. They examine whether pretraining agents in hide and seek and then fine-tuning them on the evaluation suite leads to faster convergence or improved overall performance. For all tasks, fine-tuning only happens at the final dense layer and layernorm for both the policy and value networks. The experiments shows the agent transfer well on some tasks, e.g., navigation tasks,  but fails on the others. These results implies that the agent's learning skill representations are entangled and difficult to fine-tune. Similar experiments were conducted at different stage of emergence, they found the agent's memory improves through training as indicated by performance in the navigation tasks; however, performance in the manipulation tasks is uncorrelated, and performance in object counting changes seems transient with respect to source hide-and-seek performance.
+In order to evaluate agent's capabilities, OpenAI et al. 2019 experiments several benchmark intelligence tests that use the same observation and action spaces as hide and seek. They examine whether pretraining agents in hide and seek and then fine-tuning them on the evaluation suite leads to faster convergence or improved overall performance. For all tasks, fine-tuning only happens at the final dense layer and layernorm for both the policy and value networks. The experiments shows the agent transfer well on some tasks, e.g., navigation tasks,  but fails on the others. These results implies that the agent's learning skill representations are entangled and difficult to fine-tune. Similar experiments were conducted at different stage of emergence, they found the agent's memory improves through training as indicated by performance in the navigation tasks; however, performance in the manipulation tasks is uncorrelated, and performance in object counting changes seems transient; it performed well during phase 1 but lost this ability in the later phase.
 
+## References
+
+Baker, Bowen, Ingmar Kanitscheider, Todor Markov, Yi Wu, Glenn Powell, Bob McGrew, and Igor Mordatch. 2019. “Emergent Tool Use From Multi-Agent Autocurricula.” http://arxiv.org/abs/1909.07528.

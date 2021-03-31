@@ -72,7 +72,7 @@ No benefit is found to learn state-dependent standard deviation. No difference i
 
 Observation normalization is crucial for good performance but the clipping after normalization seems less important. 
 
-Value normalization normalizes the value function targets and denormalize the value function accordingly to obtain predicted value: $$\hat V=v_\mu+V\max(v_\sigma, 10^{-6})$$, where $$v_\mu$$ and $$v_\sigma$$ are empirical mean and standard deviation, respectively. It's hard to say if value function normalization is useful as it sometimes helps significantly but sometime hurts badly. 
+Value normalization normalizes the value function targets and denormalizes the value function accordingly to obtain predicted value: $$\hat V=v_\mu+V\max(v_\sigma, 10^{-6})$$, where $$v_\mu$$ and $$v_\sigma$$ are empirical mean and standard deviation, respectively. Value function normalization influences the performance very strongly, but its environment-dependent; it is crucial for good performance on HalfCheetah and Humanoid, helps slightly on Hopper and Ant and significantly hurts the performance on Walker2d. 
 
 Per-batch advantage normalization, which usually done in PPO, seems not affect the performance. I suspect that advantage normalization helps when the raw advantage leads to large or negligible policy changes. Therefore, it's better to monitor the (approximate) KL divergence between the current policy and behavior policy at the end of each training epoch.
 

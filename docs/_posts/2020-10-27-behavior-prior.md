@@ -7,7 +7,7 @@ tags:
   - Value-Based RL
   - Multitask RL
   - Exploration in RL
-  - Regularization in RL
+  - Regularized RL
 ---
 
 ## Introduction

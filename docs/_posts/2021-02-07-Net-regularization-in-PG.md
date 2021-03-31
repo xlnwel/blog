@@ -1,6 +1,6 @@
 ---
 title: "Network Regularization in Policy Optimization"
-excerpt: "Discussion on the effict of network regularization in policy optimization."
+excerpt: "Discussion on the effect of network regularization in policy optimization."
 categories:
   - Reinforcement Learning
 tags:

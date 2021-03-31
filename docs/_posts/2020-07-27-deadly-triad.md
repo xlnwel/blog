@@ -30,7 +30,7 @@ We present some hypotheses and experimental results on DQN conducted by [Hasselt
 
 As we concerns whether the $$Q$$ value will diverge we study the maximum absolute action value estimate, denoted "maximal $$\vert Q\vert $$". We use this statistic to measure stability of the value estimates. Because the rewards are clipped to $$[−1, 1]$$, and because the discount factor $$\gamma$$ is $$0.99$$, the maximum absolute true value in each game is bounded by $${1\over 1-\gamma}=100$$ (and realistically attainable values are typically much smaller). Therefore, values for which $$\vert q\vert  > 100$$ are unrealistic. We call this phenomenon *soft divergence*.
 
-[Hasselt et al. 2018](#ref1) conduct a large scale study on all 57 Atari games, with 336 parameter settings for DQN. Therefore, the following experimental results are relatively strong and general 
+[van Hasselt et al. 2018](#ref1) conduct a large scale study on all 57 Atari games, with 336 parameter settings for DQN. Therefore, the following experimental results are relatively strong and general 
 
 ## Experimental Results
 
@@ -82,4 +82,4 @@ The two plots in the bottom row of Figure 4 shows that large prioritization corr
 
 ## References
 
-Hasselt, Hado Van, Florian Strub, Joseph Modayil, Matteo Hessel, and Nicolas Sonnerat. 2018. “Deep Reinforcement Learning and the Deadly Triad.”
+van Hasselt, Hado, Florian Strub, Joseph Modayil, Matteo Hessel, and Nicolas Sonnerat. 2018. “Deep Reinforcement Learning and the Deadly Triad.”

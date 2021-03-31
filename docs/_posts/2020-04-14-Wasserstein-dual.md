@@ -13,7 +13,7 @@ In the [previous post]({{ site.baseurl }}{% post_url 2020-04-07-dual %}), we dis
 
 ## 1st Wasserstein Distance
 
-Let $$(M, d)$$ be a metric space where $$M$$ is a set and $$d(x,y)=\vert x-y\vert $$ is a distance function/metric on $$M$$. The 1st Wasserstein distance between two probability measure $$\mu$$ and $$\nu$$ is defined as
+Let $$(M, d)$$ be a metric space where $$M$$ is a set and $$d(x,y)=\vert x-y\vert $$ be a distance function/metric on $$M$$. The 1st Wasserstein distance between two probability measure $$\mu$$ and $$\nu$$ is defined as
 
 $$
 \begin{align}

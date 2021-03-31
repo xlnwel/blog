@@ -13,7 +13,7 @@ tags:
 
 We discuss OpenAI Five proposed by OpenAI et al., the first agent that defeats the Dota 2 world champion with some limitations.
 
-I encourage anyone who is greatly interested in RL to read the paper—despite the length, it's a well-written paper and is relatively easy to follow. Here, I only excerpt some essential content that I'm personally interested in.
+I encourage anyone who is greatly interested in RL to read the paper—despite the length, it's a well-written paper and relatively easy to follow. Here, I only excerpt some essential content that I'm personally interested in.
 
 ## Table of Contents
 
@@ -73,7 +73,7 @@ The action that agents can choose at each timestep is represented by a primary a
   </style>
 </figure>
 
-It is worth noting that Unit Selection is further divided into two heads depending on the primary action. One is Regular Unit Selection, which controls target tactical spells and abilities, and the other is Teleport Selection, which is activated when the primary action is teleport. This is because teleport is much rarer , the *learning signal for targeting this ability would be drowned out* if we used a single head for both. Similarly, the Offset parameter is split into "Regular Offset", "Caster Offset" and "Ward Placement Offset".
+It is worth noting that Unit Selection is further divided into two heads depending on the primary action. One is Regular Unit Selection, which controls target tactical spells and abilities, and the other is Teleport Selection, which is activated when the primary action is teleport. This is because teleport is much rarer, the *learning signal for targeting this ability would be drowned out* if we used a single head for both. Similarly, the Offset parameter is split into "Regular Offset", "Caster Offset" and "Ward Placement Offset".
 
 Table 5 categorizes primary actions into six action target types.
 
@@ -132,8 +132,6 @@ Separate replicas of the same policy function are used to control each of the fi
     }
   </style>
 </figure>
-
-
 <figure>
   <img src="{{ '/images/application/OpenAIFive-Figure18.png' | absolute_url }}" alt="" width="1000">
   <figcaption></figcaption>
@@ -163,7 +161,7 @@ $$
    $$
 
    
-   where $$\circ$$ is the Hadamard product. We can regard $$U\circ \sigma(A)$$ as a [gated linear unit]({{ site.baseurl }}{% post_url 2020-03-27-GCN %}), in which $$\sigma(A)$$ modulates the information in the unit embedding $$U$$ based on the action type. Therefore, $$H_u(U\circ \sigma(A))^\top$$ computes the cosine similarity between the agent's state $$H_u$$ and the adjusted unit embeddings, $$(U\circ \sigma(A))$$, giving the scores that indicate how favorable each unit is based on the current agent state.
+   where $$\circ$$ is the Hadamard product. We can regard $$U\circ \sigma(A)$$ as a [gated linear unit]({{ site.baseurl }}{% post_url 2020-03-27-GLU %}), in which $$\sigma(A)$$ modulates the information in the unit embedding $$U$$ based on the action type. Therefore, $$H_u(U\circ \sigma(A))^\top$$ computes the cosine similarity between the agent's state $$H_u$$ and the adjusted unit embeddings, $$(U\circ \sigma(A))$$, giving the scores that indicate how favorable each unit is based on the current agent state.
 
 ## <a name="exploration"></a>Exploration(Appendix O)
 

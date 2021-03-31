@@ -15,7 +15,7 @@ We discuss MobileNet families, proposed by researchers in Google, that aims to r
 
 **Depth: ** The number of blocks
 
-**Width: ** The number of channels
+**Width: ** The number of channels/filters
 
 **Resolution: ** The feature map size $$H\times W$$
 
@@ -60,9 +60,15 @@ When using $$3\times 3$$ depthwise separable convolutions, it uses between $$8$$
 
 Comparing Equations $$\eqref{eq:1}$$ and $$\eqref{eq:2}$$, we can see that depthwise separable convolution puts nearly all of the computation into dense $$1\times 1$$ convolutions. However, contrasting to standard convolutions implemented by im2col followed by optimized general matrix multiply(GEMM), $$1\times 1$$ convolutions does not require im2col for initial reordering and can be implemented directly with GEMM.
 
-Despite the above theoretical arguments, I find the depthwise convolution is slower than standard convolution in practice (with float32, but someone said the performance gain will be spotted with float16). Gholami et al. explained in their paper(SqueezeNext: Hardware-Aware Neural Network Design):
+Despite the above theoretical arguments, I find the depthwise convolution is slower than standard convolution in practice (with float32, but someone said the performance gain will be spotted with float16). [Gholami et al.](https://arxiv.org/abs/1803.10615) explained:
 
-> The reason for this is the inefﬁciency of depthwise separable convolution in terms of hardware performance, which is due to its poor arithmetic intensity (ratio of compute to memory operations) [24]. This inefﬁciency becomes more pronounced as higher number of processors are used, since the problem becomes more bandwidth bound.
+> The reason for this is the inefficiency of depthwise separable convolution in terms of hardware performance, which is due to its poor arithmetic intensity (ratio of compute to memory operations) [24]. This inefficiency becomes more pronounced as higher number of processors are used, since the problem becomes more bandwidth bound.
+
+While the above explanation is a little obscure, [Bello et al. 2021](https://arxiv.org/abs/2103.07579) provides a explanation easier to approach:
+
+> In custom hardware architectures (e.g. TPUs and GPUs), FLOPs are an especially poor proxy because operations are often bounded by memory access costs and have different levels of optimization on modern matrix multiplication units (Jouppi et al., 2017). The inverted bottlenecks used in EfficientNets employ depthwise convolutions with large activations and have a small compute to memory ratio (operational intensity) compared to the ResNet’s bottleneck blocks which employ dense convolutions on smaller activations. This makes EfficientNets less efficient on modern accelerators compared to ResNets.
+
+In other words, depthwise convolutions are less compute efficient and require more memory access. Therefore, memory access(or bandwidth) become the bottleneck.
 
 ## MobileNetV2
 
