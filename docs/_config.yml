@@ -19,7 +19,7 @@ remote_theme: mmistakes/so-simple-theme
 
 locale: en-US
 title: "Zero"
-description: "Give it time."
+description: "Bump into any mistakes or have any questions? Let me know: o.xlnwel@outlook.com"
 baseurl: "/blog"
 url: "https://xlnwel.github.io"
 logo: "/images/logo.jpg"
