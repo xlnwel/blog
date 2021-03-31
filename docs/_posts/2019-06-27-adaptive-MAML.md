@@ -9,9 +9,9 @@ tags:
 
 ## Introduction
 
-Much ink has been spilled on MAML in our previous posts. In this post, we extend the topic to its application in reinforcement learning with nonstationary and competitive environments. Long story short, we cast the problem of continuous adaptation to a non-stationary task into the learning-to-learn framework, and resolve it through MAML.
+Much ink has been spilled on MAML in our previous posts[[1]({{ site.baseurl }}{% post_url 2019-06-14-MAML %} )], [[2]({{ site.baseurl }}{% post_url 2019-06-21-MAML++ %})]. In this post, we extend the topic to its application in reinforcement learning with nonstationary and competitive environments. Long story short, we cast the problem of continuous adaptation to a non-stationary task into the learning-to-learn framework, and resolve it through MAML.
 
-In the rest of this post, we first review MAML-RL introduced in the original MAML paper. Then we encode MAML-RL into a probablistic graphical model, and introduce our new problem setting. At last, we address this problem using a variant of MAML, introduced by Al-Shedivat et al. 2018.
+In the rest of this post, we first review MAML-RL[[1]({{ site.baseurl }}{% post_url 2019-06-14-MAML %} )] introduced in the original MAML paper. Then we encode MAML-RL into a probablistic graphical model, and introduce our new problem setting. At last, we address this problem using a variant of MAML, introduced by Al-Shedivat et al. 2018.
 
 ## TL; DR
 
