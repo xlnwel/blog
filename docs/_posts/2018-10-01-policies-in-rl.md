@@ -1,12 +1,10 @@
 ---
 title: "Basic Policies in Reinforcement Learning"
-excerpt: "We talk in detail about some wildly used policy in reinforcement learning, including epsilon-greedy policy, softmax with temperature, upper confidence bound(UCB), and gradient bandit algorithm"
+excerpt: "We talk in detail about some wildly used policy in reinforcement learning, including epsilon-greedy policy, stochastic policy with temperature, upper confidence bound(UCB), and gradient bandit algorithm"
 categories:
   - Reinforcement Learning
 tags:
   - Exploration in RL
-image: 
-  path: /images/rl/Policy.png
 ---
 
 ## Introduction
@@ -35,7 +33,7 @@ $$
 
 [Elevator back to directory](#dir)
 
-## <a name="soft"></a>Softmax with Temperature
+## <a name="soft"></a>Stochastic Policy with Temperature
 
 Softmax with temperature refines simply softmax to encourage exploration at the beginning and enhance the convergence at the end. Mathematically, It's defined as
 
