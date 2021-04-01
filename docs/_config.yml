@@ -19,7 +19,7 @@ remote_theme: mmistakes/so-simple-theme
 
 locale: en-US
 title: "Zero"
-description: "Bump into any mistakes or have any questions? Let me know: o.xlnwel@outlook.com"
+description: "Please let me know if you bump into any mistakes or have any questions: o.xlnwel@outlook.com"
 baseurl: "/blog"
 url: "https://xlnwel.github.io"
 logo: "/images/logo.jpg"
