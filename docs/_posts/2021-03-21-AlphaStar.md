@@ -69,7 +69,7 @@ Actions are decomposed into a series arguments and the network selects each argu
 - The queue processes the autoregressive embedding through an MLP to determine whether or not to queue the action.
 - The selected units head computes a key for each entity corresponding to the entity embedding skip connection, masked by whether or not the entity is a valid selection, and use those keys in a recurrent [pointer network]({{ site.baseurl }}{% post_url 2020-01-07-PtrNet %}) to decide which of up to $$64$$ selected entities to apply the action to.
 - The target unit head is similar to the selected units head, except selecting a single unit.
-- The target point head reshapes the autoregressive embedding to the same shape as the final map skip-connections, concatenates the embedding and the skip connections, and processes the concatenation through a series of up-scaling convolutions, [Gated ResBlocks]({{ site.baseurl }}{% post_url 2020-03-27-GLU %}) (gated by the autoregressive embedding), and [FiLM]({{ site.baseurl }}{% post_url 2020-03-07-FiLM %}) layers(?) to select the location argument.
+- The target point head reshapes the autoregressive embedding to the same shape as the final map skip-connections, concatenates the embedding and the skip connections, and processes the concatenation through a series of up-scaling convolutions, [Gated ResBlocks]({{ site.baseurl }}{% post_url 2020-03-27-GLU %}) (gated by the autoregressive embedding), and [FiLM]({{ site.baseurl }}{% post_url 2020-03-07-FiLM %}) layers to select the location argument.
 
 It's interesting that the target point head uses FiLM layers, a general-purpose conditioning method originally developed for visual reasoning.
 
