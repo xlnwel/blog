@@ -9,9 +9,6 @@ tags:
   - RL Application
 ---
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
 ## Introduction
 
 AlphaStar, proposed by [Vinyals et al. 2019](#ref1), is the first AI agent that was rated at Grandmaster level in the full game of StarCraft II, a real-time strategy game in which players balance high-level economic decisions with individual control of hundreds of units. In this post, we try to present an overview of AlphaStar and distill some essential techniques in the hope that these techniques could be reused in other reinforcement learning projects.
@@ -110,7 +107,7 @@ The reinforcement learning algorithm adopted by AlphaStar is based on an asynchr
 
 V-trace is employed for the policy update to correct the policy mismatch:
 
-\\[
+$$
 \begin{align}
 \max_\pi\mathbb E_{(s_t,a_t,s_{t+1})\sim\mu}&[\rho_t(r_t+\gamma v(s_{t+1}, z)-V(s_t, z))\log\pi(a_t|s_t, z)]\\\
 \text{where}\quad v(s_t, z) &= V(s_t,z )+\sum_{k=t}^{t+n-1}\gamma^{k-t}\left(\prod_{i=t}^{k-1}c_i\right)\delta_kV\\\
@@ -118,7 +115,7 @@ V-trace is employed for the policy update to correct the policy mismatch:
 c_{i}&=\lambda \min\left({\pi(a_i|s_i,z)\over \mu(a_i|s_i,z)}, \bar c\right)\\\
 \rho_k&=\min\left({\pi(a_k|s_k,z)\over \mu(a_k|s_k,z)}, \bar\rho\right)
 \end{align}
-\\]
+$$
 
 where \\(V\\) is the value function, truncated levels \\(\bar c\\) and \\(\bar\rho\\) are hyperparameters(usually set to 1), \\(\pi\\) and \\(\mu\\) are the current and behavior policy, respectively, \\(\lambda\\) is a discount factor that controls the bias-variance trade-off by exponentially discounting the future error. 
 
@@ -128,7 +125,7 @@ When applying V-trace to the policy in large action spaces, the off-policy corre
 
 The upgoing policy update objective(UPGO), built on the idea of [self-imitation learning]({{ site.baseurl }}{% post_url 2020-02-07-SIL %}), is defined as
 
-\\[
+$$
 \begin{align}
 \max_\pi&\rho_t(G_t^U-V(s_t,z))\log\pi(a_t|s_t,z)\\\
 \text{where}\quad G_t^U=&\begin{cases}r_t+G_{t+1}^U&\text{if }Q(s_{t+1},a_{t+1},z)\ge V(s_{t+1},z)\\\
@@ -136,7 +133,7 @@ r_t+V(s_{t+1},z)&\text{otherwise}\end{cases}\\\
 \rho_t=&\min\left({\pi(a_t|s_t,z)\over\mu(a_t|s_t,z)},1\right)\\\
 Q(s_t,a_t,z)=&r_t+V(s_{t+1},z)
 \end{align}
-\\]
+$$
 
 The idea is to update the policy from partial trajectories with better-than-expected returns—where actions are better than average, the "if" part—and by bootstrapping when the behavior policy takes a worse-than average action—the "otherwise" part. Notice that action-values are approximated with one-step target since it's hard to approximate it over the large action space of StarCraft.
 
@@ -146,13 +143,13 @@ UPGO is used for the win-loss baseline.
 
 TD(\\(\lambda\\)) is the exponentially-weighted average of all \\(n\\)-step returns
 
-\\[
+$$
 \begin{align}
 G_t^{\lambda}&=(1-\lambda)\sum_{n=1}^\infty\lambda^{n-1}G_t^{(n)}\\\
 &=r_t+(1-\lambda)\gamma V(s_{t+1})+\lambda \gamma G_{t+1}^\lambda\\\
 \text{where}\quad G_t^{(n)}&=\sum_{i=0}^{n-1}\gamma^ir_{t+i}+\gamma^n V(s_{t+n}, z)
 \end{align}
-\\]
+$$
 
 we then use \\(G_t^\lambda\\) as the target value in the value loss(MSE). Though biased, this choice is preferred over the V-trace because [Vinyals et al. 2019](#ref1) found existing off-correction methods (including V-trace) can be inefficient in large, structured action space as distinct actions can result in similar (or even identical) behavior but exhibit significantly different importance ratios, which in turn results in estimates of high variance.
 
@@ -224,11 +221,11 @@ As there is a vast space of cyclic, non-transitive strategies and counter-strate
 
 League training maintains a league of players, populated by regularly saving copies of agents as new players during RL training. Then the latest agents play with all previous players in the league. This mechanism, known as fictitious self-play(FSP), helps handle cycles in self-play approach. However, uniformly sampling opponents can be wasteful as it is pointless to play with opponents that the agent has always defeated. Consequently, the authors introduce prioritized fictitious self-play(PFSP) that sample an agent's opponent based on the probability that the agent can beat the opponent. Mathematically, for an agent \\(A\\), we sample the opponent \\(B\\) from a candidate set \\(\mathcal C\\) with probability
 
-\\[
+$$
 \begin{align}
 f(P(A\text{ beats }B))\over\sum_{C\in\mathcal C}f(P(A\text{ beats }C))
 \end{align}
-\\]
+$$
 
 where \\(f:[0,1]\rightarrow [0,\infty]\\) is some weighting function.
 
