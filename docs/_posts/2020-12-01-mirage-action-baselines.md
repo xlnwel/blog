@@ -22,9 +22,9 @@ $$
 \end{align}
 $$
 
-where $$\hat A$$ is an estimator of the advantage function up to a state-dependent constant computed from trajectory $$\tau$$ (e.g., $$\sum_t\gamma^tr_t$$ and the GAE estimator).
+where \\(\hat A\\) is an estimator of the advantage function up to a state-dependent constant computed from trajectory \\(\tau\\) (e.g., \\(\sum_t\gamma^tr_t\\) and the GAE estimator).
 
-This objective in Equation $$\eqref{eq:1}$$ often results in a policy gradient estimator of high variance due to the variance of $$\hat A$$. One common technique to reduce the variance of the policy gradient estimator is baselines. Baselines are often state-dependent and of form $$\phi(s)$$. With a state-dependent baseline, the policy gradient is
+This objective in Equation \\(\eqref{eq:1}\\) often results in a policy gradient estimator of high variance due to the variance of \\(\hat A\\). One common technique to reduce the variance of the policy gradient estimator is baselines. Baselines are often state-dependent and of form \\(\phi(s)\\). With a state-dependent baseline, the policy gradient is
 
 $$
 \begin{align}
@@ -32,7 +32,7 @@ $$
 \end{align}
 $$
 
-We now show that state-dependent baselines effectively reduce the variance. Let $$f=\hat A(s,a)\nabla\log\pi(a\vert s)$$ and $$g=\phi(s)\nabla\log\pi(a\vert s)$$. We compute the variance of the gradient estimator after subtracting a state-dependent baseline as follows
+We now show that state-dependent baselines effectively reduce the variance. Let \\(f=\hat A(s,a)\nabla\log\pi(a|s)\\) and \\(g=\phi(s)\nabla\log\pi(a|s)\\). We compute the variance of the gradient estimator after subtracting a state-dependent baseline as follows
 
 $$
 \begin{align}
@@ -44,11 +44,11 @@ $$
 \end{align}
 $$
 
-Equation $$\eqref{eq:3}$$ shows that the introduction of $$g$$(the baseline gradient) reduces the variance as long as $$2\text{Cov}(f,g)>\text {Var}(g)$$. In other words, the variance is reduced if $$f$$ and $$g$$ are highly correlated or $$g$$ has low variance. As a result, we often use the state-value function as a baseline, which appropriately meets these two requirements.
+Equation \\(\eqref{eq:3}\\) shows that the introduction of \\(g\\)(the baseline gradient) reduces the variance as long as \\(2\text{Cov}(f,g)>\text {Var}(g)\\). In other words, the variance is reduced if \\(f\\) and \\(g\\) are highly correlated or \\(g\\) has low variance. As a result, we often use the state-value function as a baseline, which appropriately meets these two requirements.
 
 ## Action-Dependent Baselines
 
-Several methods have extended the approach to state-action-dependent baselines of form $$\phi(s,a)$$. With a state-action dependent baseline, the policy gradient is
+Several methods have extended the approach to state-action-dependent baselines of form \\(\phi(s,a)\\). With a state-action dependent baseline, the policy gradient is
 
 $$
 \begin{align}
@@ -56,9 +56,9 @@ $$
 \end{align}
 $$
 
-Different from Equation $$\eqref{eq:2}$$, the last term is necessary as $$\nabla\mathbb E_\pi[\phi(s,a)]\ne 0$$.
+Different from Equation \\(\eqref{eq:2}\\), the last term is necessary as \\(\nabla\mathbb E_\pi[\phi(s,a)]\ne 0\\).
 
-The variance of Equation $$\eqref{eq:4}$$, $$\Sigma:=\text{Var}_{s, a, \tau}(\hat g_a(s, a, \tau))$$, can be decomposed using the law of total variance
+The variance of Equation \\(\eqref{eq:4}\\), \\(\Sigma:=\text{Var}_{s, a, \tau}(\hat g_a(s, a, \tau))\\), can be decomposed using the law of total variance
 
 $$
 \begin{align}
@@ -77,15 +77,15 @@ $$
 \end{align}
 $$
 
-Equation $$\eqref{eq:6}$$ decomposes the variance in the on-policy gradient estimate into three terms, where $$\Sigma_\tau$$ describes the variance due to sampling a single $$\tau$$, $$\Sigma_a$$ describes the variance due to sampling a single $$a$$, and $$\Sigma_s$$ describes the variance coming from visiting a limited number of states.
+Equation \\(\eqref{eq:6}\\) decomposes the variance in the on-policy gradient estimate into three terms, where \\(\Sigma_\tau\\) describes the variance due to sampling a single \\(\tau\\), \\(\Sigma_a\\) describes the variance due to sampling a single \\(a\\), and \\(\Sigma_s\\) describes the variance coming from visiting a limited number of states.
 
-From Equation $$\eqref{eq:6}$$, we can see that $$\phi$$ only affects $$\Sigma_a$$ and $$\Sigma_a$$ diminishes when $$\phi(s,a)=\hat A(s,a)=\mathbb E_{\tau\vert s,a}[\hat A(s, a,\tau)]$$. Regarding the relative magnitude of these terms, the effectiveness of the optimal state-action-dependent baseline varies. This benefit is further restricted as, in practice, we can only approximate $$\hat A(s,a)$$ with a function approximator. Several experiments conducted by [Tucker et al. 2018](#ref1) also show that a learned state-action-dependent baseline does not reduce variance over a state-dependent baseline.
+From Equation \\(\eqref{eq:6}\\), we can see that \\(\phi\\) only affects \\(\Sigma_a\\) and \\(\Sigma_a\\) diminishes when \\(\phi(s,a)=\hat A(s,a)=\mathbb E_{\tau|s,a}[\hat A(s, a,\tau)]\\). Regarding the relative magnitude of these terms, the effectiveness of the optimal state-action-dependent baseline varies. This benefit is further restricted as, in practice, we can only approximate \\(\hat A(s,a)\\) with a function approximator. Several experiments conducted by [Tucker et al. 2018](#ref1) also show that a learned state-action-dependent baseline does not reduce variance over a state-dependent baseline.
 
 ## Unveiling the Mirage
 
 ### IPG
 
-IPG([Gu et al. 2017](#ref2)) normalizes the learning signal $$\hat A(s, a,\tau)-\phi(s, a)$$ but not the bias correction term $$\nabla\mathbb E_a(\phi(s,a))$$, which gives
+IPG([Gu et al. 2017](#ref2)) normalizes the learning signal \\(\hat A(s, a,\tau)-\phi(s, a)\\) but not the bias correction term \\(\nabla\mathbb E_a(\phi(s,a))\\), which gives
 
 $$
 \begin{align}
@@ -93,9 +93,9 @@ $$
 \end{align}
 $$
 
-where $$\hat\mu$$ and $$\hat \sigma$$ are batch-based estimates of the mean and standard deviation of $$\hat A(s, a,\tau)-\phi(s, a)$$. 
+where \\(\hat\mu\\) and \\(\hat \sigma\\) are batch-based estimates of the mean and standard deviation of \\(\hat A(s, a,\tau)-\phi(s, a)\\). 
 
-Defining $$\lambda={1\over\hat\sigma}$$, we can rewrite Equation $$\eqref{eq:7}$$ in a more general form
+Defining \\(\lambda={1\over\hat\sigma}\\), we can rewrite Equation \\(\eqref{eq:7}\\) in a more general form
 
 $$
 \begin{align}
@@ -103,9 +103,9 @@ $$
 \end{align}
 $$
 
-where $$\hat\mu$$ is omitted as it's a constant and $$\nabla \mathbb E[\hat\mu]=0$$.
+where \\(\hat\mu\\) is omitted as it's a constant and \\(\nabla \mathbb E[\hat\mu]=0\\).
 
-Equation $$\eqref{eq:8}$$ introduces bias—when $$\lambda\ne 1$$—as the first term weights differently from the bias correction term. We can compute the bias by subtracting Equation $$\eqref{eq:7}$$ from Equation $$\eqref{eq:4}$$, which gives us
+Equation \\(\eqref{eq:8}\\) introduces bias—when \\(\lambda\ne 1\\)—as the first term weights differently from the bias correction term. We can compute the bias by subtracting Equation \\(\eqref{eq:7}\\) from Equation \\(\eqref{eq:4}\\), which gives us
 
 $$
 \begin{align}
@@ -113,7 +113,7 @@ $$
 \end{align}
 $$
 
-On the other hand, Equation $$\eqref{eq:8}$$ indeed reduces variance for $$\lambda< 1$$. Using the law of total variance, we have the variance of the estimator as
+On the other hand, Equation \\(\eqref{eq:8}\\) indeed reduces variance for \\(\lambda< 1\\). Using the law of total variance, we have the variance of the estimator as
 
 $$
 \begin{align}
@@ -122,7 +122,7 @@ $$
 \end{align}
 $$
 
-When $$\phi(s,a)\approx\mathbb E_{\tau\vert s, a}[\hat A(s ,a, \tau)]$$, introducing $$\lambda$$ effectively reduce the variance of the first term by $$\lambda^2$$.
+When \\(\phi(s,a)\approx\mathbb E_{\tau|s, a}[\hat A(s ,a, \tau)]\\), introducing \\(\lambda\\) effectively reduce the variance of the first term by \\(\lambda^2\\).
 
 Therefore, the observed empirical performance gain of IPG is mainly from the bias and variance trade off.
 

@@ -28,7 +28,7 @@ $$
 \end{align}
 $$
 
-where binary variable $$x\in\{0,1\}$$, and $$\mu\in[0,1]$$ is the probability of $$x=1$$.
+where binary variable \\(x\in\{0,1\}\\), and \\(\mu\in[0,1]\\) is the probability of \\(x=1\\).
 
 The mean and variance of the Bernoulli distribution are
 
@@ -39,7 +39,7 @@ $$
 \end{align}
 $$
 
-Suppose we have a dataset $$\mathcal D=\{x_1,\dots,x_N\}$$ of i.i.d. observed values of $$x$$. The likelihood function can be expressed as
+Suppose we have a dataset \\(\mathcal D=\{x_1,\dots,x_N\}\\) of i.i.d. observed values of \\(x\\). The likelihood function can be expressed as
 
 $$
 \begin{align}
@@ -47,7 +47,7 @@ p(\mathcal D|\mu)=\prod_{n=1}^Np(x_n|\mu)=\prod_{n=1}^N\mu^{x_n}(1-\mu)^{1-x_n}\
 \end{align}
 $$
 
-We can estimate a value for $$\mu$$ by maximizing the logarithm of the likelihood function
+We can estimate a value for \\(\mu\\) by maximizing the logarithm of the likelihood function
 
 $$
 \begin{align}
@@ -55,7 +55,7 @@ $$
 \end{align}
 $$
 
-If we set its derivative to zero, we obtain the maximum likelihood estimator for $$\mu$$
+If we set its derivative to zero, we obtain the maximum likelihood estimator for \\(\mu\\)
 
 $$
 \begin{align}
@@ -66,7 +66,7 @@ $$
 
 ### <a name="binomial"></a>Binomial Distribution
 
-We can extend the Bernoulli distribution to the binomial distribution, in which we have $$N$$ variables of a Bernoulli distribution and consider the probability of the number of successes. The binomial distribution can be written as
+We can extend the Bernoulli distribution to the binomial distribution, in which we have \\(N\\) variables of a Bernoulli distribution and consider the probability of the number of successes. The binomial distribution can be written as
 
 $$
 \begin{align}
@@ -90,7 +90,7 @@ $$
 
 ### <a name="beta"></a>Beta Distribution
 
-The maximum likelihood estimation given by Equation $$\eqref{eq:3}$$ can easily overfit for small dataset, especially when we have all observations of $$1$$ or $$0$$. We can mitigate such overfitting by introducing a prior distribution on the parameters. For binary variables, we choose the beta distribution for $$\mu$$, which is defined as
+The maximum likelihood estimation given by Equation \\(\eqref{eq:3}\\) can easily overfit for small dataset, especially when we have all observations of \\(1\\) or \\(0\\). We can mitigate such overfitting by introducing a prior distribution on the parameters. For binary variables, we choose the beta distribution for \\(\mu\\), which is defined as
 
 $$
 \begin{align}
@@ -99,7 +99,7 @@ $$
 \end{align}
 $$
 
-Where $$\Gamma(x)$$ is the gamma function(see [Appendix 1](#app1) for further discussion), the coefficient ensures that the beta distribution is normalized.
+Where \\(\Gamma(x)\\) is the gamma function(see [Appendix 1](#app1) for further discussion), the coefficient ensures that the beta distribution is normalized.
 
 The mean and variance of the beta distribution are given by
 
@@ -110,9 +110,9 @@ $$
 \end{align}
 $$
 
-The parameters $$a$$ and $$b$$ are often called *hyperparameters* because they control the distribution of the parameter $$\mu$$.
+The parameters \\(a\\) and \\(b\\) are often called *hyperparameters* because they control the distribution of the parameter \\(\mu\\).
 
-The posterior distribution of $$\mu$$ is obtained following the Bayes' theorem
+The posterior distribution of \\(\mu\\) is obtained following the Bayes' theorem
 
 $$
 \begin{align}
@@ -121,7 +121,7 @@ p(\mu|m,l,a,b)&={\Gamma(a+l+b+m)\over\Gamma(a+m)\Gamma(b+l)}\mu^{m+a-1}(1-\mu)^{
 \end{align}
 $$
 
-Where $$m$$ and $$l$$ are the numbers of successes and failures observed, respectively. Equation $$\eqref{eq:6}$$ allows us incrementally update the distribution of $$\mu$$ as new data is observed. We can see that the beta distribution is a conjugate distribution of the binomial distribution. 
+Where \\(m\\) and \\(l\\) are the numbers of successes and failures observed, respectively. Equation \\(\eqref{eq:6}\\) allows us incrementally update the distribution of \\(\mu\\) as new data is observed. We can see that the beta distribution is a conjugate distribution of the binomial distribution. 
 
 If our goal is to predict, we can follow the sum and product rules of probability
 
@@ -134,9 +134,9 @@ $$
 
 ## <a name="mn"></a>Multinomial Variables
 
-We generally represent a variable that can take on one of $$K$$ values by a one-hot $$K$$-dimensional vector $$\pmb x$$. 
+We generally represent a variable that can take on one of \\(K\\) values by a one-hot \\(K\\)-dimensional vector \\(\pmb x\\). 
 
-If we denote the probability of $$x_k=1$$ by the parameter $$\mu_k$$, then the distribution of $$\pmb x$$ is given
+If we denote the probability of \\(x_k=1\\) by the parameter \\(\mu_k\\), then the distribution of \\(\pmb x\\) is given
 
 $$
 \begin{align}
@@ -145,7 +145,7 @@ s.t.\quad\sum_{k=1}^K\mu_k=1,\ \mu_k>0
 \end{align}
 $$
 
-where $$\pmb \mu=(\mu_1,\dots,\mu_K)^T$$.
+where \\(\pmb \mu=(\mu_1,\dots,\mu_K)^T\\).
 
 The expected value is
 
@@ -155,7 +155,7 @@ $$
 \end{align}
 $$
 
-Suppose we have a dataset $$\mathcal D=\{\pmb x_1,\dots,\pmb x_N\}$$ of i.i.d. observed values of $$\pmb x$$. The likelihood function can be expressed as
+Suppose we have a dataset \\(\mathcal D=\{\pmb x_1,\dots,\pmb x_N\}\\) of i.i.d. observed values of \\(\pmb x\\). The likelihood function can be expressed as
 
 $$
 \begin{align}
@@ -165,7 +165,7 @@ s.t.\quad\sum_{k=1}^K\mu_k=&1,\ \mu_k>0
 \end{align}
 $$
 
-We can maximize the likelihood of $$\pmb \mu$$ using a Lagrangian multiplier $$\lambda$$ to take account for the constraint
+We can maximize the likelihood of \\(\pmb \mu\\) using a Lagrangian multiplier \\(\lambda\\) to take account for the constraint
 
 $$
 \begin{align}
@@ -173,7 +173,7 @@ $$
 \end{align}
 $$
 
-If we set its derivative to zero, we obtain the maximum likelihood estimator for $$\mu_k$$
+If we set its derivative to zero, we obtain the maximum likelihood estimator for \\(\mu_k\\)
 
 $$
 \begin{align}
@@ -181,7 +181,7 @@ $$
 \end{align}
 $$
 
-We can obtain the Lagrangian multiplier by substituting Equation $$\eqref{eq:9}$$ into the constraint, which gives us $$\lambda=N$$. Therefore, we have
+We can obtain the Lagrangian multiplier by substituting Equation \\(\eqref{eq:9}\\) into the constraint, which gives us \\(\lambda=N\\). Therefore, we have
 
 $$
 \begin{align}
@@ -192,7 +192,7 @@ $$
 
 ### <a name="multinomial"></a>Multinomial Distribution
 
-We can consider the joint distribution of the quantities $$m_1,\dots, m_K$$ conditioned on the parameters $$\pmb\mu$$ and on the total number $$N$$ of observations. This gives us
+We can consider the joint distribution of the quantities \\(m_1,\dots, m_K\\) conditioned on the parameters \\(\pmb\mu\\) and on the total number \\(N\\) of observations. This gives us
 
 $$
 \begin{align}
@@ -214,7 +214,7 @@ where\quad\alpha_0=&\sum_{k=1}^K\alpha_k
 $$
 
 
-Where $$\pmb \alpha$$ is a $$K$$-dimension vector of positive numbers. Sampling from a Dirichlet distribution gives us a categorical distribution. According to [this answer](https://qr.ae/pNyGKz), if we factorize $$\pmb \alpha$$ into a probability distribution and a normalization constant, then the probability distribution happens to be the mean of the Dirichlet distribution. Furthermore, the constant is related to the variance: the variance is high for a larger constant, low for a small constant.
+Where \\(\pmb \alpha\\) is a \\(K\\)-dimension vector of positive numbers. Sampling from a Dirichlet distribution gives us a categorical distribution. According to [this answer](https://qr.ae/pNyGKz), if we factorize \\(\pmb \alpha\\) into a probability distribution and a normalization constant, then the probability distribution happens to be the mean of the Dirichlet distribution. Furthermore, the constant is related to the variance: the variance is high for a larger constant, low for a small constant.
 
 ## Poisson Probability
 
@@ -226,11 +226,11 @@ p(X=x)={\lambda^xe^{-\lambda}\over x!},\quad x\ge0
 \end{align}
 $$
 
-Both the mean and variance of a Poisson are $$\lambda$$. TBC.
+Both the mean and variance of a Poisson are \\(\lambda\\). TBC.
 
 ### Relationship with Binomial Distribution
 
-The binomial distribution tends to be the Poisson distribution as $$n\rightarrow\infty,u\rightarrow0$$ and $$nu$$ stays constant, in which we have $$\lambda=np$$.
+The binomial distribution tends to be the Poisson distribution as \\(n\rightarrow\infty,u\rightarrow0\\) and \\(nu\\) stays constant, in which we have \\(\lambda=np\\).
 
 ## Appendix
 
@@ -238,9 +238,9 @@ The binomial distribution tends to be the Poisson distribution as $$n\rightarrow
 
 The gamma function can be seen as the solution to the following interpolation problem:
 
-> Find a smooth curve that connects the points $$(x,y)$$ given by $$y=(x-1)!$$
+> Find a smooth curve that connects the points \\((x,y)\\) given by \\(y=(x-1)!\\)
 
-$$\Gamma(x)=(x-1)\Gamma(x-1)$$:
+\\(\Gamma(x)=(x-1)\Gamma(x-1)\\):
 
 $$
 \begin{align}
@@ -259,5 +259,5 @@ $$
 \end{align}
 $$
 
-Also notice that $$\Gamma(1)=\int_0^\infty e^{-u}du=1$$. Therefore, for positive integer $$n$$, $$\Gamma(n)=(n-1)!$$ 
+Also notice that \\(\Gamma(1)=\int_0^\infty e^{-u}du=1\\). Therefore, for positive integer \\(n\\), \\(\Gamma(n)=(n-1)!\\) 
 

@@ -271,7 +271,7 @@ for (int i = 0; i < thread_count; ++i) {
 
 ### `std::flex_barrier`
 
-`std::experimental::flex_barrier` add a completion function object to the completion phase where all threads arrive at the barrier. The completion function is run on one thread after all threads have arrived and returns a number indicating the number of participating threads in the next cycle ($$-1$$ indicates the set of participating threads is unchanged).
+`std::experimental::flex_barrier` add a completion function object to the completion phase where all threads arrive at the barrier. The completion function is run on one thread after all threads have arrived and returns a number indicating the number of participating threads in the next cycle (\\(-1\\) indicates the set of participating threads is unchanged).
 
 ```c++
 // data objects

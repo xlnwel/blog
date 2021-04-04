@@ -63,13 +63,13 @@ Go-Explore avoids these problems by storing an archive of promising states so th
   </style>
 </figure>
 
-Go-Explore consists of two phases: In Phase 1, it maintains an archive that records promising(novel) states. At each iteration, the agent first returns to one of the states in the archive, and then takes actions to explore the environment for $$k$$ steps, adding novel states and associated trajectories to the archive. In Phase 2, it learns a policy through the [backward algorithm]({{ site.baseurl }}{% post_url 2021-01-21-Backward %}). 
+Go-Explore consists of two phases: In Phase 1, it maintains an archive that records promising(novel) states. At each iteration, the agent first returns to one of the states in the archive, and then takes actions to explore the environment for \\(k\\) steps, adding novel states and associated trajectories to the archive. In Phase 2, it learns a policy through the [backward algorithm]({{ site.baseurl }}{% post_url 2021-01-21-Backward %}). 
 
 Note that 1) Phase 1 may not involve any network training if random actions are used for exploration; 2) Due to the prohibitive cost of the backward algorithm, the robustification phase may be omitted if we only need good trajectories for the game, in which case, no learning is performed.
 
 ### Select State from The Archive
 
-Cells are selected inversely proportional to its visited count with weight $$W={1\over\sqrt {C_{seen}}+1}$$, where $$C_{seen}$$ is the number of times the cell is revisited. 
+Cells are selected inversely proportional to its visited count with weight \\(W={1\over\sqrt {C_{seen}}+1}\\), where \\(C_{seen}\\) is the number of times the cell is revisited. 
 
 ### Go to state
 
@@ -77,19 +77,19 @@ Go-Explore assumes the environment is deterministic during training and stochast
 
 ### Exploration
 
-Go-Explore explores by taking random actions for $$k=100$$ training frames, with a $$95\%$$ probability of repeating the previous action at each training frame. 
+Go-Explore explores by taking random actions for \\(k=100\\) training frames, with a \\(95\%\\) probability of repeating the previous action at each training frame. 
 
 ### Cell Representations
 
 One may use some middle layer(with discrete representations for example) of neural networks trained with traditional RL algorithms or unsupervised learning algorithms as cell representations. In Go-Explore, [Ecoffet et al. 2021](#ref1) adopt an engineering method for downsampling, which consists fo three steps
 
 1. Convert the original frame to grayscale
-2. Reduce the resolution with pixel area relation interpolation to a width $$w\le 160$$ and a height $$h\le 210$$
-3. Reduce the pixel depth to $$d\le 255$$ using the formula $$\lfloor {d\cdot p\over 255}\rfloor$$, where $$p$$ is the value of the pixel after step $$2$$.
+2. Reduce the resolution with pixel area relation interpolation to a width \\(w\le 160\\) and a height \\(h\le 210\\)
+3. Reduce the pixel depth to \\(d\le 255\\) using the formula \\(\lfloor {d\cdot p\over 255}\rfloor\\), where \\(p\\) is the value of the pixel after step \\(2\\).
 
-The parameters $$w, h, d$$ are updated dynamically by proposing different values for each, calculating how a sample of recent frames would be grouped into cells under these proposed parameters, and then selecting the values that result in the best cell distribution (as determined by the objective function below)
+The parameters \\(w, h, d\\) are updated dynamically by proposing different values for each, calculating how a sample of recent frames would be grouped into cells under these proposed parameters, and then selecting the values that result in the best cell distribution (as determined by the objective function below)
 
-Let $$n$$ be the number of cells produced by the parameters currently considered, $$T$$ be a target number of cells(a fixed fraction($$12.5\%$$) of the number of frames([code](https://github.com/uber-research/go-explore/blob/240056852514ffc39f62d32ae7590a39fd1814b9/robustified/goexplore_py/goexplore.py#L482)) in the sample), $$\pmb p$$ be the distribution of sample frames over cells. The objective function for candidate downscaling parameters is calculated by
+Let \\(n\\) be the number of cells produced by the parameters currently considered, \\(T\\) be a target number of cells(a fixed fraction(\\(12.5\%\\)) of the number of frames([code](https://github.com/uber-research/go-explore/blob/240056852514ffc39f62d32ae7590a39fd1814b9/robustified/goexplore_py/goexplore.py#L482)) in the sample), \\(\pmb p\\) be the distribution of sample frames over cells. The objective function for candidate downscaling parameters is calculated by
 
 $$
 \begin{align}
@@ -99,11 +99,11 @@ L(n,T)=&\sqrt{\left\vert{n\over T}-1\right\vert+1}
 \end{align}
 $$
 
-Here $$H_n(\pmb p)$$ is the normalized entropy, which preserves the scale of the entropy regardless of $$n$$. This term encourages frames to be distributed as uniformly as possible across cells. $$L(n,T)$$ measures the discrepancy between the number of cells produced by the current parameters and the target number of cells. It prevents from aggregating frames into too many or too few cells.
+Here \\(H_n(\pmb p)\\) is the normalized entropy, which preserves the scale of the entropy regardless of \\(n\\). This term encourages frames to be distributed as uniformly as possible across cells. \\(L(n,T)\\) measures the discrepancy between the number of cells produced by the current parameters and the target number of cells. It prevents from aggregating frames into too many or too few cells.
 
-At each step of the randomized search, new values of each parameter $$w,h,d$$ are proposed by sampling from a geometric distribution whose mean is the current best known value of the given parameter. If the current best known value is lower than a heuristic minimum mean, the heuristic mean is used instead. New parameter values are re-sampled if they fall outside of the valid range of the parameter.
+At each step of the randomized search, new values of each parameter \\(w,h,d\\) are proposed by sampling from a geometric distribution whose mean is the current best known value of the given parameter. If the current best known value is lower than a heuristic minimum mean, the heuristic mean is used instead. New parameter values are re-sampled if they fall outside of the valid range of the parameter.
 
-The recent frames that constitute the sample over which parameter search is done are obtained by maintaining a set of recently seen sample frames as Go-Explore runs: during the exploration phase, a frame not already is added to the running set with a probability of $$1\%$$. If the resulting set contains more than 10,000 frames, the oldest frame it contains is removed.
+The recent frames that constitute the sample over which parameter search is done are obtained by maintaining a set of recently seen sample frames as Go-Explore runs: during the exploration phase, a frame not already is added to the running set with a probability of \\(1\%\\). If the resulting set contains more than 10,000 frames, the oldest frame it contains is removed.
 
 We omit the domain knowledge representations and refer interested readers to the paper.
 
@@ -127,7 +127,7 @@ $$
 \end{align}
 $$
 
-where $$R$$ is the discounted trajectory return.
+where \\(R\\) is the discounted trajectory return.
 
 ## Experimental Results
 

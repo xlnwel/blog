@@ -33,7 +33,7 @@ $$
 
    
 
-   where $$G_\pi,G_b$$ are the cumulative rewards under the target and behavior policy, and $$\omega_{0:T}=\prod_{t=0}^T{\pi(a_t\vert s_t)\over b(a_i\vert s_i)}$$. As IS is notoriously known as high variance, one could reduce its variance using weighted importance sampling(WIS) and causality, which gives
+   where \\(G_\pi,G_b\\) are the cumulative rewards under the target and behavior policy, and \\(\omega_{0:T}=\prod_{t=0}^T{\pi(a_t|s_t)\over b(a_i|s_i)}\\). As IS is notoriously known as high variance, one could reduce its variance using weighted importance sampling(WIS) and causality, which gives
    
 $$
    G_{\pi}= \sum_{i=1}^n{\omega_{0:t}^{(i)}\over\sum_{i=1}^n\omega_{0:t}^{(i)}}\sum_{t=0}^T\gamma^{t}\omega_{0:t}^{(i)}r_t
@@ -69,7 +69,7 @@ s.t.\quad C^k(\pi)\le V_k,k=1,\dots, K
 \end{align}
 $$
 
-where $$R$$ is the cumulative reward of a policy $$\pi$$, $$C^k(\pi)$$ describes the incurred cumulative cost of a certain policy $$\pi$$ relative to constraint $$k$$, and $$V_k$$ is the constriant level
+where \\(R\\) is the cumulative reward of a policy \\(\pi\\), \\(C^k(\pi)\\) describes the incurred cumulative cost of a certain policy \\(\pi\\) relative to constraint \\(k\\), and \\(V_k\\) is the constriant level
 
 An alternative to CMDPs is budgeted MDPs([Carrara et al. 2018](#carrara2018)), where the policy is learned as a function of constriant level. This allows the user to examine the trade-offs between expected return and constraint level and choose the constraint level that best works for the data.
 

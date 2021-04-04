@@ -17,13 +17,13 @@ We discuss MobileNet families, proposed by researchers in Google, that aims to r
 
 **Width: ** The number of channels/filters
 
-**Resolution: ** The feature map size $$H\times W$$
+**Resolution: ** The feature map size \\(H\times W\\)
 
 ## MobileNetV1
 
-The core contribution of MobileNet is depthwise separable convolutions, which aims to reduce computation and memory requirements of modern deep CNNs. Depthwise separable convolutions factorize a standard convolution into a depthwise convolution and a $$1\times 1$$ convolution called a pointwise convolution: The depthwise convolution filters each input channel and the pointwise convolution combines the outputs. 
+The core contribution of MobileNet is depthwise separable convolutions, which aims to reduce computation and memory requirements of modern deep CNNs. Depthwise separable convolutions factorize a standard convolution into a depthwise convolution and a \\(1\times 1\\) convolution called a pointwise convolution: The depthwise convolution filters each input channel and the pointwise convolution combines the outputs. 
 
-Considering a input tensor of shape $$H\times W\times C$$, the depthwise convolution separably applies $$C$$ $K\times K$ kernels to each input channel. This convolution preserves the shape of the tensor and has a computational cost of
+Considering a input tensor of shape \\(H\times W\times C\\), the depthwise convolution separably applies \\(C\\) $K\times K$ kernels to each input channel. This convolution preserves the shape of the tensor and has a computational cost of
 
 $$
 \begin{align}
@@ -31,7 +31,7 @@ $$
 \end{align}
 $$
 
-The pointwise convolution combines the filterred feature maps with a $$1\times 1$$ convolution. This yields a $$H\times H\times C'$$ tensor with a computation cost of
+The pointwise convolution combines the filterred feature maps with a \\(1\times 1\\) convolution. This yields a \\(H\times H\times C'\\) tensor with a computation cost of
 
 $$
 \begin{align}
@@ -56,9 +56,9 @@ $$
 \end{align}
 $$
 
-When using $$3\times 3$$ depthwise separable convolutions, it uses between $$8$$ to $$9$$ times less computation than standard convolutions at only a small reduction in accuracy.
+When using \\(3\times 3\\) depthwise separable convolutions, it uses between \\(8\\) to \\(9\\) times less computation than standard convolutions at only a small reduction in accuracy.
 
-Comparing Equations $$\eqref{eq:1}$$ and $$\eqref{eq:2}$$, we can see that depthwise separable convolution puts nearly all of the computation into dense $$1\times 1$$ convolutions. However, contrasting to standard convolutions implemented by im2col followed by optimized general matrix multiply(GEMM), $$1\times 1$$ convolutions does not require im2col for initial reordering and can be implemented directly with GEMM.
+Comparing Equations \\(\eqref{eq:1}\\) and \\(\eqref{eq:2}\\), we can see that depthwise separable convolution puts nearly all of the computation into dense \\(1\times 1\\) convolutions. However, contrasting to standard convolutions implemented by im2col followed by optimized general matrix multiply(GEMM), \\(1\times 1\\) convolutions does not require im2col for initial reordering and can be implemented directly with GEMM.
 
 Despite the above theoretical arguments, I find the depthwise convolution is slower than standard convolution in practice (with float32, but someone said the performance gain will be spotted with float16). [Gholami et al.](https://arxiv.org/abs/1803.10615) explained:
 
@@ -89,7 +89,7 @@ Notice that
 1. The inverted residual block also uses depthwise separable convolutions in the residual branch to separate filter and combine operations
 2. ReLUs in Figure 3.b is mislabelled. In practice, ReLU6 is used after the first two layers but not the last convolution because when the input to the residual block has the same capacity as the output, ReLU may cause a loss of information as it zeros-out negative values. (see the following intuition for more details)
 
-Intuitively, in inverted residual block, we expect the input tensor with lower number of channels carries all the information needed for the following operations. However, filtering a lower dimensional tensor with ReLU activation may cause loss of information due to limited expressive power of a convolution and negative values being zeroed-out. Therefore, we expand it with a $$1\times 1$$ convolution to make it more expressive for the following operations. Then we apply a depthwise separable convolution for memory efficiency. At last, we project the resulting feature maps back into the original size using a $$1\times 1$$ convolution without any non-linearity. The non-linearity is used because we don't want any loss of information, introduced by ReLU, between the input and output of the inverted residual block.
+Intuitively, in inverted residual block, we expect the input tensor with lower number of channels carries all the information needed for the following operations. However, filtering a lower dimensional tensor with ReLU activation may cause loss of information due to limited expressive power of a convolution and negative values being zeroed-out. Therefore, we expand it with a \\(1\times 1\\) convolution to make it more expressive for the following operations. Then we apply a depthwise separable convolution for memory efficiency. At last, we project the resulting feature maps back into the original size using a \\(1\times 1\\) convolution without any non-linearity. The non-linearity is used because we don't want any loss of information, introduced by ReLU, between the input and output of the inverted residual block.
 
 Also, EfficientNet(Tan&Le 2019) consists of mobile inverted bottleneck (MBConv).
 
@@ -107,7 +107,7 @@ MobileNetV3 use platform-aware network search and NetAdapt to search for the glo
   </style>
 </figure>
 
-- SE block is appended after the depthwise convolutional layer with a reduction ratio of $$.25$$. The output activation is replaced by the hard sigmoid to reduce computational cost as shown in figure 4
+- SE block is appended after the depthwise convolutional layer with a reduction ratio of \\(.25\\). The output activation is replaced by the hard sigmoid to reduce computational cost as shown in figure 4
 
 <figure>
   <img src="{{ '/images/network/MobileNetV3-Figure-5.png' | absolute_url }}" alt="" align="right" width="500">
@@ -119,9 +119,9 @@ MobileNetV3 use platform-aware network search and NetAdapt to search for the glo
   </style>
 </figure>
 
-- The last layer is redesigned as shown in Figure 5 to reduce the computational cost. This reduces the latency by $$7$$ milliseconds and reduces the number of operations by $$30$$ millions MAdds with almost no loss of accuracy.
+- The last layer is redesigned as shown in Figure 5 to reduce the computational cost. This reduces the latency by \\(7\\) milliseconds and reduces the number of operations by \\(30\\) millions MAdds with almost no loss of accuracy.
 
-- *swish* activation is replaced by a hard version. The original *swish* is defined as $$\text{swish}(x)=x\sigma(x)$$. As the sigmoid function is much more expensive to compute on mobile devices, Howard et al. introduce a hard version as $$\text{h-swish}(x)=x{\text{ReLU6}(x+3)\over 6}$$. Howard et al. also find most of the benefits *swish* are realized by using them only in the deeper layers. Thus, they only use *h-swish* at the second half of the model.
+- *swish* activation is replaced by a hard version. The original *swish* is defined as \\(\text{swish}(x)=x\sigma(x)\\). As the sigmoid function is much more expensive to compute on mobile devices, Howard et al. introduce a hard version as \\(\text{h-swish}(x)=x{\text{ReLU6}(x+3)\over 6}\\). Howard et al. also find most of the benefits *swish* are realized by using them only in the deeper layers. Thus, they only use *h-swish* at the second half of the model.
 
 ## References
 

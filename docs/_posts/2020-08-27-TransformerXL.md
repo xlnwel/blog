@@ -42,7 +42,7 @@ $$
 \end{align}\tag{1}\label{eq:1}
 $$
 
-where $$\pmb x$$ is the input and we use Einstein summation to denote the tensor multiplication.
+where \\(\pmb x\\) is the input and we use Einstein summation to denote the tensor multiplication.
 
 Since the self-attention mechanism and feed forward network themselves do not bear any sequential information, an additional positional encoding is added to the input embeddings of both the encoder and decoder to tip off the sequential orders. In Transformer, the positional encoding are encoded using the sine and cosine functions of different frequencies
 
@@ -53,7 +53,7 @@ $$
 \end{align}\tag{2}\label{eq:2}
 $$
 
-where $$pos$$ is the token's absolute position in the current segment, $$i$$ is the $$i$$-th dimension and $$d$$ is dimension. 
+where \\(pos\\) is the token's absolute position in the current segment, \\(i\\) is the \\(i\\)-th dimension and \\(d\\) is dimension. 
 
 <figure>
   <img src="{{ '/images/attention/TransformerXL-Figure1.png' | absolute_url }}" alt="" width="1000">
@@ -89,7 +89,7 @@ TransformerXL uses a similar structure as Transformer, with a few improvements. 
 
 As shown in Figure 2(a), when training a new segment, we take into account the hidden states of the previous segment. These previous states are fixed and we do not propagate gradients to them. Allowing the current segment to take advantage of the previous states enables the network to model longer-term dependency beyond the fixed window and alleviates the context fragmentation issue. 
 
-Formally, let the two consecutive segments of length $$L$$ be $$\pmb s_\tau$$ and $$\pmb s_{\tau+1}$$. Denote the $$n$$-th layer hidden state sequence of $$\pmb s_\tau$$ by $$\pmb h_\tau^n\in\mathbb R^{L\times d}$$, where $$L$$ is the sequence length and $$d$$ is the hidden dimension. Then, the $$n$$-th layer hidden state for segment $$\pmb s_{\tau+1}$$ is produced as follows
+Formally, let the two consecutive segments of length \\(L\\) be \\(\pmb s_\tau\\) and \\(\pmb s_{\tau+1}\\). Denote the \\(n\\)-th layer hidden state sequence of \\(\pmb s_\tau\\) by \\(\pmb h_\tau^n\in\mathbb R^{L\times d}\\), where \\(L\\) is the sequence length and \\(d\\) is the hidden dimension. Then, the \\(n\\)-th layer hidden state for segment \\(\pmb s_{\tau+1}\\) is produced as follows
 
 $$
 \begin{align}
@@ -99,17 +99,17 @@ $$
 \end{align}\tag{3}\label{eq:3}
 $$
 
-where $$\text{SG}$$ denotes stop-gradient, $$[\pmb h_1,\pmb h_2]$$ concatenates $$\pmb h_1$$ and $$\pmb h_2$$ along the sequential dimension.
+where \\(\text{SG}\\) denotes stop-gradient, \\([\pmb h_1,\pmb h_2]\\) concatenates \\(\pmb h_1\\) and \\(\pmb h_2\\) along the sequential dimension.
 
 Anothe benefit that comes with the recurrence scheme is significantly faster evaluation. We can reuse the previous segments instead of recompute them! 
 
-Finally, notice that the recurrence scheme does not need to be restricted to only the previous segment -- it can use more than one previous segments as long as the GPU memory allows. In their experiments, they use the previous segment in training and extend to far before during evaluation. This is feasible as the recurrence scheme only changes the lengths of the key and value and leave the final hidden state $$\pmb h$$ as it is.
+Finally, notice that the recurrence scheme does not need to be restricted to only the previous segment -- it can use more than one previous segments as long as the GPU memory allows. In their experiments, they use the previous segment in training and extend to far before during evaluation. This is feasible as the recurrence scheme only changes the lengths of the key and value and leave the final hidden state \\(\pmb h\\) as it is.
 
 ### Relative Positional Encodings
 
-While the above idea is appealing, it comes with a crucial challenge. That is, how can we keep the positional information coherent when we reuse the states? The encoding method in the previous section fails since it uses the same position encoding for the previous and current segments. For example, a segment of length $$4$$ encodes positions $$[0, 1, 2, 3]$$. Now we have two segments and both using the same positions $$[0, 1, 2, 3]$$ makes the semantics of positions incoherent, resulting in a sheer performance loss. 
+While the above idea is appealing, it comes with a crucial challenge. That is, how can we keep the positional information coherent when we reuse the states? The encoding method in the previous section fails since it uses the same position encoding for the previous and current segments. For example, a segment of length \\(4\\) encodes positions \\([0, 1, 2, 3]\\). Now we have two segments and both using the same positions \\([0, 1, 2, 3]\\) makes the semantics of positions incoherent, resulting in a sheer performance loss. 
 
-In order to avoid this failure mode, the fundamental idea is to only encode the *relative* positional information in the hidden states. As a result, Dai et al. propose a novel relative positional encoding, which not only has one-to-one correspondence to its absolute couterpart but also enjoys much better generalization empirically. First, we rewrite the standard attention score $$\alpha$$, which previously computed using Einstein summation
+In order to avoid this failure mode, the fundamental idea is to only encode the *relative* positional information in the hidden states. As a result, Dai et al. propose a novel relative positional encoding, which not only has one-to-one correspondence to its absolute couterpart but also enjoys much better generalization empirically. First, we rewrite the standard attention score \\(\alpha\\), which previously computed using Einstein summation
 
 $$
 \begin{align}
@@ -118,7 +118,7 @@ $$
 \end{align}\tag{4}\label{eq:4}
 $$
 
-where $$\pmb x$$ and $$\pmb p$$ are row vectors of their corresponding matrices. The newly proposed form with relative positional encodings is as follows
+where \\(\pmb x\\) and \\(\pmb p\\) are row vectors of their corresponding matrices. The newly proposed form with relative positional encodings is as follows
 
 $$
 \begin{align}
@@ -126,24 +126,24 @@ $$
 \end{align}
 $$
 
-where  $$\pmb u$$ and $$\pmb v$$ are row vectors, $$i\in\{0,\dots,L-1\}$$ and $$j\in\{0,\dots,M+L-1\}$$, and $$M$$ and $$L$$ are the cache and segment lengths, respectively. Unlike the original equation in the paper, we add $$M$$ to the subscript of $$\pmb r$$ to make things more clear. 
+where  \\(\pmb u\\) and \\(\pmb v\\) are row vectors, \\(i\in\{0,\dots,L-1\}\\) and \\(j\in\{0,\dots,M+L-1\}\\), and \\(M\\) and \\(L\\) are the cache and segment lengths, respectively. Unlike the original equation in the paper, we add \\(M\\) to the subscript of \\(\pmb r\\) to make things more clear. 
 
 We summarize changes as follows
 
-- The first change is to replace all appearances of the absolute positional encoding $$\pmb p_j$$ with its relative counterpart $$\pmb r_{i+M-j}$$. Note that $$\pmb r$$ is a sinusoid encoding as in Equation $$\eqref{eq:2}$$.
-- Secondly, the absolutely positional query vector $$\pmb p_iW_q$$ is replaced by its relative counterpart, a trainable vector $$\pmb u\in \mathbb R^d$$, since the positional query vector is the same for all query positions.
-- Finally, we use two separate weight matrices $$W_{k, x}$$ and $$W_{k,r}$$ for producing the content-based key vectors and location-based key vectors respectively.
+- The first change is to replace all appearances of the absolute positional encoding \\(\pmb p_j\\) with its relative counterpart \\(\pmb r_{i+M-j}\\). Note that \\(\pmb r\\) is a sinusoid encoding as in Equation \\(\eqref{eq:2}\\).
+- Secondly, the absolutely positional query vector \\(\pmb p_iW_q\\) is replaced by its relative counterpart, a trainable vector \\(\pmb u\in \mathbb R^d\\), since the positional query vector is the same for all query positions.
+- Finally, we use two separate weight matrices \\(W_{k, x}\\) and \\(W_{k,r}\\) for producing the content-based key vectors and location-based key vectors respectively.
 
 Under the new parameterization, each term has an intuitive meaning:
 
-- (a) represents content-based addressing, the relative weights of $$\pmb k_j$$ to $$\pmb q_i$$
-- (b) captures a content-dependent positional bias, the relative positional weights of position $$j$$ to $$\pmb q_i$$
-- (c) governs a global content bias, the global weights of $$\pmb k_j$$
-- (d) encodes a global positional bias, the global weights of position $$j$$
+- (a) represents content-based addressing, the relative weights of \\(\pmb k_j\\) to \\(\pmb q_i\\)
+- (b) captures a content-dependent positional bias, the relative positional weights of position \\(j\\) to \\(\pmb q_i\\)
+- (c) governs a global content bias, the global weights of \\(\pmb k_j\\)
+- (d) encodes a global positional bias, the global weights of position \\(j\\)
 
 ### Reducing Computational Cost of Attention with Relative Positional Embedding
 
-The naive way to compute $$\alpha$$ require computing $$W^\top_{k,r}\pmb r^\top_{i+M-j}$$ for all pairs $$(i,j)$$, whose cost is quadratic w.r.t. the sequence length. In this subsection, we reduce the cost to linear. First, notice that the relative distance $$i-j$$ can only be integer from $$0$$ to $$M+L-1$$, where $$M$$ is the cache length and $$L$$ is the segment length. This allows us to compute all $$\pmb r W_{k,r}$$ at once
+The naive way to compute \\(\alpha\\) require computing \\(W^\top_{k,r}\pmb r^\top_{i+M-j}\\) for all pairs \\((i,j)\\), whose cost is quadratic w.r.t. the sequence length. In this subsection, we reduce the cost to linear. First, notice that the relative distance \\(i-j\\) can only be integer from \\(0\\) to \\(M+L-1\\), where \\(M\\) is the cache length and \\(L\\) is the segment length. This allows us to compute all \\(\pmb r W_{k,r}\\) at once
 
 $$
 \begin{align}
@@ -157,9 +157,9 @@ $$
 \end{align}
 $$
 
-Notice that we define $$\pmb q$$ in a reversed order, i.e., $$\pmb q_i=\pmb r_{M+L-1-i}W_{k,r}$$, to make further discussion easier.
+Notice that we define \\(\pmb q\\) in a reversed order, i.e., \\(\pmb q_i=\pmb r_{M+L-1-i}W_{k,r}\\), to make further discussion easier.
 
-We collect the term $$(b)$$ for all possible $$(i,j)$$ into the following $$L\times(M+L)$$ matrix
+We collect the term \\((b)\\) for all possible \\((i,j)\\) into the following \\(L\times(M+L)\\) matrix
 
 $$
 \begin{align}
@@ -173,7 +173,7 @@ $$
 \end{align}
 $$
 
-where $$\tilde {\pmb x}=\pmb xW_q$$. Then we further define
+where \\(\tilde {\pmb x}=\pmb xW_q\\). Then we further define
 
 $$
 \begin{align}
@@ -187,9 +187,9 @@ $$
 \end{align}
 $$
 
-Now, it is easy to see that the $$i$$-th row of $$\pmb b$$ is the result of shifting the $$i$$-th row of $$ \tilde{\pmb b}$$ by $$L-1-i$$  positions.
+Now, it is easy to see that the \\(i\\)-th row of \\(\pmb b\\) is the result of shifting the \\(i\\)-th row of \\( \tilde{\pmb b}\\) by \\(L-1-i\\)  positions.
 
-Similarly, we can collect the term $$d$$ for all possible $$(i,j)$$ into another $$L\times(M+L)$$ matrix:
+Similarly, we can collect the term \\(d\\) for all possible \\((i,j)\\) into another \\(L\times(M+L)\\) matrix:
 
 $$
 \begin{align}
@@ -214,7 +214,7 @@ $$
 \end{align}
 $$
 
-Again, we can obtain $$\pmb d$$ from $$\tilde{\pmb d}$$ using a set of left-shift operations.
+Again, we can obtain \\(\pmb d\\) from \\(\tilde{\pmb d}\\) using a set of left-shift operations.
 
 ## References
 

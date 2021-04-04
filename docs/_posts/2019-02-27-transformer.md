@@ -28,7 +28,7 @@ The Transformer follows the encoder-decoder structure using stacked self-attenti
 
 ### Positional Encoding
 
-In sequential forecast, it is important to incorporate positional information so that the network learns how to predict based not only on the past events but also on the order of these events. However, neither the self-attention modules nor fully-connected layers exploits the input order. To tip off the network the relative position of the input in the sequence, we introduce positional encoding to explicitly incorporate positional information into the input. Specifically, we use sine and cosine functions of different frequencies to encode the position information into a $$d_{model}$$-dimensional feature:
+In sequential forecast, it is important to incorporate positional information so that the network learns how to predict based not only on the past events but also on the order of these events. However, neither the self-attention modules nor fully-connected layers exploits the input order. To tip off the network the relative position of the input in the sequence, we introduce positional encoding to explicitly incorporate positional information into the input. Specifically, we use sine and cosine functions of different frequencies to encode the position information into a \\(d_{model}\\)-dimensional feature:
 
 $$
 \begin{align}
@@ -37,17 +37,17 @@ PE_{(pos, 2i+1)}&=\cos(pos/10000^{2i/d_{model}})
 \end{align}
 $$
 
-where $$pos$$ is the token's position in the sequence and $$i$$ is the embedding dimension. That is, each dimension of the positional embedding corresponds to a sinusoid. The wavelengths form a geometric progression from $$2\pi$$ to $$10000⋅2\pi$$. We chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset $$k$$, $$PE_{pos+k}$$ can be represented as a linear function of $$PE_{pos}$$ (Proof in [Supplementary Materials](#proof1)).
+where \\(pos\\) is the token's position in the sequence and \\(i\\) is the embedding dimension. That is, each dimension of the positional embedding corresponds to a sinusoid. The wavelengths form a geometric progression from \\(2\pi\\) to \\(10000⋅2\pi\\). We chose this function because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset \\(k\\), \\(PE_{pos+k}\\) can be represented as a linear function of \\(PE_{pos}\\) (Proof in [Supplementary Materials](#proof1)).
 
 ### Encoder and Decoder Stacks
 
 #### Encoder
 
-The encoder is composed of a stack of $$N=6$$ identical layers. Each layer has two sublayers. The first is a multi-head self-attention mechanism, and the second is a simple fully connected feed-forward network. Residual connections are employed around each of the two sub-layers, and layer normalization is applied in between. Mathematically, we denote the output of each sub-layer as $$x+\mathrm{Sublayer}(\mathrm{LayerNorm}(x))$$ (This one, adopted by [[2](#ref2)], is slightly different from the one used in the paper, but follows the pattern standard residual networks recommend), where $$\mathrm{Sublayer}(x)$$ is the function implemented by the sub-layer itself.
+The encoder is composed of a stack of \\(N=6\\) identical layers. Each layer has two sublayers. The first is a multi-head self-attention mechanism, and the second is a simple fully connected feed-forward network. Residual connections are employed around each of the two sub-layers, and layer normalization is applied in between. Mathematically, we denote the output of each sub-layer as \\(x+\mathrm{Sublayer}(\mathrm{LayerNorm}(x))\\) (This one, adopted by [[2](#ref2)], is slightly different from the one used in the paper, but follows the pattern standard residual networks recommend), where \\(\mathrm{Sublayer}(x)\\) is the function implemented by the sub-layer itself.
 
 #### Decoder
 
-The decoder is also composed of a stack of $$N=6$$ identical layers. In addition to the two sub-layers in the encoder layer, the decoder inserts a third sub-layer, which performs multi-head attention over the output of the encoder stack (i.e., where we have the output of the encoder as keys and values). Sub-layers in the decoder follows the same fashion as that in the encoder. 
+The decoder is also composed of a stack of \\(N=6\\) identical layers. In addition to the two sub-layers in the encoder layer, the decoder inserts a third sub-layer, which performs multi-head attention over the output of the encoder stack (i.e., where we have the output of the encoder as keys and values). Sub-layers in the decoder follows the same fashion as that in the encoder. 
 
 #### Masking
 
@@ -85,9 +85,9 @@ $$
 \end{align}
 $$
 
-where $$Q, K, V$$ are queries, keys, and values, respectively; $$d_k$$ is the dimension of the keys; the compatibility function (softmax part) computes the weights assigned to each value in a row. The dot-product $$QK^T$$ is scaled by $$1\over \sqrt{d_k}$$ to avoid extremely small gradients for large values of $$d_k$$, where the dot-product grows large in magnitude, pushing the softmax function into the edge region. In the resulting matrix $$A$$, the features in the rows are the weighted sum of features in $$V$$, i.e., $$A_{i,j}=\sum_k w_{i,k}V_{k,j}$$, where $$w_{i,k}$$ explains the similarity between $$Q_i$$ and $$K_k$$.
+where \\(Q, K, V\\) are queries, keys, and values, respectively; \\(d_k\\) is the dimension of the keys; the compatibility function (softmax part) computes the weights assigned to each value in a row. The dot-product \\(QK^T\\) is scaled by \\(1\over \sqrt{d_k}\\) to avoid extremely small gradients for large values of \\(d_k\\), where the dot-product grows large in magnitude, pushing the softmax function into the edge region. In the resulting matrix \\(A\\), the features in the rows are the weighted sum of features in \\(V\\), i.e., \\(A_{i,j}=\sum_k w_{i,k}V_{k,j}\\), where \\(w_{i,k}\\) explains the similarity between \\(Q_i\\) and \\(K_k\\).
 
-Some takeaway: mathematically, attention is just focusing on the space where $$Q$$ and $$K$$ are similar(w.r.t. cosine similarity), given they are in the same magnitude — since $$(QK^T)_{i,j}=\Vert Q_i\Vert\Vert K_j\Vert\cos\theta$$. An extreme thought exercise is the case where both $$Q$$ and $$K$$ are one-hot encoded. 
+Some takeaway: mathematically, attention is just focusing on the space where \\(Q\\) and \\(K\\) are similar(w.r.t. cosine similarity), given they are in the same magnitude — since \\((QK^T)_{i,j}=\Vert Q_i\Vert\Vert K_j\Vert\cos\theta\\). An extreme thought exercise is the case where both \\(Q\\) and \\(K\\) are one-hot encoded. 
 
 #### Multi-Head Attention
 
@@ -100,9 +100,9 @@ where\ \text{head}_i &=\text{Attention}(QW_i^Q,KW_i^K,VW_i^V)
 \end{align}
 $$
 
-where the projections are parameter matrices $$W_i^Q\in\mathbb R^{d_{\mathrm{model}}\times d_k}$$, $$W_i^K\in\mathbb R^{d_{\mathrm{model}}\times d_k}$$, $$W_i^V\in\mathbb R^{d_{\mathrm{model}}\times d_v}$$ and $$W^O\in\mathbb R^{hd_v\times d_{\mathrm{model}}}$$. For each head, we first apply a fully-connected layer to reduce the dimension, then we pass the result to a single attention function. At last, all heads are concatenated and once again projected, resulting in the final values. Since all heads run in parallel and the dimension of each head is reduced beforehand, the total computational cost is similar to that of single-head attention with full dimensionality. 
+where the projections are parameter matrices \\(W_i^Q\in\mathbb R^{d_{\mathrm{model}}\times d_k}\\), \\(W_i^K\in\mathbb R^{d_{\mathrm{model}}\times d_k}\\), \\(W_i^V\in\mathbb R^{d_{\mathrm{model}}\times d_v}\\) and \\(W^O\in\mathbb R^{hd_v\times d_{\mathrm{model}}}\\). For each head, we first apply a fully-connected layer to reduce the dimension, then we pass the result to a single attention function. At last, all heads are concatenated and once again projected, resulting in the final values. Since all heads run in parallel and the dimension of each head is reduced beforehand, the total computational cost is similar to that of single-head attention with full dimensionality. 
 
-In practice, if we have $$hd_k=hd_v=d_{model}$$, multi-head attention can be simply implemented using attention with four additional fully-connected layers, each of dimension $$d_{model}\times d_{model}$$ as follows
+In practice, if we have \\(hd_k=hd_v=d_{model}\\), multi-head attention can be simply implemented using attention with four additional fully-connected layers, each of dimension \\(d_{model}\times d_{model}\\) as follows
 
 <figure>
   <img src="{{ '/images/attention/multi-attention.png' | absolute_url }}" alt="">
@@ -216,7 +216,7 @@ In this section, we will extend our topic of attention to see how addtention wor
 </figure> 
 
 
-The model is also of an encoder-decoder structure. The encoder is a bidirectional RNN that encodes all sequential information. The decoder is a general RNN that predicts the output $$y_t$$ for the current time-step based on the previous hidden state $$s_{t-1}$$ and the current context vector $$c_t$$. Formally, we have
+The model is also of an encoder-decoder structure. The encoder is a bidirectional RNN that encodes all sequential information. The decoder is a general RNN that predicts the output \\(y_t\\) for the current time-step based on the previous hidden state \\(s_{t-1}\\) and the current context vector \\(c_t\\). Formally, we have
 
 $$
 \begin{align}
@@ -225,9 +225,9 @@ where\quad s_t&=f(s_{t-1}, y_{t-1}, c_t)
 \end{align}
 $$
 
-where $$f$$ denotes an RNN operation, and the context vector $$c_t$$ depends on a sequence of annotations $$h_1, \dots, h_T$$ to which an encoder maps the input sequence. Each annotation $$h_t$$ contains information about the whole input sequence with a strong focus on the parts surrounding the $$t$$-th element of the input sequence. More specifically, an annotation $$h_t$$ is the concatenation of hidden states computed by a forward RNN and a backward RNN.
+where \\(f\\) denotes an RNN operation, and the context vector \\(c_t\\) depends on a sequence of annotations \\(h_1, \dots, h_T\\) to which an encoder maps the input sequence. Each annotation \\(h_t\\) contains information about the whole input sequence with a strong focus on the parts surrounding the \\(t\\)-th element of the input sequence. More specifically, an annotation \\(h_t\\) is the concatenation of hidden states computed by a forward RNN and a backward RNN.
 
-The context vector $$c_t$$, then, is computed as a weighted sum of these annotations
+The context vector \\(c_t\\), then, is computed as a weighted sum of these annotations
 
 $$
 \begin{align}
@@ -236,9 +236,9 @@ where\quad a_{tk}&=\mathrm {softmax}(f_{att}(s_{t-1}, h_k))
 \end{align}
 $$
 
-We can see that when $$f_{att}$$ is a dot-product function, $$c_t$$ is computed through a attention module, i.e., $$c=\text{Attention}(s, h, h)$$.
+We can see that when \\(f_{att}\\) is a dot-product function, \\(c_t\\) is computed through a attention module, i.e., \\(c=\text{Attention}(s, h, h)\\).
 
-The attention function $$f_{att}$$ calculates an unnormalized alignment score that reflects the importance of the annotation $$h_k$$ with respect to the previous hidden state $$s_{t-1}$$ in deciding the next state $$s_t$$ and generating $$y_t$$. It's typically defined as on of the following
+The attention function \\(f_{att}\\) calculates an unnormalized alignment score that reflects the importance of the annotation \\(h_k\\) with respect to the previous hidden state \\(s_{t-1}\\) in deciding the next state \\(s_t\\) and generating \\(y_t\\). It's typically defined as on of the following
 
 $$
 \begin{align}
@@ -250,7 +250,7 @@ v^{\top}\tanh(W_ss_{t-1}+W_hh_k)&\text{concat}
 \end{align}
 $$
 
-where $$v^\top$$ is a column of the weights in a dense layer.
+where \\(v^\top\\) is a column of the weights in a dense layer.
 
 Intuitively, they implement a mechanism of attention in the decoder. The decoder then decides parts of the source sentence to pay attention to.
 
@@ -266,9 +266,9 @@ Timo Denk. Linear Relationships in the Transformer’s Positional Encoding.
 
 ## Supplementary Materials
 
-### Proof that $$PE_{i+k}$$ is a linear function of $$PE_{i}$$
+### Proof that \\(PE_{i+k}\\) is a linear function of \\(PE_{i}\\)
 
-Rewrite $$PE_i$$ as follows
+Rewrite \\(PE_i\\) as follows
 
 $$
 \begin{align}
@@ -280,7 +280,7 @@ where\quad a_j=&{1\over10000^{2j/d_{model}}},\quad n=d_{model}/2
 \end{align}
 $$
 
-We show that there exits a linear map $$T^{k}$$ such that $$T^kPE_i=PE_{i+k}$$. More specifically, $$T^k$$ can be expressed as the following matrix
+We show that there exits a linear map \\(T^{k}\\) such that \\(T^kPE_i=PE_{i+k}\\). More specifically, \\(T^k\\) can be expressed as the following matrix
 
 $$
 \begin{align}
@@ -299,7 +299,7 @@ where\quad \pmb \Phi_j^k=&
 \end{align}
 $$
 
-With these notations, we now show $$T^kPE_i=PE_{i+k}$$, i.e.,
+With these notations, we now show \\(T^kPE_i=PE_{i+k}\\), i.e.,
 
 $$
 \begin{align}
@@ -307,9 +307,9 @@ $$
 \end{align}
 $$
 
-for all $$j\in[0,d_{model/2}]$$. 
+for all \\(j\in[0,d_{model/2}]\\). 
 
-Expanding $$\pmb \Phi_j^k$$, we have
+Expanding \\(\pmb \Phi_j^k\\), we have
 
 $$
 \begin{align}

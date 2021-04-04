@@ -23,7 +23,7 @@ p(z_i|\mathcal D)={p(\mathcal D|z_i)p(z_i)\over \sum_j p(\mathcal D|z_j)p(z_j)}=
 \end{align}
 $$
 
-where $$ z_i $$ is the latent variable and $$ \mathcal D $$ represents the observed data. Then it makes prediction about a new quantity $$ X $$ as follows
+where \\( z_i \\) is the latent variable and \\( \mathcal D \\) represents the observed data. Then it makes prediction about a new quantity \\( X \\) as follows
 
 $$
 \begin{align}
@@ -34,7 +34,7 @@ $$
 
 ### Maximum A Posteriori (MAP)
 
-Bayesian learning is hard and even intractable for large problems, since it requires summation (or integration) over the latent variable $$ z $$. MAP simplifies Bayesian learning by predicting based on a single most probable hypothesis, and therefore transforming a large summation (or integration) problem into an optimization problem. 
+Bayesian learning is hard and even intractable for large problems, since it requires summation (or integration) over the latent variable \\( z \\). MAP simplifies Bayesian learning by predicting based on a single most probable hypothesis, and therefore transforming a large summation (or integration) problem into an optimization problem. 
 
 More specifically, MAP makes predictions approximately using
 
@@ -53,11 +53,11 @@ z_{MAP}=\arg\min_{z}-\log p(\mathcal D|z)-\log p(z)\tag{4}\label{eq:4}
 \end{align}
 $$
 
-In fact, both Bayesian and MAP learning methods use the prior to *penalize complexity*. Typically, more complex latents have a lower prior probability — in part because there are usually many more complex latents than simple latents. This could also be seen in Eq.$$ (4) $$: the last term $$ -\log p(z) $$ actually measures the bits required to specify the latent $$ z $$. By minimizing $$ -\log p(z) $$, we reduce the bits required for $$ z_i $$, which means $$ z_i $$ become more simple, and therefore more uncertain.
+In fact, both Bayesian and MAP learning methods use the prior to *penalize complexity*. Typically, more complex latents have a lower prior probability — in part because there are usually many more complex latents than simple latents. This could also be seen in Eq.\\( (4) \\): the last term \\( -\log p(z) \\) actually measures the bits required to specify the latent \\( z \\). By minimizing \\( -\log p(z) \\), we reduce the bits required for \\( z_i \\), which means \\( z_i \\) become more simple, and therefore more uncertain.
 
 ### Maximum Likelihood Estimation (MLE)
 
-MLE takes one step further to simplify MAP by assuming that uniform prior over the space of latent variables. As a result, Eq.$$ (4) $$ in MLE becomes
+MLE takes one step further to simplify MAP by assuming that uniform prior over the space of latent variables. As a result, Eq.\\( (4) \\) in MLE becomes
 
 $$
 \begin{align}
@@ -65,17 +65,17 @@ z_{MLE}=\arg\min_{z}-\log p(\mathcal D|z)\tag{5}\label{eq:5}
 \end{align}
 $$
 
-MLE provides a good approximation to Bayesian and MAP learning when the dataset is large, because the data swamps the prior distribution over the latents, but it can be problematic with small datasets, which could be further excerbated when the dataset is small enough that some events have not yet been observed — the ML hypothesis assign zero probability to those events. Various tricks are used to avoid this problem, such as initializing the counts for each event to $$ 1 $$ instead of $$ 0 $$, but these are mostly a hack. 
+MLE provides a good approximation to Bayesian and MAP learning when the dataset is large, because the data swamps the prior distribution over the latents, but it can be problematic with small datasets, which could be further excerbated when the dataset is small enough that some events have not yet been observed — the ML hypothesis assign zero probability to those events. Various tricks are used to avoid this problem, such as initializing the counts for each event to \\( 1 \\) instead of \\( 0 \\), but these are mostly a hack. 
 
 In general MLE could be solved by a standard process as follows
 
-1. Write the log likelihood of the data as a function of parameter(s): $$ \log p(\mathcal D\vert z) $$
+1. Write the log likelihood of the data as a function of parameter(s): \\( \log p(\mathcal D|z) \\)
 2. Compute the gradients with respective to each parameter
 3. Find the parameter values such that the gradients are zero (do gradient descent, or calculate it directly if the problem is simple)
 
 ## A Connection Between Statistic Learning and Neural Networks
 
-To build a connection between statistic learning and neural networks, we first change the name convention, replacing the latent variables $$ z $$ with parameters $$ \theta $$. For better illustration, we take supervised learning as examples throughout the discussion.
+To build a connection between statistic learning and neural networks, we first change the name convention, replacing the latent variables \\( z \\) with parameters \\( \theta \\). For better illustration, we take supervised learning as examples throughout the discussion.
 
 In supervised learning, we generally have the objective
 
@@ -85,7 +85,7 @@ $$
 \end{align}
 $$
 
-This is the same objective in MLE, where the data is partitioned into two parts — inputs $$ x $$ and output labels $$ y $$. In fact, if we analyze MAP in this fashion, we can easily see that $$ -\log p(\theta) $$ is L2 regularization when $$ \theta $$ has a Gaussian prior, and L1 regularization when $$ \theta $$ has Laplace prior, where zero mean and fixed variance are assumed:
+This is the same objective in MLE, where the data is partitioned into two parts — inputs \\( x \\) and output labels \\( y \\). In fact, if we analyze MAP in this fashion, we can easily see that \\( -\log p(\theta) \\) is L2 regularization when \\( \theta \\) has a Gaussian prior, and L1 regularization when \\( \theta \\) has Laplace prior, where zero mean and fixed variance are assumed:
 
 $$
 \begin{align}

@@ -32,7 +32,7 @@ I find [this blog post](https://ruder.io/optimizing-gradient-descent/) gives a b
   </style>
 </figure>
 
-SGD is the most basic optimization algorithm for finding the minimum of a function. It simply divides the input data into several minibatch, and then do gradient descent on each of them. Specifically, it computes the gradient for each parameter $$ d W $$, then updates the parameter using
+SGD is the most basic optimization algorithm for finding the minimum of a function. It simply divides the input data into several minibatch, and then do gradient descent on each of them. Specifically, it computes the gradient for each parameter \\( d W \\), then updates the parameter using
 
 $$
 \begin{align}
@@ -40,7 +40,7 @@ W=W-\alpha d W
 \end{align}
 $$
 
-Where $$ \alpha $$ is the learning rate.
+Where \\( \alpha \\) is the learning rate.
 
 ### Downsides
 
@@ -69,7 +69,7 @@ W &=W-\alpha v
 \end{align}
 $$
 
-The velocity $$ v $$ defined above is actually the discounted accumulative gradients
+The velocity \\( v \\) defined above is actually the discounted accumulative gradients
 
 $$
 \begin{align}
@@ -77,7 +77,7 @@ v_n = dW_n +\beta dW_{n-1} + \beta^2dW_{n-1}\dots
 \end{align}
 $$
 
-A recommended choice for $$ \beta $$ is $$ 0.9 $$
+A recommended choice for \\( \beta \\) is \\( 0.9 \\)
 
 However, Professor Andrew Ng in this [video](https://www.youtube.com/watch?v=k8fTYJPd3_I) personally recommends to define the velocity by
 
@@ -87,7 +87,7 @@ v = \beta v +(1-\beta)dW
 \end{align}
 $$
 
-He explains that omitting $$ 1-\beta $$ indicates the velocity is rescaled when we tune $$ \beta $$, which in turn leads to further tuning $$ \alpha $$ if we want the step size to stay in the same scale.
+He explains that omitting \\( 1-\beta \\) indicates the velocity is rescaled when we tune \\( \beta \\), which in turn leads to further tuning \\( \alpha \\) if we want the step size to stay in the same scale.
 
 The momentum method dampens oscillations in directions of high curvature by combining gradients with opposite signs. This build up speed in directions with a gentle but consistent gradient.
 
@@ -95,7 +95,7 @@ The momentum method dampens oscillations in directions of high curvature by comb
 
 ## <a name="nes"></a>SGD with Nesterov Momentum
 
-Instead of computing the gradient at the current position $$ W $$, Nesterov Momentum computes the gradient at $$ W'=W+\beta v $$. Gross in his lecture justify this method: "it is better to correct a mistake after you have made it." Mathematically, the velocity and gradient are updated by
+Instead of computing the gradient at the current position \\( W \\), Nesterov Momentum computes the gradient at \\( W'=W+\beta v \\). Gross in his lecture justify this method: "it is better to correct a mistake after you have made it." Mathematically, the velocity and gradient are updated by
 
 $$
 \begin{align}
@@ -105,9 +105,9 @@ W&=W+v
 \end{align}
 $$
 
-I intend to use '$$ - $$' when updating $$ v $$ and '$$ + $$' when updating $$ W $$, which is different from the expression used in the vanilla momentum, since both are commonly seen in literature.
+I intend to use '\\( - \\)' when updating \\( v \\) and '\\( + \\)' when updating \\( W \\), which is different from the expression used in the vanilla momentum, since both are commonly seen in literature.
 
-In practice, to align with the original momentum, people would like to use $$ W' $$ as the parameter directly instead of $$ W $$, then the update rule becomes
+In practice, to align with the original momentum, people would like to use \\( W' \\) as the parameter directly instead of \\( W \\), then the update rule becomes
 
 $$
 \begin{align}
@@ -117,7 +117,7 @@ W'&=W' - \beta v' + (1+\beta)v
 \end{align}
 $$
 
-Since $$ v $$ starts with value value $$ 0 $$, $$ W' $$ is initially equal to $$ W $$. At convergence of optimization, when $$ v $$ approximates to $$ 0 $$, $$ W' $$ will approximate to $$ W $$ as well. These observations make $$ W' $$ a well-defined replacement for $$ W $$.
+Since \\( v \\) starts with value value \\( 0 \\), \\( W' \\) is initially equal to \\( W \\). At convergence of optimization, when \\( v \\) approximates to \\( 0 \\), \\( W' \\) will approximate to \\( W \\) as well. These observations make \\( W' \\) a well-defined replacement for \\( W \\).
 
 The mathematical reasoning behind these equations is easily told by adding timestamps
 
@@ -146,7 +146,7 @@ W&=W-{\alpha \over \sqrt {\mathcal S}+\epsilon}dW
 \end{align}
 $$
 
-where $$ \epsilon $$, here for numeric stability, is usually set somewhere in range from $$ 10^{-8}\sim 10^{-4} $$. The square root operation in the denominator turns out to be very important and without it the algorithm performs much worse
+where \\( \epsilon \\), here for numeric stability, is usually set somewhere in range from \\( 10^{-8}\sim 10^{-4} \\). The square root operation in the denominator turns out to be very important and without it the algorithm performs much worse
 
 ### Downside
 
@@ -166,7 +166,7 @@ W&=W-m
 \end{align}
 $$
 
-where $$\beta$$ is momentum, the discounting factor $$ \rho $$ is typically set to $$ 0.9, 0.99, 0.999 $$. 
+where \\(\beta\\) is momentum, the discounting factor \\( \rho \\) is typically set to \\( 0.9, 0.99, 0.999 \\). 
 
 Comparing to Adagrad, RMSprop still modulates the step size of each weight based on the magnitudes of its gradients but doesn't monotonically slow down the learning process
 
@@ -186,7 +186,7 @@ W&=W-{\alpha\over \sqrt {\hat m_2}+\epsilon}\hat m_1
 \end{align}
 $$
 
-where $$ m_1 $$ is equal to the velocity in the momentum and $$ m_2 $$ is equal to the $$ \mathcal S $$ in the RMSprop. The recommended values are $$ \beta_1=0.9, \beta_2=0.999, \epsilon =10^{-8} $$. The third and fourth equations are bias correction — it compensates for the fact that $$ m_1 $$ and $$ m_2 $$ are biased at zero in the first few time steps, and thereby leads to large step size at the beginning, which may even not be invertible in some cases. $$ t $$ is the iteration number.
+where \\( m_1 \\) is equal to the velocity in the momentum and \\( m_2 \\) is equal to the \\( \mathcal S \\) in the RMSprop. The recommended values are \\( \beta_1=0.9, \beta_2=0.999, \epsilon =10^{-8} \\). The third and fourth equations are bias correction — it compensates for the fact that \\( m_1 \\) and \\( m_2 \\) are biased at zero in the first few time steps, and thereby leads to large step size at the beginning, which may even not be invertible in some cases. \\( t \\) is the iteration number.
 
 Adam is currently recommended as the default algorithm to use.
 
@@ -202,11 +202,11 @@ Most RL papers use either RMSprop or Adam as the optimizer. From this [discussio
 
 Based on my recent experience, Adam seems always favored over RMSprop...
 
-## $$\epsilon$$ in Adaptive Optimizer
+## \\(\epsilon\\) in Adaptive Optimizer
 
-$$\epsilon$$ is generally chosen from $$10^{-8}\sim10^{-4}$$. $$\epsilon$$ affects the step size: Large $$\epsilon$$ corresponds to small step size, stable training, and slow training progress. For small projects(e.g., mujoco environment), setting $$\epsilon$$ to $$10^{-8}$$ could speed up the training and get away from local optima. For large projects, $$\epsilon$$ is usually set to $$10^{-5}\sim1$$ for stable training.
+\\(\epsilon\\) is generally chosen from \\(10^{-8}\sim10^{-4}\\). \\(\epsilon\\) affects the step size: Large \\(\epsilon\\) corresponds to small step size, stable training, and slow training progress. For small projects(e.g., mujoco environment), setting \\(\epsilon\\) to \\(10^{-8}\\) could speed up the training and get away from local optima. For large projects, \\(\epsilon\\) is usually set to \\(10^{-5}\sim1\\) for stable training.
 
-A good timing to tune $$\epsilon $$ is after the learning rate is selected. In that case, if you still find the score/accuracy is chattering, increase $$\epsilon$$. Generally, $$0.01/\text{batch size}$$ is a good start.
+A good timing to tune \\(\epsilon \\) is after the learning rate is selected. In that case, if you still find the score/accuracy is chattering, increase \\(\epsilon\\). Generally, \\(0.01/\text{batch size}\\) is a good start.
 
 ## References
 

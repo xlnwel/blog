@@ -13,9 +13,9 @@ We briefly summarize several papers trying to improve data efficiency in RL. Not
 
 ## [CURL](#ref1)
 
-CURL employs two techniques to speed up existing model-free algorithms: 1) random cropping, which randomly crops an $$84\times 84$$ images from a $$100\times 100$$ input image, and 2) contrastive learning, which trains another head on top of the image embedding using InfoNCE from [CPC]({{ site.baseurl }}{% post_url 2018-09-27-CPC %}).
+CURL employs two techniques to speed up existing model-free algorithms: 1) random cropping, which randomly crops an \\(84\times 84\\) images from a \\(100\times 100\\) input image, and 2) contrastive learning, which trains another head on top of the image embedding using InfoNCE from [CPC]({{ site.baseurl }}{% post_url 2018-09-27-CPC %}).
 
-CURL employs the bi-linear inner-product $$sim(q,k)=q^TWk$$, where $$q$$ and $$k$$ are the anchor and target(a.k.a., query and key), $$W$$ is a learnable parameter matrix. Following the same vein as MoCo, $$q$$ is obtained from an online encoder while $$k$$ is obtained from a target network with momentum update. Additionally, when cooperating with random cropping, we use different crops as the inputs to the online and target networks. The following code demonstrates the process
+CURL employs the bi-linear inner-product \\(sim(q,k)=q^TWk\\), where \\(q\\) and \\(k\\) are the anchor and target(a.k.a., query and key), \\(W\\) is a learnable parameter matrix. Following the same vein as MoCo, \\(q\\) is obtained from an online encoder while \\(k\\) is obtained from a target network with momentum update. Additionally, when cooperating with random cropping, we use different crops as the inputs to the online and target networks. The following code demonstrates the process
 
 ```python
 x_q = aug(x)	# apply data augmentation
@@ -43,7 +43,7 @@ The authors experiment a variety of data augmentation techniques on Deepmind con
 
 The authors experiment a variety of data augmentation techniques on Deepmind control suite and find random shift(with nearest padding) performs best. Notice that random shift differs from random crop in that it keeps the image size unchanged and pads points outside the boundaries using nearest points.
 
-In order to reduce the variance introduced by data augmentations, DrQ modifies the $$Q$$ loss as follows
+In order to reduce the variance introduced by data augmentations, DrQ modifies the \\(Q\\) loss as follows
 
 $$
 \begin{align}
@@ -51,11 +51,11 @@ $$
 \end{align}
 $$
 
-where $$f$$ applies a data augmentation technique to $$s$$. Experiments shows that $$N=2, M=2$$ indeed reduce the variance on several environments.
+where \\(f\\) applies a data augmentation technique to \\(s\\). Experiments shows that \\(N=2, M=2\\) indeed reduce the variance on several environments.
 
 ## [MPR](#ref4)
 
-Momentum Predictive Representations(MPR) adds a convolutional transition model upon the convolutional encoder. The transition model $$h$$ consists of two convolutional layers with 64 $$3\times 3$$ filters, taking as inputs the spatial representation learned by the encoder and actions one-hot encoded as a sets of planes. The output of the transition model $$z=h(x)$$ is then passed to a projection head, mapping into a smaller latent space $$\hat y=g(z)$$, where $$g$$ is an MLP. The authors reuse the FC layers after the encoder in their experiments, i.e., $$\hat y$$ is the concatenation of outputs of the first layers of value and advantage heads. The prediction loss is computed from cosine similarities between predicted and observed representations in the next $$k$$ steps
+Momentum Predictive Representations(MPR) adds a convolutional transition model upon the convolutional encoder. The transition model \\(h\\) consists of two convolutional layers with 64 \\(3\times 3\\) filters, taking as inputs the spatial representation learned by the encoder and actions one-hot encoded as a sets of planes. The output of the transition model \\(z=h(x)\\) is then passed to a projection head, mapping into a smaller latent space \\(\hat y=g(z)\\), where \\(g\\) is an MLP. The authors reuse the FC layers after the encoder in their experiments, i.e., \\(\hat y\\) is the concatenation of outputs of the first layers of value and advantage heads. The prediction loss is computed from cosine similarities between predicted and observed representations in the next \\(k\\) steps
 
 $$
 \begin{align}
@@ -63,7 +63,7 @@ $$
 \end{align}
 $$
 
- where $$\ell_2$$ is the l2 normalization function and $$y$$ is the computed from a momentum encoder and projection head:
+ where \\(\ell_2\\) is the l2 normalization function and \\(y\\) is the computed from a momentum encoder and projection head:
 
 $$
 \begin{align}
@@ -72,7 +72,7 @@ g_m=\tau g_m+(1-\tau)g
 \end{align}
 $$
 
-MPR also uses the same set of image augmentations as DrQ, comprised of small random shifts and color jitter. They found it important to normalize activations to lie in $$[0,1]$$ at the output of the convolutional encoder and transition model when using augmentation.
+MPR also uses the same set of image augmentations as DrQ, comprised of small random shifts and color jitter. They found it important to normalize activations to lie in \\([0,1]\\) at the output of the convolutional encoder and transition model when using augmentation.
 
 ## References
 

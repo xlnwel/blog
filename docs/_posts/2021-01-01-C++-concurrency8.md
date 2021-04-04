@@ -39,7 +39,7 @@ C++17 provides `std::hardware_constructive_interference_size` to specify the max
 
 ### Dividing array elements for complex operations
 
-Carefully choose the data access pattern when distributing large block of data among threads. For example, when multiplying two large $$n\times n$$ matrices $$\pmb C=\pmb A\pmb B$$, one may choose to compute $$m$$ rows in each thread. Because $$C_{ij}=\sum_kA_{ik}B_{kj}$$, this amounts to $$m \times n$$ reads from $$\pmb A$$ and $$n\times n$$ reads from $$\pmb B$$, resulting in total $$(m+n)\times n$$ reads. When $$n\gg m$$ the costs are dominated by reads from $$\pmb B$$. One better solution is to compute $$m \times m$$ sub-matrix in $$\pmb C$$ in each thread. This reduces total reads to $$2m \times n$$, significantly reducing the number of reads for $$n\gg m$$. Furthermore, it can also reduces the potential contention if there is any.
+Carefully choose the data access pattern when distributing large block of data among threads. For example, when multiplying two large \\(n\times n\\) matrices \\(\pmb C=\pmb A\pmb B\\), one may choose to compute \\(m\\) rows in each thread. Because \\(C_{ij}=\sum_kA_{ik}B_{kj}\\), this amounts to \\(m \times n\\) reads from \\(\pmb A\\) and \\(n\times n\\) reads from \\(\pmb B\\), resulting in total \\((m+n)\times n\\) reads. When \\(n\gg m\\) the costs are dominated by reads from \\(\pmb B\\). One better solution is to compute \\(m \times m\\) sub-matrix in \\(\pmb C\\) in each thread. This reduces total reads to \\(2m \times n\\), significantly reducing the number of reads for \\(n\gg m\\). Furthermore, it can also reduces the potential contention if there is any.
 
 ### Data access patterns in other data structures
 
@@ -72,7 +72,7 @@ P={1\over f_s+{1-f_s\over N}}
 \end{align}
 $$
 
-where $$P$$ is the performance gain from using $$N$$ processors, $$f_s$$ is the fraction of the program that has to be executed serially.
+where \\(P\\) is the performance gain from using \\(N\\) processors, \\(f_s\\) is the fraction of the program that has to be executed serially.
 
 Scalability is about reducing the time it takes to perform an action or increasing the amount of data that can be processed in a given time as more processors are added.
 

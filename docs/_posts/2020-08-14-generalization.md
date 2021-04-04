@@ -25,13 +25,13 @@ $$
 \end{align}
 $$
 
-where $$\pi^r$$ is the rollout policy(as they use AC algorithms in their experiments), $$\pi$$ is the network to update, $$V$$ is the value network, and $$\mathcal G$$ denotes the gradient function. The bar above the symbol implies that noises are suspended when computing the quantity. Therefore, the first term is the gradient function without noise injected and the second is with noise injected in the training policy network $$\pi$$.
+where \\(\pi^r\\) is the rollout policy(as they use AC algorithms in their experiments), \\(\pi\\) is the network to update, \\(V\\) is the value network, and \\(\mathcal G\\) denotes the gradient function. The bar above the symbol implies that noises are suspended when computing the quantity. Therefore, the first term is the gradient function without noise injected and the second is with noise injected in the training policy network \\(\pi\\).
 
-$$\mathcal G^{SNI}$$ consists of two terms interpolated by $$\lambda\in[0,1]$$. The first computes the gradients w.r.t. the denoised network $$\bar \pi$$, which is used to reduce the variance. This term is especially important early on in training when the network has not yet learned to compensate for the injected noise. Experiments also justify the effectiveness of such interpolation -- they found $$\lambda=.5$$ outperform $$\lambda=1$$ and $$\lambda=0$$ in most cases.
+\\(\mathcal G^{SNI}\\) consists of two terms interpolated by \\(\lambda\in[0,1]\\). The first computes the gradients w.r.t. the denoised network \\(\bar \pi\\), which is used to reduce the variance. This term is especially important early on in training when the network has not yet learned to compensate for the injected noise. Experiments also justify the effectiveness of such interpolation -- they found \\(\lambda=.5\\) outperform \\(\lambda=1\\) and \\(\lambda=0\\) in most cases.
 
 ### Information Bottleneck Actor Critic(IBAC)
 
-IBAC applies information bottleneck to the AC network, which minimizes $$\mathcal I(o;z)$$ and maximizes $$\mathcal I(z;a)$$, where $$z=f_\theta(o,\epsilon)$$ is the output of the encoder parameterized by $$\theta$$. The architecture thus becomes similar to a $$\beta$$-VAE. As now the encoder $$p(z\vert o)$$ is already regularized, they only apply the policy entropy term to the action heads. The final loss becomes
+IBAC applies information bottleneck to the AC network, which minimizes \\(\mathcal I(o;z)\\) and maximizes \\(\mathcal I(z;a)\\), where \\(z=f_\theta(o,\epsilon)\\) is the output of the encoder parameterized by \\(\theta\\). The architecture thus becomes similar to a \\(\beta\\)-VAE. As now the encoder \\(p(z|o)\\) is already regularized, they only apply the policy entropy term to the action heads. The final loss becomes
 
 $$
 \begin{align}
@@ -40,11 +40,11 @@ $$
 $$
 
 
-where $$\mathcal L_{AC}$$ is the loss function of the AC algorithm, $$\mathcal H(\pi(\cdot\vert z))$$ is the entropy loss, and $$\mathcal L_{KL}=D_{KL}(p_\theta(z\vert o)\Vert q(z))$$. 
+where \\(\mathcal L_{AC}\\) is the loss function of the AC algorithm, \\(\mathcal H(\pi(\cdot|z))\\) is the entropy loss, and \\(\mathcal L_{KL}=D_{KL}(p_\theta(z|o)\Vert q(z))\\). 
 
 ## DrAC
 
-[Raileanu et al. 2020](#ref2) experiments a collection of data augmentation techniques in RL. Similar work has been down by [Laskin et al. 2020](#ref3) before, which directly applied data augmentation to the PPO objective. [Raileanu et al. 2020](#ref2) point out it is problematic as it changes $$\pi(a\vert s)$$ to $$\pi(a\vert f(s))$$, where $$f$$ applies data augmentation to $$s$$. Instead, [Raileanu et al. 2020](#ref2) leave the PPO objective as it is and add two additional loss terms to regularize the policy and value functions:
+[Raileanu et al. 2020](#ref2) experiments a collection of data augmentation techniques in RL. Similar work has been down by [Laskin et al. 2020](#ref3) before, which directly applied data augmentation to the PPO objective. [Raileanu et al. 2020](#ref2) point out it is problematic as it changes \\(\pi(a|s)\\) to \\(\pi(a|f(s))\\), where \\(f\\) applies data augmentation to \\(s\\). Instead, [Raileanu et al. 2020](#ref2) leave the PPO objective as it is and add two additional loss terms to regularize the policy and value functions:
 
 $$
 \begin{align}
@@ -66,7 +66,7 @@ $$
 \end{align}
 $$
 
-Where $$\lambda\sim Beta(\alpha,\alpha)$$ with $$\alpha=0.2$$ in their experiments. 
+Where \\(\lambda\sim Beta(\alpha,\alpha)\\) with \\(\alpha=0.2\\) in their experiments. 
 
 Because the new observation becomes a convex combination of two random observations, they also mix training signals accordingly. For policy gradient method, the objective for augmented observations becomes
 
@@ -76,7 +76,7 @@ $$
 \end{align}
 $$
 
-where $$\tilde A=\lambda A_i+(1-\lambda)A_j$$, and $$\tilde a$$ is $$a_i$$ if $$\lambda\ge 0.5$$ or $$a_j$$ otherwise.
+where \\(\tilde A=\lambda A_i+(1-\lambda)A_j\\), and \\(\tilde a\\) is \\(a_i\\) if \\(\lambda\ge 0.5\\) or \\(a_j\\) otherwise.
 
 For Q-learning, the objective for augmented observations becomes
 
@@ -86,23 +86,23 @@ $$
 \end{align}
 $$
 
-Where $$r=\lambda r_i+(1-\lambda)r_j$$, $$Q(\tilde s',a')=\lambda Q(s_i',a_i')+(1-\lambda)Q(s_j',a_j')$$,  and $$\tilde a$$ is $$a_i$$ if $$\lambda\ge 0.5$$ or $$a_j$$ otherwise.
+Where \\(r=\lambda r_i+(1-\lambda)r_j\\), \\(Q(\tilde s',a')=\lambda Q(s_i',a_i')+(1-\lambda)Q(s_j',a_j')\\),  and \\(\tilde a\\) is \\(a_i\\) if \\(\lambda\ge 0.5\\) or \\(a_j\\) otherwise.
 
 It is quite astonishing that, during the test time, mixreg performs better than regular regularization techniques such as data augmentation, l2 regularization, and batch normalization. Although the authors demonstrates that mixing training signals is important to mixreg, it is still unclear why this method works. One possible explanation is that mixreg imposes piece-wise linearity regularization to the learned policy and value functions w.r.t. the states. Such regularization encourages the agent to learn a smoother policy with better generalization performance.
 
 ## Surprise minimization
 
-[Chen 2020](#ref5) shows adding surprise minimizing information to rewards can improve generalization. Specifically, [Chen 2020](#ref5) trains PPO with the reward function defined as $$r(s,a)+\alpha\log p(s)$$, where $$\alpha$$ controls the relative scale of the surprise and $$\log(p(s))$$ estimates the surprise. Two ways are proposed to estimate the state distribution:
+[Chen 2020](#ref5) shows adding surprise minimizing information to rewards can improve generalization. Specifically, [Chen 2020](#ref5) trains PPO with the reward function defined as \\(r(s,a)+\alpha\log p(s)\\), where \\(\alpha\\) controls the relative scale of the surprise and \\(\log(p(s))\\) estimates the surprise. Two ways are proposed to estimate the state distribution:
 
-1. **Normal distributions.** A buffer of size $$20$$ times the mini-batch size is used to store the most recent observations in grayscale. Before each training iteration, a surprise minimizing reward is computed from the buffer
+1. **Normal distributions.** A buffer of size \\(20\\) times the mini-batch size is used to store the most recent observations in grayscale. Before each training iteration, a surprise minimizing reward is computed from the buffer
    
 $$
    \log p(s_t)=-\sum_i(\log\sigma_i+{(s_i-\mu_i)^2\over 2\sigma^2})
    $$
 
-   where $$\mu_i$$ and $$\sigma_i$$ are the sample mean and standard deviation of the $$i^{th}$$ dimension calculated across each state in the buffer.
+   where \\(\mu_i\\) and \\(\sigma_i\\) are the sample mean and standard deviation of the \\(i^{th}\\) dimension calculated across each state in the buffer.
 
-2. **Variational autoencoder.** A VAE is trained with the raw RGB observations. Before each PPO training iteration, we first compute the embeddings $$\pmb z$$ from the encoder of the VAE for all observation $$\pmb o$$. Then we model $$p(z)$$ as a normal distribution, whose mean and diagonal covariance are computed from $$\pmb z$$, and we estimate $$\log p(z)$$ for each sample
+2. **Variational autoencoder.** A VAE is trained with the raw RGB observations. Before each PPO training iteration, we first compute the embeddings \\(\pmb z\\) from the encoder of the VAE for all observation \\(\pmb o\\). Then we model \\(p(z)\\) as a normal distribution, whose mean and diagonal covariance are computed from \\(\pmb z\\), and we estimate \\(\log p(z)\\) for each sample
 
    ```python
    dist = tfd.MultivariateNormalDiag(

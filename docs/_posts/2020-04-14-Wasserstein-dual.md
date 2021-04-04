@@ -9,11 +9,11 @@ tags:
 
 ## Introduction
 
-In the [previous post]({{ site.baseurl }}{% post_url 2020-04-07-dual %}), we discussed duality in linear programming. In this post, we apply it to minimize the 1st Wasserstein distance($$W_1$$, a.k.a., earth mover's distance). 
+In the [previous post]({{ site.baseurl }}{% post_url 2020-04-07-dual %}), we discussed duality in linear programming. In this post, we apply it to minimize the 1st Wasserstein distance(\\(W_1\\), a.k.a., earth mover's distance). 
 
 ## 1st Wasserstein Distance
 
-Let $$(M, d)$$ be a metric space where $$M$$ is a set and $$d(x,y)=\vert x-y\vert $$ be a distance function/metric on $$M$$. The 1st Wasserstein distance between two probability measure $$\mu$$ and $$\nu$$ is defined as
+Let \\((M, d)\\) be a metric space where \\(M\\) is a set and \\(d(x,y)=|x-y|\\) be a distance function/metric on \\(M\\). The 1st Wasserstein distance between two probability measure \\(\mu\\) and \\(\nu\\) is defined as
 
 $$
 \begin{align}
@@ -21,7 +21,7 @@ W_1(\mu,\nu)=\inf_{\gamma\in\Gamma(\mu,\nu)}\int_{M\times M}d(x,y)d\gamma(x,y)
 \end{align}
 $$
 
-where $$\Gamma(\mu,\nu)$$ denotes the set of all coupling of $$\mu$$ and $$\nu$$. If we regard 1st Wasserstein distance as the earth mover's distance, we can interpret $$\mu$$ and $$\nu$$ as two piles of dirt. Therefore, $$d(x, y)$$ becomes the cost of moving from $$x$$ to $$y$$, $$\gamma(x,y)$$ denotes a transport plan that moves the amount of dirt from $$x$$ to $$y$$, and $$W_1(\mu,\nu)$$ is the minimum cost of turning $$\mu$$ into $$\nu$$. 
+where \\(\Gamma(\mu,\nu)\\) denotes the set of all coupling of \\(\mu\\) and \\(\nu\\). If we regard 1st Wasserstein distance as the earth mover's distance, we can interpret \\(\mu\\) and \\(\nu\\) as two piles of dirt. Therefore, \\(d(x, y)\\) becomes the cost of moving from \\(x\\) to \\(y\\), \\(\gamma(x,y)\\) denotes a transport plan that moves the amount of dirt from \\(x\\) to \\(y\\), and \\(W_1(\mu,\nu)\\) is the minimum cost of turning \\(\mu\\) into \\(\nu\\). 
 
 ## Formulating 1st Wasserstein Distance as a Dual Problem
 
@@ -35,7 +35,7 @@ $$
 \end{align}
 $$
 
-where $$\pmb x=vec(\Gamma)$$ is a flatten vector of $$\Gamma$$, $$\pmb c=vec(D)$$ is a flatten vector of the set of distance $$D=\{d(x,y)\vert x,y\in M\}$$, $$\pmb b=\begin{bmatrix}\pmb \mu\\\\pmb \nu\end{bmatrix}$$ is the concatenation of marginals $$\pmb \mu$$ and $$\pmb \nu$$(we use the bold font to denote values of the corresponding functions), and $$\pmb A$$ is a sparse binary matrix such that $$\pmb A[i]\pmb x=\pmb b[i]$$, which enforces the marginal constraints $$\int\gamma(x,y)dy=\mu(x)$$ and $$\int\gamma(x,y)dx=\nu(y)$$. It may be clearer to divide $$\pmb A$$ into two matrices, where we have $$\pmb A_1\pmb x=\pmb \mu$$ and $$\pmb A_2\pmb x=\pmb \nu$$. For $$\pmb A_1$$ and $$\pmb A_2$$, each column corresponds to a transfer plan in $$\pmb x$$ and there is exactly one $$1$$ in each column as transport plans are only counted once. For example, $$\pmb x[k]$$ is a tranport plan from $$x$$ to $$y$$, then $$\pmb A_1[x,k]=1$$ and $$\pmb A_2[y,k]=1$$. Therefore, there are two $$1$$s in each column of $$\pmb A$$. This property will come in handy next when we discuss  the dual.
+where \\(\pmb x=vec(\Gamma)\\) is a flatten vector of \\(\Gamma\\), \\(\pmb c=vec(D)\\) is a flatten vector of the set of distance \\(D=\{d(x,y)|x,y\in M\}\\), \\(\pmb b=\begin{bmatrix}\pmb \mu\\\\pmb \nu\end{bmatrix}\\) is the concatenation of marginals \\(\pmb \mu\\) and \\(\pmb \nu\\)(we use the bold font to denote values of the corresponding functions), and \\(\pmb A\\) is a sparse binary matrix such that \\(\pmb A[i]\pmb x=\pmb b[i]\\), which enforces the marginal constraints \\(\int\gamma(x,y)dy=\mu(x)\\) and \\(\int\gamma(x,y)dx=\nu(y)\\). It may be clearer to divide \\(\pmb A\\) into two matrices, where we have \\(\pmb A_1\pmb x=\pmb \mu\\) and \\(\pmb A_2\pmb x=\pmb \nu\\). For \\(\pmb A_1\\) and \\(\pmb A_2\\), each column corresponds to a transfer plan in \\(\pmb x\\) and there is exactly one \\(1\\) in each column as transport plans are only counted once. For example, \\(\pmb x[k]\\) is a tranport plan from \\(x\\) to \\(y\\), then \\(\pmb A_1[x,k]=1\\) and \\(\pmb A_2[y,k]=1\\). Therefore, there are two \\(1\\)s in each column of \\(\pmb A\\). This property will come in handy next when we discuss  the dual.
 
 The dual is a maximization problem defined as
 
@@ -46,9 +46,9 @@ $$
 \end{align}
 $$
 
-Notice that the sign constraints on $$\pmb y$$ is removed as the primal constraints becomes equality(see the proof in supplementary for details).
+Notice that the sign constraints on \\(\pmb y\\) is removed as the primal constraints becomes equality(see the proof in supplementary for details).
 
-Like $$\pmb b=\begin{bmatrix}\pmb \mu\\\\pmb \nu\end{bmatrix}$$, let $$\pmb y=\begin{bmatrix}\pmb f\\\\pmb g\end{bmatrix}$$. Following our previous analysis on $$\pmb A$$, we can see that, for each constraint $$\pmb c[k]=d(x,y)$$, we have $$\pmb A_1^\top[k,x]\pmb f[x] + \pmb A_2^\top[k,y]\pmb g[y]=\pmb f[x]+\pmb g[y]\le d(x,y)$$. Now we rewrite the dual as 
+Like \\(\pmb b=\begin{bmatrix}\pmb \mu\\\\pmb \nu\end{bmatrix}\\), let \\(\pmb y=\begin{bmatrix}\pmb f\\\\pmb g\end{bmatrix}\\). Following our previous analysis on \\(\pmb A\\), we can see that, for each constraint \\(\pmb c[k]=d(x,y)\\), we have \\(\pmb A_1^\top[k,x]\pmb f[x] + \pmb A_2^\top[k,y]\pmb g[y]=\pmb f[x]+\pmb g[y]\le d(x,y)\\). Now we rewrite the dual as 
 
 $$
 \begin{align}
@@ -69,7 +69,7 @@ $$
 
 From now on, we stick to this function version as it's more general and more easy to analyze.
 
-Let's assume we have a function $$f$$. It is easy to conclude from the constraint that the supremum defined in $$\eqref{eq:1}$$ is achieved when $$g(y)=\inf_x d(x,y) - f(x)$$ since $$d\mu, d\nu\ge 0$$. This function is often called $$c$$-transform and denoted by $$f^c(y)=g(y)=\inf_x d(x,y) - f(x)$$. Replacing $$g$$ with $$f^c$$, we rewrite Equation $$\eqref{eq:1}$$ as
+Let's assume we have a function \\(f\\). It is easy to conclude from the constraint that the supremum defined in \\(\eqref{eq:1}\\) is achieved when \\(g(y)=\inf_x d(x,y) - f(x)\\) since \\(d\mu, d\nu\ge 0\\). This function is often called \\(c\\)-transform and denoted by \\(f^c(y)=g(y)=\inf_x d(x,y) - f(x)\\). Replacing \\(g\\) with \\(f^c\\), we rewrite Equation \\(\eqref{eq:1}\\) as
 
 $$
 \begin{align}
@@ -77,7 +77,7 @@ $$
 \end{align}
 $$
 
-An interesting property of $$f^c$$ is that when $$f$$ is 1-Lipschitz, $$f^c$$ is Lipschitz too as $$d(x, y)=\vert x-y\vert $$ is 1-Lipschitz. For all $$x$$ and $$y$$, when $$f$$ is 1-Lipchitz this gives us
+An interesting property of \\(f^c\\) is that when \\(f\\) is 1-Lipschitz, \\(f^c\\) is Lipschitz too as \\(d(x, y)=|x-y|\\) is 1-Lipschitz. For all \\(x\\) and \\(y\\), when \\(f\\) is 1-Lipchitz this gives us
 
 $$
 \begin{align}
@@ -87,7 +87,7 @@ $$
 \end{align}
 $$
 
-where the last inequality holds by choosing $$y=x$$ in the infimum. This gives us $$-f^c(x)=\inf_y\vert y-x\vert -f^c(y)$$. Also, noticing that $$f^c(y)=g(y)$$ and $$f(x)=\inf_y\vert y-x\vert -g(y)$$(obtained through the same $$c$$-transform), we get $$f(x)=-f^c(x)$$. Substituting $$f^c(x)=-f(x)$$ in Equation $$\eqref{eq:2}$$, we get
+where the last inequality holds by choosing \\(y=x\\) in the infimum. This gives us \\(-f^c(x)=\inf_y|y-x|-f^c(y)\\). Also, noticing that \\(f^c(y)=g(y)\\) and \\(f(x)=\inf_y|y-x|-g(y)\\)(obtained through the same \\(c\\)-transform), we get \\(f(x)=-f^c(x)\\). Substituting \\(f^c(x)=-f(x)\\) in Equation \\(\eqref{eq:2}\\), we get
 
 $$
 \begin{align}
@@ -99,7 +99,7 @@ which is the dual form of 1-Wasserstein distance discussed in the WGAN paper.
 
 ## Why Wasserstein is preferred over KL and JS distance?
 
-The simple answer is that Wasserstein distance is smoother than KL and JS distance. Consider two distributions, $$P$$ and $$Q$$, 
+The simple answer is that Wasserstein distance is smoother than KL and JS distance. Consider two distributions, \\(P\\) and \\(Q\\), 
 
 $$
 \begin{align}
@@ -116,7 +116,7 @@ Q(x,y)&=
 \end{align}
 $$
 
-When $$\theta\ne 0$$, we have 
+When \\(\theta\ne 0\\), we have 
 
 $$
 \begin{align}
@@ -128,7 +128,7 @@ W_1(P,Q)&=|\theta|
 \end{align}
 $$
 
-When $$\theta=0$$, the two distributions are overlapped and all of the above metrics are zero. We can see that the KL divergence blows up to infinity when two distributions are disjoint, while the JS divergence stays constant when two distribution are disjoint and suddenly drop to zero once they overlapped. Only the Wasserstein is continuous and smooth.
+When \\(\theta=0\\), the two distributions are overlapped and all of the above metrics are zero. We can see that the KL divergence blows up to infinity when two distributions are disjoint, while the JS divergence stays constant when two distribution are disjoint and suddenly drop to zero once they overlapped. Only the Wasserstein is continuous and smooth.
 
 ## References
 
@@ -148,7 +148,7 @@ $$
 \end{align}
 $$
 
-where $$\tau=\pmb c^\top\pmb x^*$$ is the optimal value of the primal, $$\epsilon\ge 0$$ is an arbitrary value. Because $$\tau$$ is the optimal value, there is no feasible $$\pmb x$$ such that $$\pmb c^\top\pmb x=\tau-\epsilon$$. Therefore, there is no $$\pmb x\in\mathbb R^n$$ such that
+where \\(\tau=\pmb c^\top\pmb x^*\\) is the optimal value of the primal, \\(\epsilon\ge 0\\) is an arbitrary value. Because \\(\tau\\) is the optimal value, there is no feasible \\(\pmb x\\) such that \\(\pmb c^\top\pmb x=\tau-\epsilon\\). Therefore, there is no \\(\pmb x\in\mathbb R^n\\) such that
 
 $$
 \begin{align}
@@ -156,7 +156,7 @@ $$
 \end{align}
 $$
 
-By Farkas' Lemma, there exists $$\pmb{\hat y}=\begin{bmatrix}\pmb y\\\ \alpha\end{bmatrix} $$, such that
+By Farkas' Lemma, there exists \\(\pmb{\hat y}=\begin{bmatrix}\pmb y\\\ \alpha\end{bmatrix} \\), such that
 
 $$
 \begin{align}
@@ -173,7 +173,7 @@ $$
 \end{align}
 $$
 
-If $$\alpha=0$$, then the primal is infeasible -- Because of $$\pmb A^\top\pmb y\le\pmb 0$$ and $$\pmb b^\top\pmb y>0$$, by Farkas' Lemma, there is no $$\pmb x$$ satisfying the primal constraints. Therefore, $$\alpha>0$$ and by scaling $$\pmb {\hat y}$$, we may assume that $$\alpha=1$$. So $$\pmb A^\top \pmb y\le \pmb c$$ and $$\pmb b^\top\pmb y\le \tau+\epsilon$$. By the Weak Dual Theorem, we have $$\tau= \pmb c^\top \pmb x\le\pmb b^\top\pmb y\le\tau+\epsilon$$. Since $$\epsilon$$ is arbitrary, we have $$\pmb c^\top \pmb x=\pmb b^\top\pmb y$$.
+If \\(\alpha=0\\), then the primal is infeasible -- Because of \\(\pmb A^\top\pmb y\le\pmb 0\\) and \\(\pmb b^\top\pmb y>0\\), by Farkas' Lemma, there is no \\(\pmb x\\) satisfying the primal constraints. Therefore, \\(\alpha>0\\) and by scaling \\(\pmb {\hat y}\\), we may assume that \\(\alpha=1\\). So \\(\pmb A^\top \pmb y\le \pmb c\\) and \\(\pmb b^\top\pmb y\le \tau+\epsilon\\). By the Weak Dual Theorem, we have \\(\tau= \pmb c^\top \pmb x\le\pmb b^\top\pmb y\le\tau+\epsilon\\). Since \\(\epsilon\\) is arbitrary, we have \\(\pmb c^\top \pmb x=\pmb b^\top\pmb y\\).
 
 ### Another Way of Deriving Kantorovich Duality
 
@@ -193,9 +193,9 @@ W_1(\mu,\nu)=\inf_\gamma\int_{M\times M}d(x,y)d\gamma(x,y)+\underbrace{\sup_{f,g
 \end{align}
 $$
 
-The supremum term impose the constraint $$\gamma\in\Gamma(\mu,\nu)$$: it's $$0$$ when the constraint is satisfied, and otherwise we can choose suitable $$f$$ and $$g$$ to make it infinity. 
+The supremum term impose the constraint \\(\gamma\in\Gamma(\mu,\nu)\\): it's \\(0\\) when the constraint is satisfied, and otherwise we can choose suitable \\(f\\) and \\(g\\) to make it infinity. 
 
-Now we move the $$\sup_{f,g}$$ outside because the first term does not depend on $$f$$ and $$g$$
+Now we move the \\(\sup_{f,g}\\) outside because the first term does not depend on \\(f\\) and \\(g\\)
 
 $$
 \begin{align}
@@ -203,7 +203,7 @@ W_1(\mu,\nu)=\inf_\gamma\sup_{f,g}\int_{M\times M}d(x,y)d\gamma(x,y)+\int fd\mu(
 \end{align}
 $$
 
-Assuming the minimax principle, we swap $$\inf$$ and $$\sup$$
+Assuming the minimax principle, we swap \\(\inf\\) and \\(\sup\\)
 
 $$
 \begin{align}
@@ -211,7 +211,7 @@ W_1(\mu,\nu)=\sup_{f,g}\inf_\gamma\int_{M\times M}d(x,y)-(f(x)+g(y))d\gamma(x,y)
 \end{align}
 $$
 
-Take a look at the infimum term. If $$d(x,y)-f(x)+g(y)$$ could be negative, then we can choose $$\gamma$$ such that an infinity mass is on that negative value and the infimum term becomes $$-\infty$$. On the other hand, if $$d(x,y)-f(x)+g(y)$$ is non-negative, then the infimum term is $$0$$. From the above observation, we can summarize the infimum term as a constraint and the 1st Wasserstein distance becomes Equation $$\eqref{eq:1}$$
+Take a look at the infimum term. If \\(d(x,y)-f(x)+g(y)\\) could be negative, then we can choose \\(\gamma\\) such that an infinity mass is on that negative value and the infimum term becomes \\(-\infty\\). On the other hand, if \\(d(x,y)-f(x)+g(y)\\) is non-negative, then the infimum term is \\(0\\). From the above observation, we can summarize the infimum term as a constraint and the 1st Wasserstein distance becomes Equation \\(\eqref{eq:1}\\)
 
 $$
 \begin{align}

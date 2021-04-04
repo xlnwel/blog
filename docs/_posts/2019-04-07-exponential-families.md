@@ -9,7 +9,7 @@ tags:
 
 ## Definition
 
-Given a measure $$\eta$$, an exponential family of probability distributions is defined as 
+Given a measure \\(\eta\\), an exponential family of probability distributions is defined as 
 
 $$
 \begin{align}
@@ -18,11 +18,11 @@ where\quad A(\eta)=\log\int h(x)\exp\left\{\eta^TT(x)\right\}dx
 \end{align}
 $$
 
-where $$\eta$$ is a function of the parameter $$\theta$$. $$\eta$$ and $$\eta(\theta)$$ are identical and we only use the latter notation when necessary.
+where \\(\eta\\) is a function of the parameter \\(\theta\\). \\(\eta\\) and \\(\eta(\theta)\\) are identical and we only use the latter notation when necessary.
 
 ### Notation Explanations
 
-$$T(x)$$ is a *sufficient statistic* of the distribution. For exponential families, the sufficient statistic is a *function of the data* that holds all information of data $$x$$ provides with regard to the unknown parameters values. It encapsulates all the information needed to describe the posterior distribution of the parameters, given the data (i.e., $$p(\theta\vert T(x),x)=p(\theta\vert T(x))$$ or $$p(x\vert T(x),\theta)=p(x\vert T(x))$$). This also means that, for any data sets $$x$$ and $$y$$, if $$T(x)=T(y)$$, the likelihood ratio of the probability distributions w.r.t. any two parameters is the same 
+\\(T(x)\\) is a *sufficient statistic* of the distribution. For exponential families, the sufficient statistic is a *function of the data* that holds all information of data \\(x\\) provides with regard to the unknown parameters values. It encapsulates all the information needed to describe the posterior distribution of the parameters, given the data (i.e., \\(p(\theta|T(x),x)=p(\theta|T(x))\\) or \\(p(x|T(x),\theta)=p(x|T(x))\\)). This also means that, for any data sets \\(x\\) and \\(y\\), if \\(T(x)=T(y)\\), the likelihood ratio of the probability distributions w.r.t. any two parameters is the same 
 
 $$
 \begin{align}
@@ -31,7 +31,7 @@ $$
 \end{align}
 $$
 
-$$\eta$$ is referred to as the *natual parameter* or *canonical parameter*. The set of parameters $$\eta$$ for which the cumulant function is finite is referred to as the *natural parameter space*:
+\\(\eta\\) is referred to as the *natual parameter* or *canonical parameter*. The set of parameters \\(\eta\\) for which the cumulant function is finite is referred to as the *natural parameter space*:
 
 $$
 \begin{align}
@@ -41,15 +41,15 @@ $$
 
 Exponential families are referred to as *regular* if the natural parameter space is nonempty open set.
 
-$$A(\eta)$$ is known as the *cumulant function*, or log-partition function as it is the logarithm of a normalization factor. 
+\\(A(\eta)\\) is known as the *cumulant function*, or log-partition function as it is the logarithm of a normalization factor. 
 
-An exponential family is referred to as *minimal* if the components of $$\eta(\theta)$$ are linearly independent and so are those of $$T(x)$$. Non-minimal families can always be reduced to minimal families via a suitable transiformation and reparameterization.
+An exponential family is referred to as *minimal* if the components of \\(\eta(\theta)\\) are linearly independent and so are those of \\(T(x)\\). Non-minimal families can always be reduced to minimal families via a suitable transiformation and reparameterization.
 
 ## Examples
 
 ### The Binomial Distribution
 
-We take $$n$$ independent experiments, each with an boolean-valued outcome. Let $$x$$ be the number of times  successes, $$\theta$$ be the probability of success. We have
+We take \\(n\\) independent experiments, each with an boolean-valued outcome. Let \\(x\\) be the number of times  successes, \\(\theta\\) be the probability of success. We have
 
 $$
 \begin{align}
@@ -70,7 +70,7 @@ h(x)&={n!\over x!(n-x)!}
 \end{align}
 $$
 
-Moreover, the relationship between $$\eta$$ and $$\theta$$ is invertible:
+Moreover, the relationship between \\(\eta\\) and \\(\theta\\) is invertible:
 
 $$
 \begin{align}
@@ -78,11 +78,11 @@ $$
 \end{align}
 $$
 
-which is the *logistic function* (or *sigmoid function*). This is commonly used as the last activation function in deep neural networks for binary classification problems, where $$\eta$$ is the output of the neural net, the input of the sigmoid function.
+which is the *logistic function* (or *sigmoid function*). This is commonly used as the last activation function in deep neural networks for binary classification problems, where \\(\eta\\) is the output of the neural net, the input of the sigmoid function.
 
 ### The Multinomial Distribution
 
-We take $$n$$ independent experiments, of which the outcome has a categorical distribution. Let's say we have $$K$$ categories. Let $$x_i$$ be the total number of times the $$i$$th event occurs, $$\theta_i$$ be the probability of the $$i$$th event occurring in any given trial. We have
+We take \\(n\\) independent experiments, of which the outcome has a categorical distribution. Let's say we have \\(K\\) categories. Let \\(x_i\\) be the total number of times the \\(i\\)th event occurs, \\(\theta_i\\) be the probability of the \\(i\\)th event occurring in any given trial. We have
 
 $$
 \begin{align}
@@ -93,7 +93,7 @@ p(x|\theta)&={n!\over x_1!x_2!\dots x_K!}\theta_1^{x_1}\theta_2^{x_2}\dots\theta
 \end{align}
 $$
 
-where in step third, we use the facts that $$\sum_{k=1}^Kx_k=n$$ and $$\sum_{k=1}^K\theta_k=1$$.
+where in step third, we use the facts that \\(\sum_{k=1}^Kx_k=n\\) and \\(\sum_{k=1}^K\theta_k=1\\).
 
 To align it with the exponential family, we have
 
@@ -106,7 +106,7 @@ h(x)&={n!\over \sum_{k=1}^Kx_k!}
 \end{align}
 $$
 
-If we further define $$\eta_K=\log{\theta_{K}\over\theta_K}=0$$, we could compute $$\theta_K$$:
+If we further define \\(\eta_K=\log{\theta_{K}\over\theta_K}=0\\), we could compute \\(\theta_K\\):
 
 $$
 \begin{align}
@@ -115,7 +115,7 @@ $$
 \end{align}
 $$
 
-then we derive $$\theta_k$$ from $$\eta$$
+then we derive \\(\theta_k\\) from \\(\eta\\)
 
 $$
 \begin{align}
@@ -125,7 +125,7 @@ $$
 $$
 
 
-we can see that adding a constant to all $$\eta_k$$ does not change the value of $$\theta_k$$, which suggest that we do not restrict the above result to $$\eta_K=0$$. This equation is exactly the softmax activation we use in deep neural networks when we do multi-categorical classification.
+we can see that adding a constant to all \\(\eta_k\\) does not change the value of \\(\theta_k\\), which suggest that we do not restrict the above result to \\(\eta_K=0\\). This equation is exactly the softmax activation we use in deep neural networks when we do multi-categorical classification.
 
 ### The Univariate Gaussian Distribution
 
@@ -173,7 +173,7 @@ x^T\Sigma^{-1} x&=\mathrm{Tr}(x^T\Sigma^{-1} x)\\\
 \end{align}
 $$
 
-where Trace operator is used in the first step since $$x^T\Sigma^{-1}x$$ is a scalar, the fourth step is obtained because $$\Sigma^{-1}$$ is symmetric, and we apply vectoring operator at the last step. Now we can easily see the exponential family form of the multivariate Gaussian
+where Trace operator is used in the first step since \\(x^T\Sigma^{-1}x\\) is a scalar, the fourth step is obtained because \\(\Sigma^{-1}\\) is symmetric, and we apply vectoring operator at the last step. Now we can easily see the exponential family form of the multivariate Gaussian
 
 $$
 \begin{align}
@@ -208,7 +208,7 @@ $$
 $$
 
 
-Especially, when the random variable equals to the sufficient statistic, $$X=T(X)$$, this gives us the mean and variance of that random variable.
+Especially, when the random variable equals to the sufficient statistic, \\(X=T(X)\\), this gives us the mean and variance of that random variable.
 
 ### Miscellanea
 
@@ -230,7 +230,7 @@ $$
 $$
 
 
-This suggest that $$\bar X$$ is Gaussian with mean $$\mu$$ and variance $$\sigma^2/n$$
+This suggest that \\(\bar X\\) is Gaussian with mean \\(\mu\\) and variance \\(\sigma^2/n\\)
 
 ## References
 
