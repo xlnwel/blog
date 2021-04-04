@@ -64,7 +64,7 @@ The value function uses a similar network structure but it has access to the ful
 ### Six Emergent Phases
 
 <figure>
-  <img src="{{ '/images/marl/hide&seek-figureA1.png' | absolute_url }}" align='right' alt="" width="1000">
+  <img src="{{ '/images/marl/hide&seek-figureA1.png' | absolute_url }}" align="right" alt="" width="1000">
   <figcaption></figcaption>
   <style>
     figure figcaption {
@@ -76,7 +76,7 @@ The value function uses a similar network structure but it has access to the ful
 ### Scale Plays a Critical Rule in Learning
 
 <figure>
-  <img src="{{ '/images/marl/hide&seek-figure4.png' | absolute_url }}" align='right' alt="" width="400">
+  <img src="{{ '/images/marl/hide&seek-figure4.png' | absolute_url }}" align="right" alt="" width="400">
   <figcaption></figcaption>
   <style>
     figure figcaption {

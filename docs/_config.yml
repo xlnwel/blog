@@ -25,7 +25,7 @@ url: "https://xlnwel.github.io"
 logo: "/images/logo.jpg"
 date_format: "%B %-d, %Y"
 read_time: true
-words_per_minute: 100
+words_per_minute: 200
 mathjax:
   enable: true
   combo: "tex-svg"
@@ -132,8 +132,9 @@ defaults:
 author:
   name: Sherwin Chen
   picture: /images/secret.jpg
-  email:
+  email: o.xlnwel@outlook.com
   twitter: Maybe___OneDay
+  # more icons can be found here: https://fontawesome.com/icons?d=gallery&p=2
   links:
     - title: Twitter
       url: https://twitter.com/Maybe___OneDay
@@ -141,21 +142,16 @@ author:
     - title: Weibo
       url: https://weibo.com/xlnwel
       icon: fab fa-weibo
-    - title: Instagram
-      url: https://instagram.com/Maybe______OneDay
-      icon: fab fa-instagram
     - title: GitHub
       url: https://github.com/xlnwel
       icon: fab fa-github-square
+
 
 # Footer Links
 footer_links:
   - title: Twitter
     url: https://twitter.com/Maybe___OneDay
     icon: fab fa-twitter-square
-  - title: Instagram
-    url: https://instagram.com/Maybe______OneDay
-    icon: fab fa-instagram
   - title: GitHub
     url: https://github.com/xlnwel
     icon: fab fa-github-square
