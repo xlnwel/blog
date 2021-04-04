@@ -49,6 +49,8 @@ liquid:
 # Build settings
 permalink: /:categories/:title/
 markdown: kramdown
+kramdown: 
+  math_engine: mathjax
 feed:
   path: atom.xml
 
