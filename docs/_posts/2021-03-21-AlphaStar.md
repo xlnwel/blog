@@ -9,6 +9,9 @@ tags:
   - RL Application
 ---
 
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
 ## Introduction
 
 AlphaStar, proposed by [Vinyals et al. 2019](#ref1), is the first AI agent that was rated at Grandmaster level in the full game of StarCraft II, a real-time strategy game in which players balance high-level economic decisions with individual control of hundreds of units. In this post, we try to present an overview of AlphaStar and distill some essential techniques in the hope that these techniques could be reused in other reinforcement learning projects.
