@@ -31,7 +31,7 @@ where \\(\pi^r\\) is the rollout policy(as they use AC algorithms in their exper
 
 ### Information Bottleneck Actor Critic(IBAC)
 
-IBAC applies information bottleneck to the AC network, which minimizes \\(\mathcal I(o;z)\\) and maximizes \\(\mathcal I(z;a)\\), where \\(z=f_\theta(o,\epsilon)\\) is the output of the encoder parameterized by \\(\theta\\). The architecture thus becomes similar to a \\(\beta\\)-VAE. As now the encoder \\(p(z|o)\\) is already regularized, they only apply the policy entropy term to the action heads. The final loss becomes
+IBAC applies information bottleneck to the AC network, which minimizes \\(\mathcal I(o;z)\\) and maximizes \\(\mathcal I(z;a)\\), where \\(z=f_\theta(o,\epsilon)\\) is the output of the encoder parameterized by \\(\theta\\). The architecture thus becomes similar to a \\(\beta\\)-VAE. As now the encoder \\(p(z\vert o)\\) is already regularized, they only apply the policy entropy term to the action heads. The final loss becomes
 
 $$
 \begin{align}
@@ -40,11 +40,11 @@ $$
 $$
 
 
-where \\(\mathcal L_{AC}\\) is the loss function of the AC algorithm, \\(\mathcal H(\pi(\cdot|z))\\) is the entropy loss, and \\(\mathcal L_{KL}=D_{KL}(p_\theta(z|o)\Vert q(z))\\). 
+where \\(\mathcal L_{AC}\\) is the loss function of the AC algorithm, \\(\mathcal H(\pi(\cdot\vert z))\\) is the entropy loss, and \\(\mathcal L_{KL}=D_{KL}(p_\theta(z\vert o)\Vert q(z))\\). 
 
 ## DrAC
 
-[Raileanu et al. 2020](#ref2) experiments a collection of data augmentation techniques in RL. Similar work has been down by [Laskin et al. 2020](#ref3) before, which directly applied data augmentation to the PPO objective. [Raileanu et al. 2020](#ref2) point out it is problematic as it changes \\(\pi(a|s)\\) to \\(\pi(a|f(s))\\), where \\(f\\) applies data augmentation to \\(s\\). Instead, [Raileanu et al. 2020](#ref2) leave the PPO objective as it is and add two additional loss terms to regularize the policy and value functions:
+[Raileanu et al. 2020](#ref2) experiments a collection of data augmentation techniques in RL. Similar work has been down by [Laskin et al. 2020](#ref3) before, which directly applied data augmentation to the PPO objective. [Raileanu et al. 2020](#ref2) point out it is problematic as it changes \\(\pi(a\vert s)\\) to \\(\pi(a\vert f(s))\\), where \\(f\\) applies data augmentation to \\(s\\). Instead, [Raileanu et al. 2020](#ref2) leave the PPO objective as it is and add two additional loss terms to regularize the policy and value functions:
 
 $$
 \begin{align}

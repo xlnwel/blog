@@ -32,7 +32,7 @@ $$
 \end{align}
 $$
 
-We now show that state-dependent baselines effectively reduce the variance. Let \\(f=\hat A(s,a)\nabla\log\pi(a|s)\\) and \\(g=\phi(s)\nabla\log\pi(a|s)\\). We compute the variance of the gradient estimator after subtracting a state-dependent baseline as follows
+We now show that state-dependent baselines effectively reduce the variance. Let \\(f=\hat A(s,a)\nabla\log\pi(a\vert s)\\) and \\(g=\phi(s)\nabla\log\pi(a\vert s)\\). We compute the variance of the gradient estimator after subtracting a state-dependent baseline as follows
 
 $$
 \begin{align}
@@ -79,7 +79,7 @@ $$
 
 Equation \\(\eqref{eq:6}\\) decomposes the variance in the on-policy gradient estimate into three terms, where \\(\Sigma_\tau\\) describes the variance due to sampling a single \\(\tau\\), \\(\Sigma_a\\) describes the variance due to sampling a single \\(a\\), and \\(\Sigma_s\\) describes the variance coming from visiting a limited number of states.
 
-From Equation \\(\eqref{eq:6}\\), we can see that \\(\phi\\) only affects \\(\Sigma_a\\) and \\(\Sigma_a\\) diminishes when \\(\phi(s,a)=\hat A(s,a)=\mathbb E_{\tau|s,a}[\hat A(s, a,\tau)]\\). Regarding the relative magnitude of these terms, the effectiveness of the optimal state-action-dependent baseline varies. This benefit is further restricted as, in practice, we can only approximate \\(\hat A(s,a)\\) with a function approximator. Several experiments conducted by [Tucker et al. 2018](#ref1) also show that a learned state-action-dependent baseline does not reduce variance over a state-dependent baseline.
+From Equation \\(\eqref{eq:6}\\), we can see that \\(\phi\\) only affects \\(\Sigma_a\\) and \\(\Sigma_a\\) diminishes when \\(\phi(s,a)=\hat A(s,a)=\mathbb E_{\tau\vert s,a}[\hat A(s, a,\tau)]\\). Regarding the relative magnitude of these terms, the effectiveness of the optimal state-action-dependent baseline varies. This benefit is further restricted as, in practice, we can only approximate \\(\hat A(s,a)\\) with a function approximator. Several experiments conducted by [Tucker et al. 2018](#ref1) also show that a learned state-action-dependent baseline does not reduce variance over a state-dependent baseline.
 
 ## Unveiling the Mirage
 
@@ -122,7 +122,7 @@ $$
 \end{align}
 $$
 
-When \\(\phi(s,a)\approx\mathbb E_{\tau|s, a}[\hat A(s ,a, \tau)]\\), introducing \\(\lambda\\) effectively reduce the variance of the first term by \\(\lambda^2\\).
+When \\(\phi(s,a)\approx\mathbb E_{\tau\vert s, a}[\hat A(s ,a, \tau)]\\), introducing \\(\lambda\\) effectively reduce the variance of the first term by \\(\lambda^2\\).
 
 Therefore, the observed empirical performance gain of IPG is mainly from the bias and variance trade off.
 

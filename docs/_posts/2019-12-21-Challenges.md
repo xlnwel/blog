@@ -33,7 +33,7 @@ $$
 
    
 
-   where \\(G_\pi,G_b\\) are the cumulative rewards under the target and behavior policy, and \\(\omega_{0:T}=\prod_{t=0}^T{\pi(a_t|s_t)\over b(a_i|s_i)}\\). As IS is notoriously known as high variance, one could reduce its variance using weighted importance sampling(WIS) and causality, which gives
+   where \\(G_\pi,G_b\\) are the cumulative rewards under the target and behavior policy, and \\(\omega_{0:T}=\prod_{t=0}^T{\pi(a_t\vert s_t)\over b(a_i\vert s_i)}\\). As IS is notoriously known as high variance, one could reduce its variance using weighted importance sampling(WIS) and causality, which gives
    
 $$
    G_{\pi}= \sum_{i=1}^n{\omega_{0:t}^{(i)}\over\sum_{i=1}^n\omega_{0:t}^{(i)}}\sum_{t=0}^T\gamma^{t}\omega_{0:t}^{(i)}r_t

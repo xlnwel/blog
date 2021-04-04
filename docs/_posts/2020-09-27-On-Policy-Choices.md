@@ -121,15 +121,15 @@ A variety policy regularization techniques(Table 1) are experimented, but none o
 
 Let \\(\pi\\) denote the policy being optimized, and \\(\mu\\) the behavioral policy. Moreover, let \\(\hat A_t^\pi\\) and \\(\hat A_t^\mu\\) be some estimators of the advantage at timestep \\(t\\) for the policies \\(\pi\\) and \\(\mu\\). Any newly introduced symbol below are hyperparameters.
 
-**Policy gradients:** \\(\mathcal L_{PG}=-\log\pi(a_t|s_t)\hat A_t^\pi\\)
+**Policy gradients:** \\(\mathcal L_{PG}=-\log\pi(a_t\vert s_t)\hat A_t^\pi\\)
 
-**V-trace:** \\(\mathcal L_{V-trace}=\text{sg}(\rho_t)\mathcal L_{PG}\\), where \\(\rho_t=\min({\pi(a_t|s_t)\over\mu(a_t|s_t)},\bar\rho)\\) is an importance weight truncated at \\(\bar\rho\\), \\(\text{sg}(\cdot)\\) is the stop_gradient operator.
+**V-trace:** \\(\mathcal L_{V-trace}=\text{sg}(\rho_t)\mathcal L_{PG}\\), where \\(\rho_t=\min({\pi(a_t\vert s_t)\over\mu(a_t\vert s_t)},\bar\rho)\\) is an importance weight truncated at \\(\bar\rho\\), \\(\text{sg}(\cdot)\\) is the stop_gradient operator.
 
-**Proximal Policy Gradient (PPO)**: \\(\mathcal L_{PPO}=-\min\bigl({\pi(a_t|s_t)\over\mu(a_t|s_t)}\hat A_t^\pi, \mathrm{clip}({\pi(a_t|s_t)\over\mu(a_t|s_t)}, {1\over1+\epsilon}, 1+\epsilon)\hat A_t^\pi\bigr)\\), where we use \\(1\over 1+\epsilon\\) instead of \\(1-\epsilon\\) as the lower bound because the former is more symmetric.
+**Proximal Policy Gradient (PPO)**: \\(\mathcal L_{PPO}=-\min\bigl({\pi(a_t\vert s_t)\over\mu(a_t\vert s_t)}\hat A_t^\pi, \mathrm{clip}({\pi(a_t\vert s_t)\over\mu(a_t\vert s_t)}, {1\over1+\epsilon}, 1+\epsilon)\hat A_t^\pi\bigr)\\), where we use \\(1\over 1+\epsilon\\) instead of \\(1-\epsilon\\) as the lower bound because the former is more symmetric.
 
-**Advantage-Weighted Regression (AWR):** \\(\mathcal L_{AWR}=-\log\pi(a_t|s_t)\min(\exp(A_t^\mu/\beta),\omega)\\). It can be shown that for \\(\omega=\infty\\) it corresponds to an approximate optimization of the policy \\(\pi\\) under a constraint of the form \\(D_{KL}(\pi\Vert \mu)<\epsilon\\) where the KL bound \\(\epsilon\\) depends on the exponentiation temperature \\(\beta\\). Notice that different from previous methods, AWR computes the advantage estimator from the behavior policy. AWR was proposed mostly as an off-policy RL algorithm.
+**Advantage-Weighted Regression (AWR):** \\(\mathcal L_{AWR}=-\log\pi(a_t\vert s_t)\min(\exp(A_t^\mu/\beta),\omega)\\). It can be shown that for \\(\omega=\infty\\) it corresponds to an approximate optimization of the policy \\(\pi\\) under a constraint of the form \\(D_{KL}(\pi\Vert \mu)<\epsilon\\) where the KL bound \\(\epsilon\\) depends on the exponentiation temperature \\(\beta\\). Notice that different from previous methods, AWR computes the advantage estimator from the behavior policy. AWR was proposed mostly as an off-policy RL algorithm.
 
 **On-Policy Maximum a Posteriori Policy Optimization (V-MPO):** This policy loss is the same as AWR with the following differences: (1) exponentiation is replaced with the *softmax* operator and there is no clipping with \\(\omega\\) ; (2) only samples with the top half advantages in each batch are used; (3) the temperature \\(\beta\\) is treated as a Lagrange multiplier and adjusted automatically to keep a constraint on how much the weights (i.e. softmax outputs) diverge from a uniform distribution with the constraint threshold \\(\epsilon\\) being a hyperparameter. (4) A soft constraint on \\(D_{KL}(\mu\Vert \pi)\\) is added. In our experiments, we did not treat this constraint as a part of the V-MPO policy loss as policy regularization is considered separately.
 
-**Repeat Positive Advantages (RPA):** \\(\mathcal L_{RPA}=-\log\pi(a_t|s_t)[A_t>0]\\).
+**Repeat Positive Advantages (RPA):** \\(\mathcal L_{RPA}=-\log\pi(a_t\vert s_t)[A_t>0]\\).
 

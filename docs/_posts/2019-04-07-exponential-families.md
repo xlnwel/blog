@@ -22,7 +22,7 @@ where \\(\eta\\) is a function of the parameter \\(\theta\\). \\(\eta\\) and \\(
 
 ### Notation Explanations
 
-\\(T(x)\\) is a *sufficient statistic* of the distribution. For exponential families, the sufficient statistic is a *function of the data* that holds all information of data \\(x\\) provides with regard to the unknown parameters values. It encapsulates all the information needed to describe the posterior distribution of the parameters, given the data (i.e., \\(p(\theta|T(x),x)=p(\theta|T(x))\\) or \\(p(x|T(x),\theta)=p(x|T(x))\\)). This also means that, for any data sets \\(x\\) and \\(y\\), if \\(T(x)=T(y)\\), the likelihood ratio of the probability distributions w.r.t. any two parameters is the same 
+\\(T(x)\\) is a *sufficient statistic* of the distribution. For exponential families, the sufficient statistic is a *function of the data* that holds all information of data \\(x\\) provides with regard to the unknown parameters values. It encapsulates all the information needed to describe the posterior distribution of the parameters, given the data (i.e., \\(p(\theta\vert T(x),x)=p(\theta\vert T(x))\\) or \\(p(x\vert T(x),\theta)=p(x\vert T(x))\\)). This also means that, for any data sets \\(x\\) and \\(y\\), if \\(T(x)=T(y)\\), the likelihood ratio of the probability distributions w.r.t. any two parameters is the same 
 
 $$
 \begin{align}

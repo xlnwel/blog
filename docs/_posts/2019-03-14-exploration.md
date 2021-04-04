@@ -145,7 +145,7 @@ I personally think it may be better for on-policy RL methods to trains the discr
 
 ### Thompson Sampling in Multi-Bandit
 
-For each arm \\(a_i\\), we parameterize the reward distribution by \\(\theta_i\\). Since we don't know the reward distribution beforehand, we maintain a belief about the parameters \\(\theta_i\\). Let \\(p(\theta_i)\\) be the belief distribution of \\(\theta_i\\). Then, for every arm, we play it with the probability of it being the best. Let's say we play arm \\(a_i\\) and receive reward \\(r_i\\). After that, we update our belief about the reward distribution of arm \\(a_i\\) using Bayes' rule: \\(p(\theta_i|r)\propto p(\theta_i)p(r|\theta_i)\\). We take \\(p(\theta_i|r)\\) as our new belief distribution of \\(\theta_i\\) and repeat the above process until convergence. A concise algorithm description is given as below
+For each arm \\(a_i\\), we parameterize the reward distribution by \\(\theta_i\\). Since we don't know the reward distribution beforehand, we maintain a belief about the parameters \\(\theta_i\\). Let \\(p(\theta_i)\\) be the belief distribution of \\(\theta_i\\). Then, for every arm, we play it with the probability of it being the best. Let's say we play arm \\(a_i\\) and receive reward \\(r_i\\). After that, we update our belief about the reward distribution of arm \\(a_i\\) using Bayes' rule: \\(p(\theta_i\vert r)\propto p(\theta_i)p(r\vert \theta_i)\\). We take \\(p(\theta_i\vert r)\\) as our new belief distribution of \\(\theta_i\\) and repeat the above process until convergence. A concise algorithm description is given as below
 
 $$
 \begin{align}
@@ -196,7 +196,7 @@ where\quad p(\theta|\mathcal D)&={p(\mathcal D|\theta)p(\theta)\over\int p(\math
 \end{align}
 $$
 
-However, the above equation cannot be solved as we do with general neural network since it involves integral over the parameter space. Fortunately, our objective here is to learn the parameter distributions instead of dong inference. In order to learn the posterior distribution \\(p(\theta|\mathcal D)\\), we could resort to variational inference, where we approximate \\(p(\theta|\mathcal D)\\) using an alternative distribution \\(q(\theta|\phi)\\), which is optimized through maximization of the evidence lower bound(ELBO):
+However, the above equation cannot be solved as we do with general neural network since it involves integral over the parameter space. Fortunately, our objective here is to learn the parameter distributions instead of dong inference. In order to learn the posterior distribution \\(p(\theta\vert \mathcal D)\\), we could resort to variational inference, where we approximate \\(p(\theta\vert \mathcal D)\\) using an alternative distribution \\(q(\theta\vert \phi)\\), which is optimized through maximization of the evidence lower bound(ELBO):
 
 $$
 \begin{align}
@@ -224,7 +224,7 @@ $$
 
 which could be roughly regarded as the negative of the ELBO w.r.t. the single transition the agent just experienced. In practice, Houthooft et al. propose to efficiently optimize Eq.\\(\eqref{eq:6}\\) through Newton's method. Because it's more like an implementation details, we refer to interested readers to Eq.\\(\eqref{eq:13}\\)-Eq.\\(\eqref{eq:16}\\) in the paper.
 
-So far we have introduced two evidence lower bounds: Eq.\\(\eqref{eq:4}\\) and Eq.\\(\eqref{eq:6}\\). Although both optimize \\(q(\theta|\phi)\\), they serve different purposes. Eq.\\((4) \\) globally updates the variational model \\(q(\theta|\phi)\\) to approximate \\(p(\theta|\mathcal D)\\), Eq.\\(\eqref{eq:6}\\) temporarily computes \\(q(\theta|\phi_{t+1})\\) to obtain the information gain from \\(s_{t+1}\\), and is discarded afterwards.
+So far we have introduced two evidence lower bounds: Eq.\\(\eqref{eq:4}\\) and Eq.\\(\eqref{eq:6}\\). Although both optimize \\(q(\theta\vert \phi)\\), they serve different purposes. Eq.\\((4) \\) globally updates the variational model \\(q(\theta\vert \phi)\\) to approximate \\(p(\theta\vert \mathcal D)\\), Eq.\\(\eqref{eq:6}\\) temporarily computes \\(q(\theta\vert \phi_{t+1})\\) to obtain the information gain from \\(s_{t+1}\\), and is discarded afterwards.
 
 #### Algorithm
 

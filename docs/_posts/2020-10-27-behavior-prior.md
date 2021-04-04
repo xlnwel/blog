@@ -98,7 +98,7 @@ $$
 \end{align}
 $$
 
-**Proof:** We demonstrate that \\(I(x_t^G,a_t|x_t^D)=\mathbb E_\pi[D_{KL}(\pi(a_t|x_t)\Vert \pi(a_t|x_t^D))]\le \mathbb E_\pi[D_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t^D))]\\)
+**Proof:** We demonstrate that \\(I(x_t^G,a_t\vert x_t^D)=\mathbb E_\pi[D_{KL}(\pi(a_t\vert x_t)\Vert \pi(a_t\vert x_t^D))]\le \mathbb E_\pi[D_{KL}(\pi(a_t\vert x_t)\Vert \pi_0(a_t\vert x_t^D))]\\)
 
 $$
 \begin{align}
@@ -109,9 +109,9 @@ I(x_t^G,a_t|x_t^D)&=\int\pi(x_t^G,a_t|x_t^D)\log{\pi(x_t^G,a_t|x_t^D)\over\pi(x_
 \end{align}
 $$
 
-The inequality holds because \\(\int\pi(x_t^G,a_t|x_t^D)\log{\pi(a_t|x_t^D)\over\pi_0(a_t|x_t^D)}=\int\pi(x^G|a_t,x_t^D)D_{KL}(\pi(a_t|x_t^D)\Vert\pi_0(a_t|x_t^D))\ge 0\\).
+The inequality holds because \\(\int\pi(x_t^G,a_t\vert x_t^D)\log{\pi(a_t\vert x_t^D)\over\pi_0(a_t\vert x_t^D)}=\int\pi(x^G\vert a_t,x_t^D)D_{KL}(\pi(a_t\vert x_t^D)\Vert\pi_0(a_t\vert x_t^D))\ge 0\\).
 
-Because \\(I(x_t^G,a_t|x_t^D)\le \mathbb E_\pi[D_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t^D))]\\), Equation \\(\eqref{eq:9}\\) is an upper bound of Equation \\(\eqref{eq:8}\\). 
+Because \\(I(x_t^G,a_t\vert x_t^D)\le \mathbb E_\pi[D_{KL}(\pi(a_t\vert x_t)\Vert \pi_0(a_t\vert x_t^D))]\\), Equation \\(\eqref{eq:9}\\) is an upper bound of Equation \\(\eqref{eq:8}\\). 
 
 The intuition behind Equation \\(\eqref{eq:9}\\) is that the agent should exhibit similar behaviors in different context where \\(x_t^D\\) is shared across, and only need to adjust its behavior when the benefit of doing so outweighs the cost for processing information contained in \\(x_t^G\\).
 
@@ -146,7 +146,7 @@ where the latents \\(z\\) can be time varying, continuous or discrete, and can e
 
 ### Simplified Form
 
-Unfortunately, it's difficult to directly compute the KL divergence between two complex distributions outlined in Equations \\(\eqref{eq:9}\\) and \\(\eqref{eq:10}\\). Instead, if we divide \\(\pi\\) into higher level \\(\pi^H(z_t|x_t)\\) and lower level \\(\pi^L(a_t|z_t,x_t)\\) components, we can derive the following bound for the KL term
+Unfortunately, it's difficult to directly compute the KL divergence between two complex distributions outlined in Equations \\(\eqref{eq:9}\\) and \\(\eqref{eq:10}\\). Instead, if we divide \\(\pi\\) into higher level \\(\pi^H(z_t\vert x_t)\\) and lower level \\(\pi^L(a_t\vert z_t,x_t)\\) components, we can derive the following bound for the KL term
 
 $$
 \begin{align}
@@ -200,7 +200,7 @@ In most of experiments, [Tirumala et al. 2020](#ref1) use a lower level policy s
 
 Several modifications are made compared to Algorithm 1
 
-- Besides policies, value functions are also conditioned on \\(z\\). This also changes the way of computing \\(c_i\\), which now becomes \\(c_i=\lambda\min\left({\pi^H(z_i|x_i)\pi^L(a_i|x_i,z_i)\over \mu(a_i,x_i)},1\right)\\). Notice that we consider the latent \\(z\\) when computing the current action probability but do not consider it in the behavior policy \\(\mu\\). This reduces the variance of the estimator.
+- Besides policies, value functions are also conditioned on \\(z\\). This also changes the way of computing \\(c_i\\), which now becomes \\(c_i=\lambda\min\left({\pi^H(z_i\vert x_i)\pi^L(a_i\vert x_i,z_i)\over \mu(a_i,x_i)},1\right)\\). Notice that we consider the latent \\(z\\) when computing the current action probability but do not consider it in the behavior policy \\(\mu\\). This reduces the variance of the estimator.
 
 - When computing gradients to policy \\(\pi\\), we differentiate \\(Q\\) through action \\(a\\) but not through the latent \\(z\\), which empirically leads to better performance. This gives the following gradient
   

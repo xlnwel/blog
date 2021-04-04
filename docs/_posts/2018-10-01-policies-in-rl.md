@@ -108,7 +108,7 @@ H(A)=H(A)+\alpha(R-\bar R)(\mathbf 1_{|A=a}-\pi(A))
 \end{align}
 $$
 
-where \\( \bar R \\), the average of all the rewards up to the current time, serves as a baseline with which the reward is compared. The eccentric term, \\( \mathbf 1_{|A=a}-\pi(A) \\), is computed from \\( \partial E[R]\over\partial H[A] \\) (details are given in Reinforcement learning: an introduction). An intuition behind it is given below.
+where \\( \bar R \\), the average of all the rewards up to the current time, serves as a baseline with which the reward is compared. The eccentric term, \\( \mathbf 1_{\vert A=a}-\pi(A) \\), is computed from \\( \partial E[R]\over\partial H[A] \\) (details are given in Reinforcement learning: an introduction). An intuition behind it is given below.
 
 At each step, we want to encourage the most recent action a bit to embody how we can optimize the long-term value based on the reward just received. (by encouraging, I don't mean to increase \\( H(a) \\) recklessly, where \\( a \\) is the most recent action. Here I mean to change \\( H(a) \\) to the same direction as \\( R-\bar R \\) suggests. That is \\( H(a) \\) become relatively larger if \\( R-\bar R>0 \\) or relatively smaller if \\( R-\bar R<0 \\). The opposite story works for discouraging). There are to ways to achieve this: 
 

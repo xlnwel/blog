@@ -69,7 +69,7 @@ MLE provides a good approximation to Bayesian and MAP learning when the dataset 
 
 In general MLE could be solved by a standard process as follows
 
-1. Write the log likelihood of the data as a function of parameter(s): \\( \log p(\mathcal D|z) \\)
+1. Write the log likelihood of the data as a function of parameter(s): \\( \log p(\mathcal D\vert z) \\)
 2. Compute the gradients with respective to each parameter
 3. Find the parameter values such that the gradients are zero (do gradient descent, or calculate it directly if the problem is simple)
 

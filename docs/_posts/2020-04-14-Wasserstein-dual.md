@@ -13,7 +13,7 @@ In the [previous post]({{ site.baseurl }}{% post_url 2020-04-07-dual %}), we dis
 
 ## 1st Wasserstein Distance
 
-Let \\((M, d)\\) be a metric space where \\(M\\) is a set and \\(d(x,y)=|x-y|\\) be a distance function/metric on \\(M\\). The 1st Wasserstein distance between two probability measure \\(\mu\\) and \\(\nu\\) is defined as
+Let \\((M, d)\\) be a metric space where \\(M\\) is a set and \\(d(x,y)=\vert x-y\vert \\) be a distance function/metric on \\(M\\). The 1st Wasserstein distance between two probability measure \\(\mu\\) and \\(\nu\\) is defined as
 
 $$
 \begin{align}
@@ -35,7 +35,7 @@ $$
 \end{align}
 $$
 
-where \\(\pmb x=vec(\Gamma)\\) is a flatten vector of \\(\Gamma\\), \\(\pmb c=vec(D)\\) is a flatten vector of the set of distance \\(D=\{d(x,y)|x,y\in M\}\\), \\(\pmb b=\begin{bmatrix}\pmb \mu\\\\pmb \nu\end{bmatrix}\\) is the concatenation of marginals \\(\pmb \mu\\) and \\(\pmb \nu\\)(we use the bold font to denote values of the corresponding functions), and \\(\pmb A\\) is a sparse binary matrix such that \\(\pmb A[i]\pmb x=\pmb b[i]\\), which enforces the marginal constraints \\(\int\gamma(x,y)dy=\mu(x)\\) and \\(\int\gamma(x,y)dx=\nu(y)\\). It may be clearer to divide \\(\pmb A\\) into two matrices, where we have \\(\pmb A_1\pmb x=\pmb \mu\\) and \\(\pmb A_2\pmb x=\pmb \nu\\). For \\(\pmb A_1\\) and \\(\pmb A_2\\), each column corresponds to a transfer plan in \\(\pmb x\\) and there is exactly one \\(1\\) in each column as transport plans are only counted once. For example, \\(\pmb x[k]\\) is a tranport plan from \\(x\\) to \\(y\\), then \\(\pmb A_1[x,k]=1\\) and \\(\pmb A_2[y,k]=1\\). Therefore, there are two \\(1\\)s in each column of \\(\pmb A\\). This property will come in handy next when we discuss  the dual.
+where \\(\pmb x=vec(\Gamma)\\) is a flatten vector of \\(\Gamma\\), \\(\pmb c=vec(D)\\) is a flatten vector of the set of distance \\(D=\{d(x,y)\vert x,y\in M\}\\), \\(\pmb b=\begin{bmatrix}\pmb \mu\\\\pmb \nu\end{bmatrix}\\) is the concatenation of marginals \\(\pmb \mu\\) and \\(\pmb \nu\\)(we use the bold font to denote values of the corresponding functions), and \\(\pmb A\\) is a sparse binary matrix such that \\(\pmb A[i]\pmb x=\pmb b[i]\\), which enforces the marginal constraints \\(\int\gamma(x,y)dy=\mu(x)\\) and \\(\int\gamma(x,y)dx=\nu(y)\\). It may be clearer to divide \\(\pmb A\\) into two matrices, where we have \\(\pmb A_1\pmb x=\pmb \mu\\) and \\(\pmb A_2\pmb x=\pmb \nu\\). For \\(\pmb A_1\\) and \\(\pmb A_2\\), each column corresponds to a transfer plan in \\(\pmb x\\) and there is exactly one \\(1\\) in each column as transport plans are only counted once. For example, \\(\pmb x[k]\\) is a tranport plan from \\(x\\) to \\(y\\), then \\(\pmb A_1[x,k]=1\\) and \\(\pmb A_2[y,k]=1\\). Therefore, there are two \\(1\\)s in each column of \\(\pmb A\\). This property will come in handy next when we discuss  the dual.
 
 The dual is a maximization problem defined as
 
@@ -77,7 +77,7 @@ $$
 \end{align}
 $$
 
-An interesting property of \\(f^c\\) is that when \\(f\\) is 1-Lipschitz, \\(f^c\\) is Lipschitz too as \\(d(x, y)=|x-y|\\) is 1-Lipschitz. For all \\(x\\) and \\(y\\), when \\(f\\) is 1-Lipchitz this gives us
+An interesting property of \\(f^c\\) is that when \\(f\\) is 1-Lipschitz, \\(f^c\\) is Lipschitz too as \\(d(x, y)=\vert x-y\vert \\) is 1-Lipschitz. For all \\(x\\) and \\(y\\), when \\(f\\) is 1-Lipchitz this gives us
 
 $$
 \begin{align}
@@ -87,7 +87,7 @@ $$
 \end{align}
 $$
 
-where the last inequality holds by choosing \\(y=x\\) in the infimum. This gives us \\(-f^c(x)=\inf_y|y-x|-f^c(y)\\). Also, noticing that \\(f^c(y)=g(y)\\) and \\(f(x)=\inf_y|y-x|-g(y)\\)(obtained through the same \\(c\\)-transform), we get \\(f(x)=-f^c(x)\\). Substituting \\(f^c(x)=-f(x)\\) in Equation \\(\eqref{eq:2}\\), we get
+where the last inequality holds by choosing \\(y=x\\) in the infimum. This gives us \\(-f^c(x)=\inf_y\vert y-x\vert -f^c(y)\\). Also, noticing that \\(f^c(y)=g(y)\\) and \\(f(x)=\inf_y\vert y-x\vert -g(y)\\)(obtained through the same \\(c\\)-transform), we get \\(f(x)=-f^c(x)\\). Substituting \\(f^c(x)=-f(x)\\) in Equation \\(\eqref{eq:2}\\), we get
 
 $$
 \begin{align}
