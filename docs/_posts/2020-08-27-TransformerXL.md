@@ -14,12 +14,12 @@ In our [previous post]({{ site.baseurl }}{% post_url 2019-02-27-transformer %}),
 ## Preliminaries
 
 <figure>
-  <img src="{{ '/images/attention/transformer.png' | absolute_url }}" alt="" align="right", width="500">
+  <img src="{{ '/images/attention/transformer.png' | absolute_url }}" alt="" align="right", width="400">
   <figcaption>Fig 1: The Transformer Model Architecture</figcaption>
 </figure>
 
 <figure>
-  <img src="{{ '/images/attention/dot-product attention.png' | absolute_url }}" alt="" align="right" width="500">
+  <img src="{{ '/images/attention/dot-product attention.png' | absolute_url }}" alt="" align="right" width="400">
   <figcaption>Fig 2: (left)Scaled Dot-Product Attention. (right)Multi-Head Attention consists of several attention layers running in parallel.</figcaption>
 </figure> 
 

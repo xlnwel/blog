@@ -15,8 +15,6 @@ In this post, we will discuss a model named Transformer, proposed by Vaswani et 
 
 One thing may be worth keeping in mind is that the Transformer we introduce here maintains sequential information in a sample just as RNNs do. This suggests the input to the network is of form *[batch size, sequence length, embedding size]*. In many RL literature, the sequential dimension is usually replaced by an entity dimension. As a result, the network can learn to attend to some entity that related to the agent's current state.
 
-This post ends with a brief discussion of the additive attention architecture, where RNNs are involved.
-
 ## Model Architecture
 
 The Transformer follows the encoder-decoder structure using stacked self-attention and fully connected-layers for both the encoder and decoder, shown in the left and right halves of the following figure, respectively
@@ -85,13 +83,13 @@ $$
 \end{align}
 $$
 
-where \\(Q, K, V\\) are queries, keys, and values, respectively; \\(d_k\\) is the dimension of the keys; the compatibility function (softmax part) computes the weights assigned to each value in a row. The dot-product \\(QK^T\\) is scaled by \\(1\over \sqrt{d_k}\\) to avoid extremely small gradients for large values of \\(d_k\\), where the dot-product grows large in magnitude, pushing the softmax function into the edge region. In the resulting matrix \\(A\\), the features in the rows are the weighted sum of features in \\(V\\), i.e., \\(A_{i,j}=\sum_k w_{i,k}V_{k,j}\\), where \\(w_{i,k}\\) explains the similarity between \\(Q_i\\) and \\(K_k\\).
-
-Some takeaway: mathematically, attention is just focusing on the space where \\(Q\\) and \\(K\\) are similar(w.r.t. cosine similarity), given they are in the same magnitude — since \\((QK^T)_{i,j}=\Vert Q_i\Vert\Vert K_j\Vert\cos\theta\\). An extreme thought exercise is the case where both \\(Q\\) and \\(K\\) are one-hot encoded. 
+where \\(Q, K, V\\) are queries, keys, and values, respectively; \\(d_k\\) is the dimension of the keys; the compatibility function (softmax part) computes the weights assigned to each value in a row. The dot-product \\(QK^T\\) is scaled by \\(1\over \sqrt{d_k}\\) to avoid extremely small gradients for large values of \\(d_k\\), where the dot-product grows large in magnitude, pushing the softmax function into the edge region. In the resulting matrix \\(A\\), the features in the rows are the weighted sum of features in \\(V\\), i.e., \\(A_{i,:}=\sum_k w_{i,k}V_{k,:}\\), where \\(w_{i,k}\\) explains the similarity between \\(Q_i\\) and \\(K_k\\).
 
 #### Multi-Head Attention
 
-Single attention head averages attention-weighted positions, reducing the effective resolution. Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. 
+Single attention head averages attention-weighted positions, reducing the effective resolution. Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. For example, when two positions \\(k_1,k_2\\) are highly related to position \\(i\\). In the single-head attention, the output averages values at \\(k_1, k_2\\), blurring the effect of values. In the multi-head attention, the network may learn to attend to \\(k_1, k_2\\) in two different heads. 
+
+Mathematically, multi-head attention is expressed as follows
 
 $$
 \begin{align}
@@ -206,61 +204,11 @@ class MultiHeadSelfAttention(layers.Layer):
         return x
 ```
 
-## Attention with RNNs
-
-In this section, we will extend our topic of attention to see how addtention works with RNNs.
-
-<figure style="width: 200px" class="align-right">
-  <img src="{{ '/images/attention/additive attention.png' | absolute_url }}" alt="">
-  <figcaption>Fig.4 Additive Attention Model</figcaption>
-</figure> 
-
-
-The model is also of an encoder-decoder structure. The encoder is a bidirectional RNN that encodes all sequential information. The decoder is a general RNN that predicts the output \\(y_t\\) for the current time-step based on the previous hidden state \\(s_{t-1}\\) and the current context vector \\(c_t\\). Formally, we have
-
-$$
-\begin{align}
-p(y_t|y_1,\dots,y_{t-1},\mathbf x)&=g(s_t)\\\
-where\quad s_t&=f(s_{t-1}, y_{t-1}, c_t)
-\end{align}
-$$
-
-where \\(f\\) denotes an RNN operation, and the context vector \\(c_t\\) depends on a sequence of annotations \\(h_1, \dots, h_T\\) to which an encoder maps the input sequence. Each annotation \\(h_t\\) contains information about the whole input sequence with a strong focus on the parts surrounding the \\(t\\)-th element of the input sequence. More specifically, an annotation \\(h_t\\) is the concatenation of hidden states computed by a forward RNN and a backward RNN.
-
-The context vector \\(c_t\\), then, is computed as a weighted sum of these annotations
-
-$$
-\begin{align}
-c_t&=\sum_{k=1}^Ta_{tk}h_k\\\
-where\quad a_{tk}&=\mathrm {softmax}(f_{att}(s_{t-1}, h_k))
-\end{align}
-$$
-
-We can see that when \\(f_{att}\\) is a dot-product function, \\(c_t\\) is computed through a attention module, i.e., \\(c=\text{Attention}(s, h, h)\\).
-
-The attention function \\(f_{att}\\) calculates an unnormalized alignment score that reflects the importance of the annotation \\(h_k\\) with respect to the previous hidden state \\(s_{t-1}\\) in deciding the next state \\(s_t\\) and generating \\(y_t\\). It's typically defined as on of the following
-
-$$
-\begin{align}
-f_{att}(s_{t-1}, h_k)=\begin{cases}
-s_{t-1}^{\top}h_k&\text{dot}\\\
-s_{t-1}^{\top}Wh_k&\text{general}\\\
-v^{\top}\tanh(W_ss_{t-1}+W_hh_k)&\text{concat}
-\end{cases}
-\end{align}
-$$
-
-where \\(v^\top\\) is a column of the weights in a dense layer.
-
-Intuitively, they implement a mechanism of attention in the decoder. The decoder then decides parts of the source sentence to pay attention to.
-
 ## References
 
 <a name="ref1"></a>Ashish Vaswani et al. Attention Is All You Need
 
 <a name="ref2"></a>Guillaume Klein et al. [OpenNMT: Open-Source Toolkit for Neural Machine Translation](http://nlp.seas.harvard.edu/2018/04/03/attention.html#attention)
-
-Dzmitry Bahdanau et al. Neural Machine Translation by Jointly Learning to Align and Translate 
 
 Timo Denk. Linear Relationships in the Transformer’s Positional Encoding. 
 

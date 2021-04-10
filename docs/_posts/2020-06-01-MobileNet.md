@@ -98,7 +98,7 @@ Also, EfficientNet(Tan&Le 2019) consists of mobile inverted bottleneck (MBConv).
 MobileNetV3 use platform-aware network search and NetAdapt to search for the global network architectures and filters for each layers. Besides those search methods, Howard et al. redesign several computationally intensive layers and nonlinearities. We summarize them as follows
 
 <figure>
-  <img src="{{ '/images/network/MobileNetV3-Figure-4.png' | absolute_url }}" alt="" align="right" width="500">
+  <img src="{{ '/images/network/MobileNetV3-Figure-4.png' | absolute_url }}" alt="" align="right" width="400">
   <figcaption></figcaption>
   <style>
     figure figcaption {
@@ -110,7 +110,7 @@ MobileNetV3 use platform-aware network search and NetAdapt to search for the glo
 - SE block is appended after the depthwise convolutional layer with a reduction ratio of \\(.25\\). The output activation is replaced by the hard sigmoid to reduce computational cost as shown in figure 4
 
 <figure>
-  <img src="{{ '/images/network/MobileNetV3-Figure-5.png' | absolute_url }}" alt="" align="right" width="500">
+  <img src="{{ '/images/network/MobileNetV3-Figure-5.png' | absolute_url }}" alt="" align="right" width="400">
   <figcaption></figcaption>
   <style>
     figure figcaption {
