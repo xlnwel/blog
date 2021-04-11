@@ -19,7 +19,7 @@ Bayesian learning calculates the probability of each latent variables(or hypothe
 
 $$
 \begin{align}
-p(z_i|\mathcal D)={p(\mathcal D|z_i)p(z_i)\over \sum_j p(\mathcal D|z_j)p(z_j)}=\alpha p(\mathcal D|z_i)p(z_i)\tag{1}\label{eq:1}
+p(z_i|\mathcal D)={p(\mathcal D|z_i)p(z_i)\over \sum_j p(\mathcal D|z_j)p(z_j)}=\alpha p(\mathcal D|z_i)p(z_i)\tag {1}
 \end{align}
 $$
 
@@ -27,7 +27,7 @@ where \\( z_i \\) is the latent variable and \\( \mathcal D \\) represents the o
 
 $$
 \begin{align}
-p(X|\mathcal D)=\sum_ip(X|\mathcal D,z_i)p(z_i|\mathcal D)=\sum_ip(X|z_i)p(z_i|\mathcal D)\tag{2}\label{eq:2}
+p(X|\mathcal D)=\sum_ip(X|\mathcal D,z_i)p(z_i|\mathcal D)=\sum_ip(X|z_i)p(z_i|\mathcal D)\tag {2}
 \end{align}
 $$
 
@@ -42,14 +42,14 @@ $$
 \begin{align}
 p(X|\mathcal D)&\approx p(X|z_{MAP})\\\
 where\quad z_{MAP}&=\arg\max_{z}p(\mathcal D|z)p(z)
-\end{align}\tag{3}\label{eq:3}
+\end{align}\tag{3}
 $$
 
 Generally, we assume data are independent of each other, and take the negative of the logarithm to avoid hard multiplication and turn the maximization into minimization. Then we have
 
 $$
 \begin{align}
-z_{MAP}=\arg\min_{z}-\log p(\mathcal D|z)-\log p(z)\tag{4}\label{eq:4}
+z_{MAP}=\arg\min_{z}-\log p(\mathcal D|z)-\log p(z)\tag {4}
 \end{align}
 $$
 
@@ -61,7 +61,7 @@ MLE takes one step further to simplify MAP by assuming that uniform prior over t
 
 $$
 \begin{align}
-z_{MLE}=\arg\min_{z}-\log p(\mathcal D|z)\tag{5}\label{eq:5}
+z_{MLE}=\arg\min_{z}-\log p(\mathcal D|z)\tag {5}
 \end{align}
 $$
 

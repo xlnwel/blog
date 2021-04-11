@@ -4,7 +4,6 @@ excerpt: "Discussion on behavior priors for KL regularized reinforcement learnin
 categories:
   - Reinforcement Learning
 tags:
-  - Value-Based RL
   - Multitask RL
   - Exploration in RL
   - Regularized RL
@@ -37,7 +36,7 @@ We consider the KL regularized objective:
 
 $$
 \begin{align}
-\mathcal L=\sum_{t}\mathbb E_{ \pi}\left[\gamma^tr(s_t,a_t)-\gamma^tD_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t))\right]\tag{1}\label{eq:1}
+\mathcal J=\sum_{t}\mathbb E_{ \pi}\left[\gamma^tr(s_t,a_t)-\gamma^tD_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t))\right]\tag 1
 \end{align}
 $$
 
@@ -49,40 +48,38 @@ Consider the KL-regularized objective in multi-task setting, where \\(\pi_0\\) i
 
 $$
 \begin{align}
-\mathcal L=\sum_w\sum_{t}\mathbb E_{\pi}\left[\gamma^tr(s_t,a_t)-\gamma^tD_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t))\right]\tag{2}\label{eq:2}
+\mathcal J=\sum_w\sum_{t}\mathbb E_{\pi}\left[\gamma^tr(s_t,a_t)-\gamma^tD_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t))\right]\tag 2
 \end{align}
 $$
 
-For a given \\(\pi_0\\) and task \\(w\\), we obtain the optimal policy \\(\pi_w\\) and values as follows:
+For a given \\(\pi_0\\) and task \\(w\\), it's easy to derive the optimal policy \\(\pi_w\\) and values as follows:
 
 $$
 \begin{align}
-\pi^*_w(a|x_t)&=\pi_0(a|x_t)\exp(Q_w^*(x_t,a)-V_w^*(x_t))\tag{3}\label{eq:3}\\\
-Q_w^*(x_t,a)&=r(s_t,a)+\gamma\mathbb E_{x_{t+1}\sim P}[V_w^*(x_{t+1})]\tag{4}\label{eq:4}\\\
-\quad V_w^*(x_t)&=\max_\pi\mathbb E_{a\sim\pi}[Q(x_t,a)-D_{KL}(\pi(a|x_t)\Vert\pi_0(a|x_t))]\tag{5}\label{eq:5}
+\pi^*_w(a|x_t)&=\pi_0(a|x_t)\exp(Q_w^*(x_t,a)-V_w^*(x_t))\tag 3\\\
+Q_w^*(x_t,a)&=r(s_t,a)+\gamma\mathbb E_{x_{t+1}\sim P}[V_w^*(x_{t+1})]\tag 4\\\
+\quad V_w^*(x_t)&=\max_\pi\mathbb E_{a\sim\pi}[Q(x_t,a)-D_{KL}(\pi(a|x_t)\Vert\pi_0(a|x_t))]\tag 5
 \end{align}
 $$
-
-Notice that \\(Q\\) function does not include \\(D_{KL}(\pi\Vert\pi_0)\\), which implies that \\(Q_w^*\ne V_w^*\\)  even if \\(\pi_w^*\\) is deterministic.
 
 On the other hand, given a set of task specific policies, the optimal prior is given by
 
 $$
 \begin{align}
-\pi_0^*(a|x_t)&=\arg\min_\pi\sum_w p(w)D_{KL}(\pi_w\Vert\pi_0)\tag{6}\label{eq:6}\\\
-&=\sum_w p(w|x_t)\pi_w^*(a_t|x_t)\tag{7}\label{eq:7}
+\pi_0^*(a|x_t)&=\arg\min_\pi\sum_w p(w)D_{KL}(\pi_w\Vert\pi_0)\tag 6\\\
+&=\sum_w p(w|x_t)\pi_w^*(a_t|x_t)\tag 7
 \end{align}
 $$
 
-**Intuitions:** Equation \\(\eqref{eq:3}\\) suggests that, given a prior \\(\pi_0\\), the optimal task-specific policy \\(\pi_w^*\\) is obtained by reweighing the prior behavior with a term proportional to the soft advantage associated with task \\(w\\) (or the other way around). In contrast, Equation \\(\eqref{eq:7}\\) says the optimal prior \\(\pi_0^*\\) for a set of task-specific experts \\(\pi_w^*\\) is the weighted mixture of these task-specific policies, where the weighting is given by the posterior probability of each of these tasks given \\(x_t\\). 
+**Intuitions:** Equation \\((3)\\) suggests that, given a prior \\(\pi_0\\), the optimal task-specific policy \\(\pi_w^*\\) is obtained by reweighing the prior behavior with a term proportional to the soft advantage associated with task \\(w\\) (or the other way around). In contrast, Equation \\((7)\\) says the optimal prior \\(\pi_0^*\\) for a set of task-specific experts \\(\pi_w^*\\) is the weighted mixture of these task-specific policies, where the weighting is given by the posterior probability of each of these tasks given \\(x_t\\). 
 
 ### Information Asymmetry for Behavior Priors
 
-A good behavior prior can simplify the learning problem by effectively restricting the search space to a meaningful region. Such priors exhibit structured behaviors, such as gaits and movements of a robot, that exploits the dynamics of the environment with little or no task-specific details. One way to learn such priors is to limit the information they have access to. For example, we can split \\(x\\) into two disjoint subsets \\(x^G\\) and \\(x^D\\)—the former contains all task-specific information while the latter contains the task-agnostic information—and allow \\(\pi_0\\) access only to \\(x^D\\). This turns Equation \\(\eqref{eq:1}\\) into the following objective
+A good behavior prior can simplify the learning problem by effectively restricting the search space to a meaningful region. Such priors exhibit structured behaviors, such as gaits and movements of a robot, that exploits the dynamics of the environment with little or no task-specific details. One way to learn such priors is to limit the information they have access to. For example, we can split \\(x\\) into two disjoint subsets \\(x^G\\) and \\(x^D\\)—the former contains all task-specific information while the latter contains the task-agnostic information—and allow \\(\pi_0\\) access only to \\(x^D\\). This turns Equation \\((1)\\) into the following objective
 
 $$
 \begin{align}
-\mathcal L=\sum_{t}\mathbb E_{ \pi}\left[\gamma^tr(s_t,a_t)-\gamma^tD_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t^D))\right]\tag{8}\label{eq:8}
+\mathcal J=\sum_{t}\mathbb E_{ \pi}\left[\gamma^tr(s_t,a_t)-\gamma^tD_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t^D))\right]\tag 8
 \end{align}
 $$
 
@@ -90,11 +87,11 @@ It's worth stressing that the information in \\(x^D\\) can greatly affect the ag
 
 ### Information Bottleneck
 
-Equation \\(\eqref{eq:8}\\) also provides an alternative view from information bottleneck:
+Equation \\((8)\\) also provides an alternative view from information bottleneck:
 
 $$
 \begin{align}
-\mathcal L_I=\sum_{t}\mathbb E_{ \pi}\left[\gamma^tr(s_t,a_t)-\gamma^tI(x_t^G,a_t|x_t^D)\right]\tag{9}\label{eq:9}
+\mathcal J_I=\sum_{t}\mathbb E_{ \pi}\left[\gamma^tr(s_t,a_t)-\gamma^tI(x_t^G,a_t|x_t^D)\right]\tag 9
 \end{align}
 $$
 
@@ -102,18 +99,15 @@ $$
 
 $$
 \begin{align}
-I(x_t^G,a_t|x_t^D)&=\int\pi(x_t^G,a_t|x_t^D)\log{\pi(x_t^G,a_t|x_t^D)\over\pi(x_t^G|x_t^D)\pi(a_t|x_t^D)}\\\
-&=\int\pi(x_t^G,a_t|x_t^D)\log{\pi(a_t|x_t^G,x_t^D)\over\pi(a_t|x_t^D)}=\mathbb E_{\pi}[D_{KL}(\pi(a_t|x_t)\Vert \pi(a_t|x_t^D))]\\\
+I(x_t^G,a_t|x_t^D)=&\int\pi(x_t^G,a_t|x_t^D)\log{\pi(x_t^G,a_t|x_t^D)\over\pi(x_t^G|x_t^D)\pi(a_t|x_t^D)}\\\
+=&\int\pi(x_t^G,a_t|x_t^D)\log{\pi(a_t|x_t^G,x_t^D)\over\pi(a_t|x_t^D)}=\mathbb E_{\pi}[D_{KL}(\pi(a_t|x_t)\Vert \pi(a_t|x_t^D))]\\\
+&\qquad \color{red}{\int\pi(x_t^G,a_t|x_t^D)\log{\pi(a_t|x_t^D)\over\pi_0(a_t|x_t^D)}=\int\pi(x^G|a_t,x_t^D)D_{KL}(\pi(a_t|x_t^D)\Vert\pi_0(a_t|x_t^D))\ge 0}\\\
 &\le\int \pi(x_t^G,a_t|x_t^D)\left(\log{\pi(a_t|x_t^G,x_t^D)\over\pi(a_t|x_t^D)}+\log{\pi(a_t|x_t^D)\over\pi_0(a_t|x_t^D)}\right)\\\
 &= \mathbb E_{\pi}[D_{KL}(\pi(a_t|x_t)\Vert \pi_0(a_t|x_t^D))]
 \end{align}
 $$
 
-The inequality holds because \\(\int\pi(x_t^G,a_t\vert x_t^D)\log{\pi(a_t\vert x_t^D)\over\pi_0(a_t\vert x_t^D)}=\int\pi(x^G\vert a_t,x_t^D)D_{KL}(\pi(a_t\vert x_t^D)\Vert\pi_0(a_t\vert x_t^D))\ge 0\\).
-
-Because \\(I(x_t^G,a_t\vert x_t^D)\le \mathbb E_\pi[D_{KL}(\pi(a_t\vert x_t)\Vert \pi_0(a_t\vert x_t^D))]\\), Equation \\(\eqref{eq:9}\\) is an upper bound of Equation \\(\eqref{eq:8}\\). 
-
-The intuition behind Equation \\(\eqref{eq:9}\\) is that the agent should exhibit similar behaviors in different context where \\(x_t^D\\) is shared across, and only need to adjust its behavior when the benefit of doing so outweighs the cost for processing information contained in \\(x_t^G\\).
+Because \\(I(x_t^G,a_t\vert x_t^D)\le \mathbb E_\pi[D_{KL}(\pi(a_t\vert x_t)\Vert \pi_0(a_t\vert x_t^D))]\\), Equation \\((9)\\) is an upper bound of Equation \\((8)\\). In other words, when we maximizes the KL regularized objective, we restrict the conditional mutual information between the task-specific information and the action. The intuition is that the agent should exhibit similar behaviors in different context where \\(x_t^D\\) is shared across, and only need to adjust its behavior when the benefit of doing so outweighs the cost for processing information contained in \\(x_t^G\\).
 
 ### Algorithm
 
@@ -127,18 +121,18 @@ The intuition behind Equation \\(\eqref{eq:9}\\) is that the agent should exhibi
   </style>
 </figure>
 
-Notice that the Q function is updated according to the retrace(\\(\lambda\\)) algorithm and we use the KL divergence against target prior \\(\pi_{0,\phi'}\\) in the actor and critic losses to provide stable learning signals. Also, it might be a good idea to use \\(\pi_{\theta'}\\) when computing the target Q value.
+Notice that the \\(Q\\)-function is updated according to the retrace(\\(\lambda\\)) algorithm and we use the KL divergence against target prior \\(\pi_{0,\phi'}\\) in the actor and critic losses to provide stable learning signals. Also, it might be a good idea to use \\(\pi_{\theta'}\\) when computing the target Q value.
 
 ## Structured Behavior Prior Models
 
-So far, we have only considered \\(\pi_0\\) to be uni-modal Gaussian distributions. However, this may fail when the desirable prior is multi-modal, the common case when learning priors from multiple tasks (cf. Equation \\(\eqref{eq:7}\\)). To meet these involved situations, we utilizes latent variable models, a technique wildly used in probabilistic model to increase capacity, introduce inductive biases and model complex distribution.
+So far, we have only considered \\(\pi_0\\) to be uni-modal Gaussian distributions. However, this may fail when the desirable prior is multi-modal, the common case when learning priors from multiple tasks (cf. Equation \\((7)\\)). To meet these involved situations, we utilizes latent variable models, a technique wildly used in probabilistic model to increase capacity, introduce inductive biases and model complex distribution.
 
 We consider directed latent variable models for both \\(\pi_0\\) and \\(\pi\\) of the following form
 
 $$
 \begin{align}
-\pi_0(\tau)=\int\pi_0(\tau|z)\pi_0(z)dz\tag{9}\label{eq:9}\\\
-\pi(\tau)=\int\pi(\tau|z)\pi(z)dz\tag{10}\label{eq:10}
+\pi_0(\tau)=\int\pi_0(\tau|z)\pi_0(z)dz\tag 9\\\
+\pi(\tau)=\int\pi(\tau|z)\pi(z)dz\tag{10}
 \end{align}
 $$
 
@@ -146,12 +140,12 @@ where the latents \\(z\\) can be time varying, continuous or discrete, and can e
 
 ### Simplified Form
 
-Unfortunately, it's difficult to directly compute the KL divergence between two complex distributions outlined in Equations \\(\eqref{eq:9}\\) and \\(\eqref{eq:10}\\). Instead, if we divide \\(\pi\\) into higher level \\(\pi^H(z_t\vert x_t)\\) and lower level \\(\pi^L(a_t\vert z_t,x_t)\\) components, we can derive the following bound for the KL term
+Unfortunately, it's difficult to directly compute the KL divergence between two complex distributions outlined in Equations \\((9)\\) and \\((10)\\). Instead, if we divide \\(\pi\\) into higher level \\(\pi^H(z_t\vert x_t)\\) and lower level \\(\pi^L(a_t\vert z_t,x_t)\\) components, we can derive the following upper bound for the KL term
 
 $$
 \begin{align}
 D_{KL}(\pi(a_t|x_t)\Vert\pi_0(a_t|x_t))\le D_{KL}&(\pi^H(z_t|x_t)\Vert\pi_0^H(z_t|x_t))\\\
-&+\mathbb E_{\pi^H(z_t|x_t)}[D_{KL}(\pi^L(a_t|z_t,x_t)\Vert \pi_0^L(a_t|z_t,x_t))]\tag{11}\label{eq:11}
+&+\mathbb E_{\pi^H(z_t|x_t)}[D_{KL}(\pi^L(a_t|z_t,x_t)\Vert \pi_0^L(a_t|z_t,x_t))]\tag{11}
 \end{align}
 $$
 
@@ -170,19 +164,19 @@ D_{KL}(\pi(a_t|x_t)\Vert\pi_0(a_t|x_t))&\le D_{KL}(\pi(a_t|x_t)\Vert\pi_0(a_t|x_
 \end{align}
 $$
 
-where \\(\pi^H\\) denotes a conditional probability of \\(z\\) while \\(\pi^L\\) and \\(\pi\\) are conditional probabilities of \\(a\\).
+where we use \\(\pi^H\\) to denote a conditional probability of \\(z\\) and use \\(\pi^L\\) and \\(\pi\\) to denote conditional probabilities of \\(a\\).
 
-**Intuition:** The constraint between the higher level policies in Equation \\(\eqref{eq:11}\\) has two effects: it regularizes the higher level action space making it easier to sample from; and it introduces an information bottleneck between the two levels. The higher level thus 'pays' a price for every bit it communicates to the lower level. This encourages the lower level to operate as independently as possible to solve the task. By introducing an information constraint on the lower level, we can force it to model a general set of skills that are modulated via the higher level action \\(z\\) in order to solve the task. 
+**Intuition:** The constraint between the higher level policies in Equation \\((11)\\) has two effects: it regularizes the higher level action space making it easier to sample from; and it introduces an information bottleneck between the two levels. The higher level thus 'pays' a price for every bit it communicates to the lower level. This encourages the lower level to operate as independently as possible to solve the task. By introducing an information constraint on the lower level, we can force it to model a general set of skills that are modulated via the higher level action \\(z\\) in order to solve the task. 
 
 **Partial parameter sharing:** An advantage of hierarchical structure is that it enables several options for partial parameter sharing. For instance, sharing the lower level controllers between the agent and the default policy allows skills to be directly reused. This amounts to a hard constraint that forces the KL between the lower levels to zero and results in the following objective
 
 $$
 \begin{align}
-\mathcal L=\sum_{t}\mathbb E_{ \pi}\left[\gamma^tr(s_t,a_t)-\gamma^tD_{KL}(\pi(z_t|x_t)\Vert \pi_0(z_t|x_t))\right]\tag{12}\label{eq:12}
+\mathcal J=\sum_{t}\mathbb E_{ \pi}\left[\gamma^tr(s_t,a_t)-\gamma^tD_{KL}(\pi(z_t|x_t)\Vert \pi_0(z_t|x_t))\right]\tag{12}
 \end{align}
 $$
 
-If we don't consider the concept of hierarchy, Equation \\(\eqref{eq:12}\\) simply lifts the KL regularization from the policy to a latent variable inside the neural network. 
+If we don't consider the concept of hierarchy, Equation \\((12)\\) simply lifts the KL regularization from the policy to a latent variable inside the neural network. 
 
 In most of experiments, [Tirumala et al. 2020](#ref1) use a lower level policy shared between the prior and policy and find this structured prior performs better than unstructured prior, especially on complex tasks. Furthermore, they find additional performance gain in a separate lower level prior.
 

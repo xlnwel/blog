@@ -19,6 +19,7 @@ remote_theme: mmistakes/so-simple-theme
 
 locale: en-US
 title: "Zero"
+subtitle: "Make it happen" # site tagline that appears below site title in masthead
 description: "Please let me know if you bump into any mistakes or have any questions: o.xlnwel@outlook.com"
 baseurl: "/blog"
 url: "https://xlnwel.github.io"
@@ -70,7 +71,7 @@ category_archive_path: "/categories/#"
 tag_archive_path: "/tags/#"
 
 stickyposts:
-  #enabled: false   # Enable StickyPosts; default: true
+  enabled: true   # Enable StickyPosts; default: true
   debug: true       # Show additional info; default: false
   sort: "blah"      # Optional sort field; default: "date", use "none" to avoid sorting
   reverse: true     # Ascending order, default: false
@@ -122,13 +123,6 @@ defaults:
       comments: true
       share: true
   # Cheatsheet defaults
-  - scope:
-      path: "_cheatsheets"
-      type: cheatsheets
-    values:
-      layout: post
-      comments: true
-      share: true
 
 # Site Author
 author:

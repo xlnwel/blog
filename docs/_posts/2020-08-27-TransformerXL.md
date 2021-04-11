@@ -39,7 +39,7 @@ $$
 \pmb y_{hqk}&=\text{einsum}(\pmb w_{hqk},\pmb v_{hkd})\\\
 \pmb y &=\pmb x+\pmb y_{hqk}W_Y\\\
 \pmb y&=\text{LayerNorm}(\pmb y)
-\end{align}\tag{1}\label{eq:1}
+\end{align}\tag {1}
 $$
 
 where \\(\pmb x\\) is the input and we use Einstein summation to denote the tensor multiplication.
@@ -50,7 +50,7 @@ $$
 \begin{align}
 \pmb p_{(pos, 2i)}&=\sin(pos/10000^{2i/d})\\\
 \pmb p_{(pos, 2i+1)}&=\cos(pos/10000^{2i/d})
-\end{align}\tag{2}\label{eq:2}
+\end{align}\tag2
 $$
 
 where \\(pos\\) is the token's absolute position in the current segment, \\(i\\) is the \\(i\\)-th dimension and \\(d\\) is dimension. 
@@ -96,7 +96,7 @@ $$
 \tilde {\pmb h}_{\tau+1}^{n-1}&=[\text{SG}(h_\tau^{n-1}),h_{\tau+1}^{n-1}]\\\
 \pmb q_{\tau+1}^n, \pmb k_{\tau+1}^n, \pmb v_{\tau+1}^n&={\pmb h}_{\tau+1}^{n-1}W_q,\tilde {\pmb h}_{\tau+1}^{n-1}W_k, \tilde {\pmb h}_{\tau+1}^{n-1}W_v\\\
 \pmb h_{\tau+1}^n&=\text{Transformer-Layer}(\pmb q_{\tau+1}^n, \pmb k_{\tau+1}^n, \pmb v_{\tau+1}^n)
-\end{align}\tag{3}\label{eq:3}
+\end{align}\tag {3}
 $$
 
 where \\(\text{SG}\\) denotes stop-gradient, \\([\pmb h_1,\pmb h_2]\\) concatenates \\(\pmb h_1\\) and \\(\pmb h_2\\) along the sequential dimension.
@@ -115,14 +115,14 @@ $$
 \begin{align}
 \alpha_{ij}&=(\pmb x_i+\pmb p_i)W_qW_k^\top (\pmb x_j+\pmb p_j)\\\
 &=\pmb x_iW_qW_k^\top \pmb x_j^\top+\pmb x_iW_qW_k^\top\pmb p_j^\top+\pmb p_iW_qW_k^\top\pmb x_j^\top+\pmb p_iW_qW_k^\top\pmb p_j^\top
-\end{align}\tag{4}\label{eq:4}
+\end{align}\tag {4}
 $$
 
 where \\(\pmb x\\) and \\(\pmb p\\) are row vectors of their corresponding matrices. The newly proposed form with relative positional encodings is as follows
 
 $$
 \begin{align}
-\alpha_{ij}=\underbrace{\pmb x_iW_q\color{blue}{W_{k,x}^\top} \pmb x_j^\top}_{a}+\underbrace{\pmb x_iW_q\color{green}{W_{k,r}^\top\pmb r_{i+M-j}^\top}}_{b}+\underbrace{\color{red}{\pmb u}\color{blue}{W_{k,x}^\top}\pmb x_j^\top}_{c}+\underbrace{\color{red}{\pmb v}\color{green}{W_{k,r}^\top\pmb r_{i+M-j}^\top}}_d{}\tag{5}\label{eq:5}
+\alpha_{ij}=\underbrace{\pmb x_iW_q\color{blue}{W_{k,x}^\top} \pmb x_j^\top}_{a}+\underbrace{\pmb x_iW_q\color{green}{W_{k,r}^\top\pmb r_{i+M-j}^\top}}_{b}+\underbrace{\color{red}{\pmb u}\color{blue}{W_{k,x}^\top}\pmb x_j^\top}_{c}+\underbrace{\color{red}{\pmb v}\color{green}{W_{k,r}^\top\pmb r_{i+M-j}^\top}}_d{}\tag {5}
 \end{align}
 $$
 
@@ -130,7 +130,7 @@ where  \\(\pmb u\\) and \\(\pmb v\\) are row vectors, \\(i\in\{0,\dots,L-1\}\\) 
 
 We summarize changes as follows
 
-- The first change is to replace all appearances of the absolute positional encoding \\(\pmb p_j\\) with its relative counterpart \\(\pmb r_{i+M-j}\\). Note that \\(\pmb r\\) is a sinusoid encoding as in Equation \\(\eqref{eq:2}\\).
+- The first change is to replace all appearances of the absolute positional encoding \\(\pmb p_j\\) with its relative counterpart \\(\pmb r_{i+M-j}\\). Note that \\(\pmb r\\) is a sinusoid encoding as in Equation \\((2)\\).
 - Secondly, the absolutely positional query vector \\(\pmb p_iW_q\\) is replaced by its relative counterpart, a trainable vector \\(\pmb u\in \mathbb R^d\\), since the positional query vector is the same for all query positions.
 - Finally, we use two separate weight matrices \\(W_{k, x}\\) and \\(W_{k,r}\\) for producing the content-based key vectors and location-based key vectors respectively.
 

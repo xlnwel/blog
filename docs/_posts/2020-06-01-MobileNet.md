@@ -27,7 +27,7 @@ Considering a input tensor of shape \\(H\times W\times C\\), the depthwise convo
 
 $$
 \begin{align}
-\underbrace {H\cdot W\cdot C}_\text{total number of operations}\cdot \underbrace{K\cdot K}_\text{cost of each operation}\tag{1}\label{eq:1}
+\underbrace {H\cdot W\cdot C}_\text{total number of operations}\cdot \underbrace{K\cdot K}_\text{cost of each operation}\tag {1}
 \end{align}
 $$
 
@@ -35,7 +35,7 @@ The pointwise convolution combines the filterred feature maps with a \\(1\times 
 
 $$
 \begin{align}
-\underbrace{H\cdot W}_\text{total number of operations}\cdot \underbrace{C\cdot C'}_\text{cost of each operation}\tag{2}\label{eq:2}
+\underbrace{H\cdot W}_\text{total number of operations}\cdot \underbrace{C\cdot C'}_\text{cost of each operation}\tag {2}
 \end{align}
 $$
 
@@ -43,7 +43,7 @@ Compare to standard convolution, which requires
 
 $$
 \begin{align}
-\underbrace {H\cdot W}_\text{total number of operations}\cdot \underbrace{C\cdot C'\cdot K\cdot K}_\text{cost of each operation}\tag{3}\label{eq:3}
+\underbrace {H\cdot W}_\text{total number of operations}\cdot \underbrace{C\cdot C'\cdot K\cdot K}_\text{cost of each operation}\tag {3}
 \end{align}
 $$
 
@@ -52,13 +52,13 @@ The reduction in computation is
 $$
 \begin{align}
 &{H\cdot W\cdot C\cdot K\cdot K+H\cdot W\cdot C\cdot C'}\over{H\cdot W\cdot C\cdot C'\cdot K\cdot K}\\\
-=&{1\over C'}+{1\over K^2}\tag{4}\label{eq:4}
+=&{1\over C'}+{1\over K^2}\tag {4}
 \end{align}
 $$
 
 When using \\(3\times 3\\) depthwise separable convolutions, it uses between \\(8\\) to \\(9\\) times less computation than standard convolutions at only a small reduction in accuracy.
 
-Comparing Equations \\(\eqref{eq:1}\\) and \\(\eqref{eq:2}\\), we can see that depthwise separable convolution puts nearly all of the computation into dense \\(1\times 1\\) convolutions. However, contrasting to standard convolutions implemented by im2col followed by optimized general matrix multiply(GEMM), \\(1\times 1\\) convolutions does not require im2col for initial reordering and can be implemented directly with GEMM.
+Comparing Equations \\((1)\\) and \\((2)\\), we can see that depthwise separable convolution puts nearly all of the computation into dense \\(1\times 1\\) convolutions. However, contrasting to standard convolutions implemented by im2col followed by optimized general matrix multiply(GEMM), \\(1\times 1\\) convolutions does not require im2col for initial reordering and can be implemented directly with GEMM.
 
 Despite the above theoretical arguments, I find the depthwise convolution is slower than standard convolution in practice (with float32, but someone said the performance gain will be spotted with float16). [Gholami et al.](https://arxiv.org/abs/1803.10615) explained:
 
