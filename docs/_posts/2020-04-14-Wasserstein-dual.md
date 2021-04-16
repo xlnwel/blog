@@ -114,7 +114,7 @@ Q(x,y)&=
 \end{align}
 $$
 
-When \\(\theta\ne 0\\), we have 
+When \\(\theta\ne 0\\), we have
 
 $$
 \begin{align}
