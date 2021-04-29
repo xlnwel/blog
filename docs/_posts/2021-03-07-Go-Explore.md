@@ -73,7 +73,9 @@ Cells are selected inversely proportional to its visited count with weight \\(W=
 
 ### Go to state
 
-Go-Explore assumes the environment is deterministic during training and stochastic in test time. A deterministic environment ensures that we can always return to states that we found promising by following the sequence of actions taken before. Furthermore, we might store the state of the simulator and restore it later. [Ecoffet et al. 2021](#ref1) also propose a policy-based version to return to the selected state and relax the deterministic requirement for the environment. We do not discuss it here as it involves training a standalone goal-conditioned policy algorithm and does not seem to be a general solution.
+Go-Explore assumes the environment is deterministic during training and stochastic in test time. A deterministic environment ensures that we can always return to states that we found promising by following the sequence of actions taken before. Furthermore, we might store the state of the simulator and restore it later. 
+
+[Ecoffet et al. 2021](#ref1) also propose a policy-based version to return to the selected state and relax the deterministic and resettable requirements for the environment. The agent's policy is implemented as a goal-conditioned PPO, where the goal is a concatenated one-hot encoding of the cell. Because it is hard for a policy to learn from a distant goal, we select a sequence of goals from the trajectory associated to the selected state. Whenever the agent meets a goal, it receives 1 reward and selects a subsequent goal to condition on. We refer readers to Page20 of [Ecoffet et al. 2021](#ref2) for more details.
 
 ### Exploration
 
@@ -158,3 +160,5 @@ From Figure 2, we can see that, from the selected environments, the robustificat
 ## References
 
 <a name="ref1"></a>Ecoffet, Adrien, Joost Huizinga, Joel Lehman, Kenneth O Stanley, and Jeff Clune. 2021. “First Return , Then Explore.” *Nature* 590 (December 2020). https://doi.org/10.1038/s41586-020-03157-9.
+
+<a name="ref2"></a>Ecoffet, Adrien, Joost Huizinga, Joel Lehman, Kenneth O. Stanley, and Jeff Clune. 2020. “First Return Then Explore.” *ArXiv* 590 (December 2020). https://arxiv.org/pdf/2004.12919.pdf.

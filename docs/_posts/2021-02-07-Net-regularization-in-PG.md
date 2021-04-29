@@ -16,7 +16,7 @@ We discuss the effect of regularizations in neural networks in policy optimizati
 - Apply \\(L_2={1\over 2}\lambda\Vert \theta\Vert_2^2\\) with \\(\lambda\\) around \\(1e-4\\) to the policy network. 
 - Regularization is more effective on the policy than that on the value function.
 - Regularization helps policy to generalize from seen samples to unseen ones
-- For on-policy algorithms, simple regularizations, such as \\(L_2\\), \\(L_2\\), and weight clipping, significantly boost performance, to the extent sometimes even more significant than entropy bonus.
+- For on-policy algorithms, simple regularizations, such as \\(L_2\\), \\(L_1\\), and weight clipping, significantly boost performance, to the extent sometimes even more significant than entropy bonus.
 - Regularizations are more effective in challenging tasks
 - \\(L_2\\) regularization is the most effective regularization across algorithms and environments
 - Batch normalization and dropout can only help in off-policy algorithms sometimes.

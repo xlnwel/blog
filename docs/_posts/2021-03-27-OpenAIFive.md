@@ -117,7 +117,7 @@ Separate replicas of the same policy function are used to control each of the fi
 
 <figure>
   <img src="{{ '/images/application/OpenAIFive-Figure1.png' | absolute_url }}" alt="" width="1000">
-  <figcaption>Simplified OpenAI Five Model Architecture. The complex multi-array observation is processed into a single vector, which is then passed through a 4096 unit LSTM. The LSTM state is projected to obtain the policy outputs. Each of the ﬁve heroes on the team is controlled by a replica of this network with nearly identical inputs, each with its own hidden state. The networks take diﬀerent actions due to a part of the observation processing’s output indicating which of the ﬁve heroes is being controlled.</figcaption>
+  <figcaption>Simplified OpenAI Five Model Architecture. The complex multi-array observation is processed into a single vector, which is then passed through a 4096-unit LSTM. The LSTM state is projected to obtain the policy outputs. Each of the ﬁve heroes on the team is controlled by a replica of this network with nearly identical inputs, each with its own hidden state. The networks take diﬀerent actions due to a part of the observation processing’s output indicating which of the ﬁve heroes is being controlled.</figcaption>
   <style>
     figure figcaption {
     text-align: center;
@@ -143,6 +143,7 @@ Separate replicas of the same policy function are used to control each of the fi
   </style>
 </figure>
 
+
 ### Target Unit Selection
 
 The target unit selection is computed from two attention mechanisms: 
@@ -153,7 +154,7 @@ $$
    \text{softmax}(H_aM^{\top})
    $$
 
-   Noticeably, this design allows a varied number of available actions since the subsequent sample/argmax operation always yields a single action regardless of \\(N_a\\).
+   Theoretically, this design allows a varied number of available actions since the subsequent sample/argmax operation always yields a single action regardless of \\(N_a\\). In practice, however, if a batch contains a varied number of available actions, we still need mask to filter those unavailable actions.
 
 2. The chosen action ID is then embedded and multiplied by unit embeddings. The target unit is sampled/argmaxed from the dot product of this result and an output head of the LSTM. Let \\(U\in\mathbb R^{N_u\times W_u}\\) denote the unit embeddings, \\(A \in\mathbb R^{1\times W_u}\\) the action embedding, and \\(H_u\in\mathbb R^{1\times W_u}\\) the output of the fully-connected layer in Figure18.2, where \\(N_u,W_u\\) are the number of units(\\(189\\) according to the paper) and the embedding size, respectively. The softmax over the target units are computed as follows
    

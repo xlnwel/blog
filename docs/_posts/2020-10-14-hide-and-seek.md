@@ -20,7 +20,7 @@ There are \\(N\\) agents interacting with each other in the environment. Each ag
 
 ## Method
 
-The agent is based on [PPO]({{ site.baseurl }}{% post_url 2018-11-27-PPO %}), [GAE]({{ site.baseurl }}{% post_url 2018-12-01-GAE %}), LSTM, rapid, and self-play. Both hider and seeker share the same actor-critic architecture.
+The agent is based on [PPO]({{ site.baseurl }}{% post_url 2018-11-27-PPO %}), [GAE]({{ site.baseurl }}{% post_url 2018-12-01-GAE %}), LSTM, rapid, and self-play. Both hider and seeker share the same actor-critic model.
 
 ### Input Preprocessing
 
