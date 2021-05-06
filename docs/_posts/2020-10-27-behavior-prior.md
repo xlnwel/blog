@@ -56,9 +56,9 @@ For a given \\(\pi_0\\) and task \\(w\\), it's easy to derive the optimal policy
 
 $$
 \begin{align}
-\pi^*_w(a|x_t)&=\pi_0(a|x_t)\exp(Q_w^*(x_t,a)-V_w^*(x_t))\tag 3\\\
-Q_w^*(x_t,a)&=r(s_t,a)+\gamma\mathbb E_{x_{t+1}\sim P}[V_w^*(x_{t+1})]\tag 4\\\
-\quad V_w^*(x_t)&=\max_\pi\mathbb E_{a\sim\pi}[Q(x_t,a)-D_{KL}(\pi(a|x_t)\Vert\pi_0(a|x_t))]\tag 5
+\pi^\*_w(a|x_t)&=\pi_0(a|x_t)\exp(Q_w^\*(x_t,a)-V_w^\*(x_t))\tag 3\\\
+Q_w^\*(x_t,a)&=r(s_t,a)+\gamma\mathbb E_{x_{t+1}\sim P}[V_w^\*(x_{t+1})]\tag 4\\\
+\quad V_w^\*(x_t)&=\max_\pi\mathbb E_{a\sim\pi}[Q(x_t,a)-D_{KL}(\pi(a|x_t)\Vert\pi_0(a|x_t))]\tag 5
 \end{align}
 $$
 
@@ -66,12 +66,12 @@ On the other hand, given a set of task specific policies, the optimal prior is g
 
 $$
 \begin{align}
-\pi_0^*(a|x_t)&=\arg\min_\pi\sum_w p(w)D_{KL}(\pi_w\Vert\pi_0)\tag 6\\\
-&=\sum_w p(w|x_t)\pi_w^*(a_t|x_t)\tag 7
+\pi_0^\*(a|x_t)&=\arg\min_\pi\sum_w p(w)D_{KL}(\pi_w\Vert\pi_0)\tag 6\\\
+&=\sum_w p(w|x_t)\pi_w^\*(a_t|x_t)\tag 7
 \end{align}
 $$
 
-**Intuitions:** Equation \\((3)\\) suggests that, given a prior \\(\pi_0\\), the optimal task-specific policy \\(\pi_w^*\\) is obtained by reweighing the prior behavior with a term proportional to the soft advantage associated with task \\(w\\) (or the other way around). In contrast, Equation \\((7)\\) says the optimal prior \\(\pi_0^*\\) for a set of task-specific experts \\(\pi_w^*\\) is the weighted mixture of these task-specific policies, where the weighting is given by the posterior probability of each of these tasks given \\(x_t\\). 
+**Intuitions:** Equation \\((3)\\) suggests that, given a prior \\(\pi_0\\), the optimal task-specific policy \\(\pi_w^\*\\) is obtained by reweighing the prior behavior with a term proportional to the soft advantage associated with task \\(w\\) (or the other way around). In contrast, Equation \\((7)\\) says the optimal prior \\(\pi_0^\*\\) for a set of task-specific experts \\(\pi_w^\*\\) is the weighted mixture of these task-specific policies, where the weighting is given by the posterior probability of each of these tasks given \\(x_t\\). 
 
 ### Information Asymmetry for Behavior Priors
 

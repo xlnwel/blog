@@ -80,7 +80,7 @@ Both `compare_exchange_strong()` and `compare_exchange_weak()` are often used in
 2. The default compiler-generated copy assignment is available
 3. `memcpy()` can be used for copy assignment
 
-Moreover, if the user-defined type provides a custom comparison operator doing something other than the bitwise comparison, `compare_exchange_*()` will fail.
+Moreover, if the user-defined type provides a custom comparison operator doing something other than the bitwise comparison, `compare_exchange_\*()` will fail.
 
 ### Synchronizing operations and enforcing ordering
 

@@ -155,11 +155,11 @@ The adaptation process is described in the following pseudocode
 $$
 \begin{align}
 &\mathbf{Algorithm\ Adaptation\_at\_execution\_time}\\\
-1.&\quad\mathrm{initialize}\ \phi=\theta^*\\\
+1.&\quad\mathrm{initialize}\ \phi=\theta^\*\\\
 2.&\quad\mathbf{while\ }there\ are\ new\ incoming\ tasks\ \mathbf{do}\\\
 3.&\quad\quad\mathrm{get\ a\ new\ task\ }T_{i}\ \mathrm{from\ the\ stream}\\\
 4.&\quad\quad\mathrm{solve\ }T_{i}\ \mathrm{using\ policy\ }\pi_\phi,\ \mathrm{and\ collect\ trajectory\ }\tau\\\
-5.&\quad\quad\mathrm{update\ }\phi\leftarrow\phi(\tau^{1:K}_{i,\phi},\theta^*, \alpha^*)\ \mathrm{as\ given\ in\ Eq.}(5)\\\
+5.&\quad\quad\mathrm{update\ }\phi\leftarrow\phi(\tau^{1:K}_{i,\phi},\theta^\*, \alpha^\*)\ \mathrm{as\ given\ in\ Eq.}(5)\\\
 6.&\quad\mathbf{end\ while}
 \end{align}
 $$

@@ -154,7 +154,7 @@ $$
    \text{softmax}(H_aM^{\top})
    $$
 
-   Theoretically, this design allows a varied number of available actions since the subsequent sample/argmax operation always yields a single action regardless of \\(N_a\\). In practice, however, if a batch contains a varied number of available actions, we still need mask to filter those unavailable actions.
+   Theoretically, this design allows a varied number of available actions since the subsequent sample/argmax operation always yields a single action regardless of \\(N_a\\). In practice, however, if a batch contains a varied number of available actions, we still need mask to filter those unavailable actions(or maybe, we should separately process each element in the batch instead?).
 
 2. The chosen action ID is then embedded and multiplied by unit embeddings. The target unit is sampled/argmaxed from the dot product of this result and an output head of the LSTM. Let \\(U\in\mathbb R^{N_u\times W_u}\\) denote the unit embeddings, \\(A \in\mathbb R^{1\times W_u}\\) the action embedding, and \\(H_u\in\mathbb R^{1\times W_u}\\) the output of the fully-connected layer in Figure18.2, where \\(N_u,W_u\\) are the number of units(\\(189\\) according to the paper) and the embedding size, respectively. The softmax over the target units are computed as follows
    

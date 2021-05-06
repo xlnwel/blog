@@ -184,7 +184,7 @@ $$
 \end{align}
 $$
 
-where \\(\tau=\pmb c^\top\pmb x^*\\) is the optimal value of the dual, \\(\epsilon\ge 0\\) is an arbitrary value. Because \\(\tau\\) is the optimal value, there is no feasible \\(\pmb x\\) such that \\(\pmb c^\top\pmb x=\tau-\epsilon\\). Therefore, there is no \\(\pmb x\in\mathbb R^n\\) such that
+where \\(\tau=\pmb c^\top\pmb x^\*\\) is the optimal value of the dual, \\(\epsilon\ge 0\\) is an arbitrary value. Because \\(\tau\\) is the optimal value, there is no feasible \\(\pmb x\\) such that \\(\pmb c^\top\pmb x=\tau-\epsilon\\). Therefore, there is no \\(\pmb x\in\mathbb R^n\\) such that
 
 $$
 \begin{align}
@@ -210,5 +210,5 @@ $$
 \end{align}
 $$
 
-If \\(\alpha=0\\), then the primal is infeasible or unbounded—for any feasible solution to the dual \\(\pmb b^\top\pmb y_*\\), we can always find a larger feasible solution \\(\pmb b^\top(\pmb y_*+\pmb y)\\) because \\(\pmb A^\top\pmb y= \pmb 0\\) and \\(\pmb b^\top\pmb y>0\\). If \\(\alpha>0\\), without loss of generality, by scaling \\(\pmb {\hat y}\\) we may assume that \\(\alpha=1\\). This gives us \\(\pmb b^\top\pmb y>\tau-\epsilon\\). By the weak dual theorem, we have \\(\tau= \pmb c^\top \pmb x\ge\pmb b^\top\pmb y\ge\tau-\epsilon\\). Since \\(\epsilon\\) is arbitrary, we have \\(\pmb c^\top \pmb x=\pmb b^\top\pmb y\\).
+If \\(\alpha=0\\), then the primal is infeasible or unbounded—for any feasible solution to the dual \\(\pmb b^\top\pmb y_\*\\), we can always find a larger feasible solution \\(\pmb b^\top(\pmb y_\*+\pmb y)\\) because \\(\pmb A^\top\pmb y= \pmb 0\\) and \\(\pmb b^\top\pmb y>0\\). If \\(\alpha>0\\), without loss of generality, by scaling \\(\pmb {\hat y}\\) we may assume that \\(\alpha=1\\). This gives us \\(\pmb b^\top\pmb y>\tau-\epsilon\\). By the weak dual theorem, we have \\(\tau= \pmb c^\top \pmb x\ge\pmb b^\top\pmb y\ge\tau-\epsilon\\). Since \\(\epsilon\\) is arbitrary, we have \\(\pmb c^\top \pmb x=\pmb b^\top\pmb y\\).
 

@@ -120,7 +120,7 @@ some_promise.set_exception(std::make_exception_ptr(SomeException()));
 
 The latter should be preferred if the type of the exception is known; not only does it simplifies code, but it also provides the compiler with greater opportunity to optimize the code.
 
-A future stores an exception when `std::promise` and `std::packaged_task` associated with the future are destroyed without calling either the `set_*` functions or invoking the packaged task. 
+A future stores an exception when `std::promise` and `std::packaged_task` associated with the future are destroyed without calling either the `set_\*` functions or invoking the packaged task. 
 
 ### Waiting from multiple threads
 

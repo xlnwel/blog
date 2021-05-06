@@ -96,15 +96,15 @@ EX\\(^2\\) does not explicitly compute the pseudo count. Instead, it computes th
 
 $$
 \begin{align}
-\mathcal L(D)=-\mathbb E_{\delta_{s^*}}[\log D(s)]-\mathbb E_{p(s)}[\log (1-D(s))]
+\mathcal L(D)=-\mathbb E_{\delta_{s^\*}}[\log D(s)]-\mathbb E_{p(s)}[\log (1-D(s))]
 \end{align}
 $$
 
-where \\(s^*\\) is the new state, \\(\delta_{s^*}\\) is a delta distribution centered at \\(s^*\\), and \\(p(s)\\) is the previous state distribution. When the discriminator is optimal, the gradient of the loss w.r.t. \\(D(s^*)\\) is zero:
+where \\(s^\*\\) is the new state, \\(\delta_{s^\*}\\) is a delta distribution centered at \\(s^\*\\), and \\(p(s)\\) is the previous state distribution. When the discriminator is optimal, the gradient of the loss w.r.t. \\(D(s^\*)\\) is zero:
 
 $$
 \begin{align}
-\nabla_{D(s^*)}\mathcal L(s)=-{1\over D(s^*)}+{p(s^*)\over 1-D(s^*)}=0
+\nabla_{D(s^\*)}\mathcal L(s)=-{1\over D(s^\*)}+{p(s^\*)\over 1-D(s^\*)}=0
 \end{align}
 $$
 
@@ -112,7 +112,7 @@ solving the equation, we have
 
 $$
 \begin{align}
-p(s^*)={1-D(s^*)\over D(s^*)}
+p(s^\*)={1-D(s^\*)\over D(s^\*)}
 \end{align}
 $$
 
@@ -123,7 +123,7 @@ Then we employ \\(-\log p(s)\\) as the exploration bonus instead of Eq.\\((2)\\)
   <figcaption>We use x to represent s here
   </figcaption>
 </figure> 
-The above discriminator is kind of specialized to a single exemplar, and therefore we have to train a discriminator for each new state. This is impractical in practice, and we could unify all discriminators by conditioning a single discriminator on the exemplar. The resulting architecture is shown on the right, where \\(X^*\\) is the exemplar and \\(X\\) is the input data for the discriminator to distinguish (where the exemplar is labeled positive and the others are labeled negative). In practice, we use the same amount of positive and negative data for fair training. 
+The above discriminator is kind of specialized to a single exemplar, and therefore we have to train a discriminator for each new state. This is impractical in practice, and we could unify all discriminators by conditioning a single discriminator on the exemplar. The resulting architecture is shown on the right, where \\(X^\*\\) is the exemplar and \\(X\\) is the input data for the discriminator to distinguish (where the exemplar is labeled positive and the others are labeled negative). In practice, we use the same amount of positive and negative data for fair training. 
 
 As a last note, the authors of the paper propose using a VAE structure to further introduce disentanglement for state generalization. The resulting objective is almost the same as that of VAE except that we do classification at the end rather than reconstructing the data.
 
