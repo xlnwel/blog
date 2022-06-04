@@ -20,7 +20,7 @@ remote_theme: mmistakes/so-simple-theme
 locale: en-US
 title: "Zero"
 subtitle: "Make it happen" # site tagline that appears below site title in masthead
-description: "Please let me know if you bump into any mistakes or have any questions: o.xlnwel@outlook.com"
+description: "This blog no longer updates but I'm still in my quest of RL. For anyone interested in discussion of recent advance of AI/RL, please contact me via my emails: 122134545@qq.com/o.xlnwel@gmail.com"
 baseurl: "/blog"
 url: "https://xlnwel.github.io"
 logo: "/images/logo.jpg"
