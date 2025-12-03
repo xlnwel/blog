@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Optimizing React Hooks for High Performance",
+    "category": "technical",
+    "tags": ["react", "frontend", "performance"],
+    "file": "posts/react-hooks.md",
+    "date": "2023-10-01",
+    "excerpt": "A deep dive into useCallback, useMemo, and referential equality to prevent unnecessary re-renders in complex applications.",
+    "readTime": "8 min read"
+  },
+  {
+    "id": 2,
+    "title": "Q3 Revenue Strategy & Market Analysis",
+    "category": "business",
+    "tags": ["finance", "strategy", "growth"],
+    "file": "posts/q3-strategy.md",
+    "date": "2023-10-05",
+    "excerpt": "Analyzing the shift in market dynamics for Q3 and how pivoting our core offering increased ARR by 15%.",
+    "readTime": "5 min read"
+  },
+  {
+    "id": 3,
+    "title": "Scaling Node.js Microservices",
+    "category": "technical",
+    "tags": ["backend", "nodejs", "architecture"],
+    "file": "posts/react-hooks.md",
+    "date": "2023-09-15",
+    "excerpt": "Best practices for message queues, error handling, and containerization when moving from monolith to microservices.",
+    "readTime": "12 min read"
+  },
+  {
+    "id": 4,
+    "title": "Building High-Performing Remote Teams",
+    "category": "business",
+    "tags": ["management", "leadership", "culture"],
+    "file": "posts/q3-strategy.md",
+    "date": "2023-08-20",
+    "excerpt": "How to maintain culture and velocity in a distributed workforce environment.",
+    "readTime": "6 min read"
+  }
+]
